@@ -3,6 +3,8 @@
 use App\Http\Controllers\Apps\PermissionManagementController;
 use App\Http\Controllers\Apps\RoleManagementController;
 use App\Http\Controllers\Apps\UserManagementController;
+use App\Http\Controllers\AdminDenuncias\AdminDenunciasController;
+use App\Http\Controllers\AdminDenuncias\ExportController;
 use App\Http\Controllers\Auth\SocialiteController;
 use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
@@ -30,6 +32,35 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::resource('/user-management/permissions', PermissionManagementController::class);
     });
 
+});
+
+// Grupo de rutas para el Administrador de Denuncias
+Route::middleware(['auth'])->prefix('admin/denuncias')->name('admin.denuncias.')->group(function () {
+
+    // 1. Dashboard de Recepción (Listado)
+    Route::get('/', [AdminDenunciasController::class, 'index'])
+        ->name('index')
+        ->middleware('can:admin-denuncia-ver'); // Permiso para ver la lista
+
+    // 2. Vista Detalle de Denuncia
+    Route::get('/{id_denuncia}', [AdminDenunciasController::class, 'show'])
+        ->name('show')
+        ->middleware('can:admin-denuncia-ver'); // Permiso para ver el detalle
+
+    // 3. Acción de Turno (POST)
+    Route::post('/{id_denuncia}/turnar', [AdminDenunciasController::class, 'turnar'])
+        ->name('turnar')
+        ->middleware('can:admin-denuncia-turnar'); // Permiso para asignar un OIC
+
+    // 4. Descarga Segura de Evidencia (GET)
+    Route::get('/evidencia/{id_archivo}', [AdminDenunciasController::class, 'descargarEvidencia'])
+        ->name('descargar.evidencia')
+        ->middleware('can:admin-denuncia-descarga'); // Permiso para la descarga
+
+    // 5. Exportación del Expediente (GET/PDF/Excel)
+    Route::get('/{id_denuncia}/exportar', [ExportController::class, 'exportarExpediente'])
+        ->name('exportar.expediente')
+        ->middleware('can:admin-denuncia-descarga'); // Permiso para exportar
 });
 
 Route::get('/error', function () {

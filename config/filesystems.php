@@ -56,6 +56,15 @@ return [
             'throw' => false,
         ],
 
+
+        // Disco personalizado para almacenamiento de denuncias temporal, cambiar después de agregar la parte de cifrado
+        'denuncias_storage' => [
+        'driver' => 'local',
+        'root' => storage_path('app/public/denuncias'), // Ruta de almacenamiento
+        'url' => env('APP_URL').'/storage/denuncias',
+        'visibility' => 'private',
+    ],
+
     ],
 
     /*
