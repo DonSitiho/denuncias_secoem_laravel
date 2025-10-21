@@ -25,6 +25,12 @@ class Denuncia extends Model
         'motivo_denuncia',
         'programa_publico',
         'dinero_solicitado',
+        'id_estado',
+        'no_expediente_inter',
+        'id_dependencia_denunciada',
+        'id_responsable_secoem',
+        'token_validacion',
+        'fecha_cierre',
         'id_denunciante',
     ];
 
@@ -32,6 +38,7 @@ class Denuncia extends Model
         'es_anonima' => 'boolean',
         'fecha_recepcion' => 'datetime',
         'dinero_solicitado' => 'decimal:2',
+        'fecha_cierre' => 'datetime',
     ];
 
     // Relación 1:1 con los metadatos de seguimiento (doc_denuncias)

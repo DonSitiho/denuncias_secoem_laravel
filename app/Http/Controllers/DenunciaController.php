@@ -16,6 +16,7 @@ use Carbon\Carbon;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 //use Illuminate\Support\Facades\PDF;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Str;
 
 
 
@@ -39,6 +40,7 @@ class DenunciaController extends Controller
     {
         //dd($request->all());
         // Validación del request
+         
         $request->validate([
             'es_anonima' => 'required|in:0,1', // Cambiar de boolean a in:0,1
             'motivo_denuncia' => 'required|string',
@@ -63,6 +65,7 @@ class DenunciaController extends Controller
             'testigos' => 'nullable|array',
         ]);
         //dd($request->all());
+       
 
         DB::beginTransaction();
         
@@ -70,11 +73,13 @@ class DenunciaController extends Controller
             /** 1️ Crear denuncia principal sin folio aún */
             //ver el id de la ultima denuncia
             $id_ultima_denuncia = Denuncia::select('id_denuncia')->orderBy('id_denuncia', 'desc')->first();
-            if (!$id_ultima_denuncia) {
-                $id_ultima_denuncia = 0;
-            }
-            
-            $folio = 'DEN-' . now()->format('Y') . '-' . str_pad($id_ultima_denuncia->id_denuncia + 1, 6, '0', STR_PAD_LEFT);
+
+            $ultimo_id = $id_ultima_denuncia ? $id_ultima_denuncia->id_denuncia : 0;
+
+            $folio = 'DEN-' . now()->format('Y') . '-' . str_pad($ultimo_id + 1, 6, '0', STR_PAD_LEFT);
+
+            //Generar token de validación único
+            $codigo = Str::upper(Str::random(5)); // Ej: "A1B2C"
 
             $denuncia = Denuncia::create([
                 'folio_seguimiento' => $folio,
@@ -83,6 +88,11 @@ class DenunciaController extends Controller
                 'motivo_denuncia' => $request->motivo_denuncia,
                 'programa_publico' => $request->programa_publico,
                 'dinero_solicitado' => $request->dinero_solicitado ?? 0,
+                'id_estado' => 1, // Falta poner el catalogo en formulario
+                'no_expediente_inter' => $request->no_expediente_inter ?? null,
+                'id_dependencia_denunciada' => $request->id_dependencia_denunciada ?? null,
+                'id_responsable_secoem' => $request->id_responsable_secoem ?? null,
+                'token_validacion' => $codigo,
             ]);
            
             /** 2️ Generar folio único y guardarlo */
@@ -162,7 +172,7 @@ class DenunciaController extends Controller
             $qrCode = QrCode::format('svg')->size(100)->generate($url);
 
             /** 8️ Retornar vista de confirmación */
-            return view('denuncias.confirmacion', compact('folio', 'qrCode'));
+            return view('denuncias.confirmacion', compact('folio', 'codigo', 'qrCode'));
         // } catch (\Throwable $e) {
         //     DB::rollBack();
         //     return back()->withErrors(['error' => 'Error al registrar la denuncia: ' . $e->getMessage()]);
