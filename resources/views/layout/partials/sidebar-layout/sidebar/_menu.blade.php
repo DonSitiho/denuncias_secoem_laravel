@@ -36,7 +36,7 @@
 				<!--begin:Menu link-->
 				<span class="menu-link">
 					<span class="menu-icon">{!! getIcon('element-11', 'fs-2') !!}</span>
-					<span class="menu-title">Admin. QR</span>
+					<span class="menu-title">Admin. Denuncias</span>
 					<span class="menu-arrow"></span>
 				</span>
 				<!--end:Menu link-->
@@ -45,11 +45,11 @@
 					<!--begin:Menu item-->
 					<div class="menu-item">
 						<!--begin:Menu link-->
-						<a class="menu-link {{ request()->routeIs('dashboard') ? 'active' : '' }}" href="{{ route('dashboard') }}">
+						<a class="menu-link {{ request()->routeIs('admin.denuncias.index') ? 'active' : '' }}" href="{{ route('admin.denuncias.index') }}">
 							<span class="menu-bullet">
 								<span class="bullet bullet-dot"></span>
 							</span>
-							<span class="menu-title">Crear</span>
+							<span class="menu-title">Admin.</span>
 						</a>
 						<!--end:Menu link-->
 					</div>

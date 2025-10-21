@@ -21,6 +21,14 @@ return new class extends Migration
             $table->string('programa_publico', 255)->nullable();
             $table->decimal('dinero_solicitado', 10, 2)->default(0.00);
 
+            //Nuevos campos para seguimiento
+            $table->unsignedInteger('id_estado')->nullable();
+            $table->string('no_expediente_inter', 50)->nullable();
+            $table->unsignedInteger('id_dependencia_denunciada')->nullable();
+            $table->unsignedInteger('id_responsable_secoem')->nullable();
+            $table->string('token_validacion', 50)->unique();
+            $table->dateTime('fecha_cierre')->nullable();
+
             // FK a la tabla de usuarios internos (temporalmente comentada)
             $table->unsignedInteger('id_denunciante')->nullable();
             // $table->foreign('id_denunciante')->references('id_usuario')->on('usuario_sistema')->onDelete('SET NULL');
