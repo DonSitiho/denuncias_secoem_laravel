@@ -14,7 +14,7 @@ return new class extends Migration
     {
         Schema::create('denuncia', function (Blueprint $table) {
             $table->unsignedBigInteger('id_denuncia')->autoIncrement()->primary();
-            $table->string('folio_seguimiento', 10)->unique('uk_folio_seguimiento');
+            $table->string('folio_seguimiento', 25)->unique('uk_folio_seguimiento');
             $table->boolean('es_anonima')->default(true);
             $table->dateTime('fecha_recepcion');
             $table->text('motivo_denuncia');

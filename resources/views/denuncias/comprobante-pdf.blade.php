@@ -179,7 +179,7 @@
             </div>
             <div class="info-item">
                 <div class="label">Fecha de Registro</div>
-                <div class="value">{{ $denuncia->created_at->format('d/m/Y H:i') }}</div>
+                <div class="value">{{ $denuncia->fecha_recepcion->format('d/m/Y H:i') }}</div>
             </div>
             <div class="info-item">
                 <div class="label">Estado Actual</div>
@@ -288,8 +288,13 @@
             <div class="info-item">
                 <div class="label">Involucrados</div>
                 <div class="value">
-                    @foreach(json_decode($denuncia->involucrados) as $involucrado)
-                        <div class="list-item">{{ $involucrado }}</div>
+                    @foreach ($denuncia->involucrados as $involucrado)
+                        <p>Nombre: {{ $involucrado->nombre_denunciado ?? 'Sin nombre' }}</p>
+                        <p>Tipo: {{ $involucrado->tipo_involucrado ?? 'Sin tipo' }}</p>
+                        <p>Documento: {{ $involucrado->documento_identidad ?? 'Sin documento' }}</p>
+                        <p>Teléfono: {{ $involucrado->telefono ?? 'Sin teléfono' }}</p>
+                        <p>Correo: {{ $involucrado->correo_electronico ?? 'Sin correo' }}</p>
+                        <hr>
                     @endforeach
                 </div>
             </div>
@@ -300,7 +305,11 @@
                 <div class="label">Testigos</div>
                 <div class="value">
                     @foreach(json_decode($denuncia->testigos) as $testigo)
-                        <div class="list-item">{{ $testigo }}</div>
+                        <p>Nombre: {{ $testigo->nombre_testigo ?? 'Sin nombre' }}</p>
+                        <p>Documento: {{ $testigo->documento_identidad ?? 'Sin documento' }}</p>
+                        <p>Teléfono: {{ $testigo->telefono ?? 'Sin teléfono' }}</p>
+                        <p>Correo: {{ $testigo->correo_electronico ?? 'Sin correo' }}</p>
+                        <hr>
                     @endforeach
                 </div>
             </div>

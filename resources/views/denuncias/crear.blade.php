@@ -200,39 +200,158 @@
                             </div>
                             <!--end::Heading-->
 
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="fv-row mb-8">
-                                        <label class="form-label fs-6 fw-bold text-gray-700">Involucrados</label>
-                                        <div id="involucrados-container">
-                                            <div class="input-group mb-2">
-                                                <input type="text" class="form-control" name="involucrados[]" placeholder="Nombre del involucrado">
-                                                <button type="button" class="btn btn-icon btn-light-danger remove-field">
-                                                    <i class="fas fa-minus"></i>
-                                                </button>
+                            <!-- Involucrados -->
+                            <div class="mb-15">
+                                <h4 class="fw-bold text-gray-700 mb-6">Involucrados</h4>
+                                <div id="involucrados-container">
+                                    <div class="involucrado-group card card-flush bg-light-primary mb-6">
+                                        <div class="card-header">
+                                            <h5 class="card-title text-primary">Involucrado #1</h5>
+                                            <button type="button" class="btn btn-icon btn-light-danger remove-involucrado">
+                                                <i class="fas fa-times"></i>
+                                            </button>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="fv-row mb-8">
+                                                        <label class="form-label fs-6 fw-bold text-gray-700">Nombre completo</label>
+                                                        <input type="text" class="form-control" name="involucrados[0][nombre_denunciado]" placeholder="Nombre del involucrado" />
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="fv-row mb-8">
+                                                        <label class="form-label fs-6 fw-bold text-gray-700">Puesto</label>
+                                                        <input type="text" class="form-control" name="involucrados[0][puesto_denunciado]" placeholder="Puesto del involucrado" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="form-check form-check-custom form-check-solid mb-8">
+                                                <input class="form-check-input" type="checkbox" name="involucrados[0][es_servidor_publico]" value="1" />
+                                                <label class="form-check-label fw-semibold text-gray-700">
+                                                    ¿Es servidor público?
+                                                </label>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <div class="fv-row mb-8">
+                                                        <label class="form-label fs-6 fw-bold text-gray-700">Sexo</label>
+                                                        <select class="form-select" name="involucrados[0][sexo]">
+                                                            <option value="">Seleccione...</option>
+                                                            <option value="H">Hombre</option>
+                                                            <option value="M">Mujer</option>
+                                                            <option value="N/I">No identificado</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="fv-row mb-8">
+                                                        <label class="form-label fs-6 fw-bold text-gray-700">Tez</label>
+                                                        <input type="text" class="form-control" name="involucrados[0][tez]" placeholder="Ej: Morena clara, Blanca, etc." />
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="fv-row mb-8">
+                                                        <label class="form-label fs-6 fw-bold text-gray-700">Estatura aproximada (m)</label>
+                                                        <input type="number" step="0.01" class="form-control" name="involucrados[0][estatura_aprox]" placeholder="Ej: 1.75" />
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <div class="fv-row mb-8">
+                                                        <label class="form-label fs-6 fw-bold text-gray-700">Edad aproximada</label>
+                                                        <input type="number" class="form-control" name="involucrados[0][edad_aprox]" placeholder="Edad aproximada" />
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="fv-row mb-8">
+                                                        <label class="form-label fs-6 fw-bold text-gray-700">Complexión</label>
+                                                        <input type="text" class="form-control" name="involucrados[0][complexion]" placeholder="Ej: Delgada, Robusta, etc." />
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="fv-row mb-8">
+                                                        <label class="form-label fs-6 fw-bold text-gray-700">Color de ojos</label>
+                                                        <input type="text" class="form-control" name="involucrados[0][color_ojos]" placeholder="Ej: Cafés, Verdes, etc." />
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="fv-row mb-8">
+                                                        <label class="form-label fs-6 fw-bold text-gray-700">Tipo de cabello</label>
+                                                        <input type="text" class="form-control" name="involucrados[0][tipo_cabello]" placeholder="Ej: Lacio, Rizado, Calvo, etc." />
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="fv-row mb-8">
+                                                        <label class="form-label fs-6 fw-bold text-gray-700">Señas particulares</label>
+                                                        <input type="text" class="form-control" name="involucrados[0][senas_particulares]" placeholder="Ej: Tatuajes, Cicatrices, etc." />
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="fv-row mb-8">
+                                                        <label class="form-label fs-6 fw-bold text-gray-700">Descripción física adicional</label>
+                                                        <textarea class="form-control" name="involucrados[0][descripcion_fisica]" rows="3" placeholder="Describa cualquier característica física adicional del involucrado"></textarea>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
-                                        <button type="button" class="btn btn-sm btn-light-primary" id="add-involucrado">
-                                            <i class="fas fa-plus me-2"></i>Agregar involucrado
-                                        </button>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
-                                    <div class="fv-row mb-8">
-                                        <label class="form-label fs-6 fw-bold text-gray-700">Testigos</label>
-                                        <div id="testigos-container">
-                                            <div class="input-group mb-2">
-                                                <input type="text" class="form-control" name="testigos[]" placeholder="Nombre del testigo">
-                                                <button type="button" class="btn btn-icon btn-light-danger remove-field">
-                                                    <i class="fas fa-minus"></i>
-                                                </button>
+                                <button type="button" class="btn btn-light-primary" id="add-involucrado">
+                                    <i class="fas fa-plus me-2"></i>Agregar otro involucrado
+                                </button>
+                            </div>
+
+                            <!-- Testigos -->
+                            <div class="mb-15">
+                                <h4 class="fw-bold text-gray-700 mb-6">Testigos</h4>
+                                <div id="testigos-container">
+                                    <div class="testigo-group card card-flush bg-light-success mb-6">
+                                        <div class="card-header">
+                                            <h5 class="card-title text-success">Testigo #1</h5>
+                                            <button type="button" class="btn btn-icon btn-light-danger remove-testigo">
+                                                <i class="fas fa-times"></i>
+                                            </button>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="fv-row mb-8">
+                                                        <label class="form-label fs-6 fw-bold text-gray-700">Nombre del testigo</label>
+                                                        <input type="text" class="form-control" name="testigos[0][nombre_testigo]" placeholder="Nombre completo del testigo" />
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="fv-row mb-8">
+                                                        <label class="form-label fs-6 fw-bold text-gray-700">Datos de contacto</label>
+                                                        <input type="text" class="form-control" name="testigos[0][datos_contacto]" placeholder="Teléfono, correo, etc." />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="fv-row mb-8">
+                                                        <label class="form-label fs-6 fw-bold text-gray-700">Observaciones</label>
+                                                        <textarea class="form-control" name="testigos[0][observaciones]" rows="3" placeholder="Observaciones adicionales sobre el testigo"></textarea>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
-                                        <button type="button" class="btn btn-sm btn-light-primary" id="add-testigo">
-                                            <i class="fas fa-plus me-2"></i>Agregar testigo
-                                        </button>
                                     </div>
                                 </div>
+                                <button type="button" class="btn btn-light-success" id="add-testigo">
+                                    <i class="fas fa-plus me-2"></i>Agregar otro testigo
+                                </button>
                             </div>
                         </div>
                         <!--end::Sección 3-->
@@ -357,39 +476,209 @@
                     esAnonimaCheckbox.addEventListener("change", toggleContactoFields);
                 }
 
-                // Funcionalidad para campos dinámicos de arrays
-                function setupDynamicFields(addButtonId, containerId, placeholder) {
-                    const addButton = document.getElementById(addButtonId);
-                    const container = document.getElementById(containerId);
+                // Funcionalidad para campos dinámicos de involucrados
+                let involucradoCount = 1;
+                const addInvolucradoBtn = document.getElementById('add-involucrado');
+                const involucradosContainer = document.getElementById('involucrados-container');
 
-                    if (addButton && container) {
-                        addButton.addEventListener('click', function() {
-                            const newField = document.createElement('div');
-                            newField.className = 'input-group mb-2';
-                            newField.innerHTML = `
-                                <input type="text" class="form-control" name="${containerId.replace('-container', '[]')}" placeholder="${placeholder}">
-                                <button type="button" class="btn btn-icon btn-light-danger remove-field">
-                                    <i class="fas fa-minus"></i>
+                if (addInvolucradoBtn && involucradosContainer) {
+                    addInvolucradoBtn.addEventListener('click', function() {
+                        involucradoCount++;
+                        const newInvolucrado = document.createElement('div');
+                        newInvolucrado.className = 'involucrado-group card card-flush bg-light-primary mb-6';
+                        newInvolucrado.innerHTML = `
+                            <div class="card-header">
+                                <h5 class="card-title text-primary">Involucrado #${involucradoCount}</h5>
+                                <button type="button" class="btn btn-icon btn-light-danger remove-involucrado">
+                                    <i class="fas fa-times"></i>
                                 </button>
-                            `;
-                            container.appendChild(newField);
-                        });
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="fv-row mb-8">
+                                            <label class="form-label fs-6 fw-bold text-gray-700">Nombre completo</label>
+                                            <input type="text" class="form-control" name="involucrados[${involucradoCount-1}][nombre_denunciado]" placeholder="Nombre del involucrado" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="fv-row mb-8">
+                                            <label class="form-label fs-6 fw-bold text-gray-700">Puesto</label>
+                                            <input type="text" class="form-control" name="involucrados[${involucradoCount-1}][puesto_denunciado]" placeholder="Puesto del involucrado" />
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-check form-check-custom form-check-solid mb-8">
+                                    <input class="form-check-input" type="checkbox" name="involucrados[${involucradoCount-1}][es_servidor_publico]" value="1" />
+                                    <label class="form-check-label fw-semibold text-gray-700">
+                                        ¿Es servidor público?
+                                    </label>
+                                </div>
 
-                        // Delegación de eventos para botones de eliminar
-                        container.addEventListener('click', function(e) {
-                            if (e.target.closest('.remove-field')) {
-                                const fieldGroup = e.target.closest('.input-group');
-                                if (fieldGroup && container.querySelectorAll('.input-group').length > 1) {
-                                    fieldGroup.remove();
-                                }
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="fv-row mb-8">
+                                            <label class="form-label fs-6 fw-bold text-gray-700">Sexo</label>
+                                            <select class="form-select" name="involucrados[${involucradoCount-1}][sexo]">
+                                                <option value="">Seleccione...</option>
+                                                <option value="H">Hombre</option>
+                                                <option value="M">Mujer</option>
+                                                <option value="N/I">No identificado</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="fv-row mb-8">
+                                            <label class="form-label fs-6 fw-bold text-gray-700">Tez</label>
+                                            <input type="text" class="form-control" name="involucrados[${involucradoCount-1}][tez]" placeholder="Ej: Morena clara, Blanca, etc." />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="fv-row mb-8">
+                                            <label class="form-label fs-6 fw-bold text-gray-700">Estatura aproximada (m)</label>
+                                            <input type="number" step="0.01" class="form-control" name="involucrados[${involucradoCount-1}][estatura_aprox]" placeholder="Ej: 1.75" />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="fv-row mb-8">
+                                            <label class="form-label fs-6 fw-bold text-gray-700">Edad aproximada</label>
+                                            <input type="number" class="form-control" name="involucrados[${involucradoCount-1}][edad_aprox]" placeholder="Edad aproximada" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="fv-row mb-8">
+                                            <label class="form-label fs-6 fw-bold text-gray-700">Complexión</label>
+                                            <input type="text" class="form-control" name="involucrados[${involucradoCount-1}][complexion]" placeholder="Ej: Delgada, Robusta, etc." />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="fv-row mb-8">
+                                            <label class="form-label fs-6 fw-bold text-gray-700">Color de ojos</label>
+                                            <input type="text" class="form-control" name="involucrados[${involucradoCount-1}][color_ojos]" placeholder="Ej: Cafés, Verdes, etc." />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="fv-row mb-8">
+                                            <label class="form-label fs-6 fw-bold text-gray-700">Tipo de cabello</label>
+                                            <input type="text" class="form-control" name="involucrados[${involucradoCount-1}][tipo_cabello]" placeholder="Ej: Lacio, Rizado, Calvo, etc." />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="fv-row mb-8">
+                                            <label class="form-label fs-6 fw-bold text-gray-700">Señas particulares</label>
+                                            <input type="text" class="form-control" name="involucrados[${involucradoCount-1}][senas_particulares]" placeholder="Ej: Tatuajes, Cicatrices, etc." />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="fv-row mb-8">
+                                            <label class="form-label fs-6 fw-bold text-gray-700">Descripción física adicional</label>
+                                            <textarea class="form-control" name="involucrados[${involucradoCount-1}][descripcion_fisica]" rows="3" placeholder="Describa cualquier característica física adicional del involucrado"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                        involucradosContainer.appendChild(newInvolucrado);
+                    });
+
+                    // Delegación de eventos para eliminar involucrados
+                    involucradosContainer.addEventListener('click', function(e) {
+                        if (e.target.closest('.remove-involucrado')) {
+                            const involucradoGroup = e.target.closest('.involucrado-group');
+                            if (involucradoGroup && involucradosContainer.querySelectorAll('.involucrado-group').length > 1) {
+                                involucradoGroup.remove();
+                                // Actualizar números de secuencia
+                                updateInvolucradoNumbers();
                             }
-                        });
-                    }
+                        }
+                    });
                 }
 
-                // Configurar campos dinámicos
-                setupDynamicFields('add-involucrado', 'involucrados-container', 'Nombre del involucrado');
-                setupDynamicFields('add-testigo', 'testigos-container', 'Nombre del testigo');
+                // Funcionalidad para campos dinámicos de testigos
+                let testigoCount = 1;
+                const addTestigoBtn = document.getElementById('add-testigo');
+                const testigosContainer = document.getElementById('testigos-container');
+
+                if (addTestigoBtn && testigosContainer) {
+                    addTestigoBtn.addEventListener('click', function() {
+                        testigoCount++;
+                        const newTestigo = document.createElement('div');
+                        newTestigo.className = 'testigo-group card card-flush bg-light-success mb-6';
+                        newTestigo.innerHTML = `
+                            <div class="card-header">
+                                <h5 class="card-title text-success">Testigo #${testigoCount}</h5>
+                                <button type="button" class="btn btn-icon btn-light-danger remove-testigo">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="fv-row mb-8">
+                                            <label class="form-label fs-6 fw-bold text-gray-700">Nombre del testigo</label>
+                                            <input type="text" class="form-control" name="testigos[${testigoCount-1}][nombre_testigo]" placeholder="Nombre completo del testigo" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="fv-row mb-8">
+                                            <label class="form-label fs-6 fw-bold text-gray-700">Datos de contacto</label>
+                                            <input type="text" class="form-control" name="testigos[${testigoCount-1}][datos_contacto]" placeholder="Teléfono, correo, etc." />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="fv-row mb-8">
+                                            <label class="form-label fs-6 fw-bold text-gray-700">Observaciones</label>
+                                            <textarea class="form-control" name="testigos[${testigoCount-1}][observaciones]" rows="3" placeholder="Observaciones adicionales sobre el testigo"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                        testigosContainer.appendChild(newTestigo);
+                    });
+
+                    // Delegación de eventos para eliminar testigos
+                    testigosContainer.addEventListener('click', function(e) {
+                        if (e.target.closest('.remove-testigo')) {
+                            const testigoGroup = e.target.closest('.testigo-group');
+                            if (testigoGroup && testigosContainer.querySelectorAll('.testigo-group').length > 1) {
+                                testigoGroup.remove();
+                                // Actualizar números de secuencia
+                                updateTestigoNumbers();
+                            }
+                        }
+                    });
+                }
+
+                // Función para actualizar números de involucrados
+                function updateInvolucradoNumbers() {
+                    const involucradoGroups = involucradosContainer.querySelectorAll('.involucrado-group');
+                    involucradoGroups.forEach((group, index) => {
+                        const title = group.querySelector('.card-title');
+                        title.textContent = `Involucrado #${index + 1}`;
+                    });
+                }
+
+                // Función para actualizar números de testigos
+                function updateTestigoNumbers() {
+                    const testigoGroups = testigosContainer.querySelectorAll('.testigo-group');
+                    testigoGroups.forEach((group, index) => {
+                        const title = group.querySelector('.card-title');
+                        title.textContent = `Testigo #${index + 1}`;
+                    });
+                }
 
                 // Validación del formulario
                 const form = document.getElementById("kt_denuncia_form");
@@ -557,23 +846,150 @@
                                     esAnonimaCheckbox.checked = true;
                                     toggleContactoFields();
                                 }
-                                // Limpiar campos dinámicos (dejar solo uno)
-                                const clearDynamicContainer = (containerId) => {
-                                    const container = document.getElementById(containerId);
-                                    if (container) {
-                                        container.innerHTML = `
-                                            <div class="input-group mb-2">
-                                                <input type="text" class="form-control" name="${containerId.replace('-container', '[]')}" placeholder="${containerId === 'involucrados-container' ? 'Nombre del involucrado' : 'Nombre del testigo'}">
-                                                <button type="button" class="btn btn-icon btn-light-danger remove-field">
-                                                    <i class="fas fa-minus"></i>
-                                                </button>
+                                // Limpiar campos dinámicos (dejar solo uno de cada tipo)
+                                involucradosContainer.innerHTML = `
+                                    <div class="involucrado-group card card-flush bg-light-primary mb-6">
+                                        <div class="card-header">
+                                            <h5 class="card-title text-primary">Involucrado #1</h5>
+                                            <button type="button" class="btn btn-icon btn-light-danger remove-involucrado">
+                                                <i class="fas fa-times"></i>
+                                            </button>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="fv-row mb-8">
+                                                        <label class="form-label fs-6 fw-bold text-gray-700">Nombre completo</label>
+                                                        <input type="text" class="form-control" name="involucrados[0][nombre_denunciado]" placeholder="Nombre del involucrado" />
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="fv-row mb-8">
+                                                        <label class="form-label fs-6 fw-bold text-gray-700">Puesto</label>
+                                                        <input type="text" class="form-control" name="involucrados[0][puesto_denunciado]" placeholder="Puesto del involucrado" />
+                                                    </div>
+                                                </div>
                                             </div>
-                                        `;
-                                    }
-                                };
+                                            
+                                            <div class="form-check form-check-custom form-check-solid mb-8">
+                                                <input class="form-check-input" type="checkbox" name="involucrados[0][es_servidor_publico]" value="1" />
+                                                <label class="form-check-label fw-semibold text-gray-700">
+                                                    ¿Es servidor público?
+                                                </label>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <div class="fv-row mb-8">
+                                                        <label class="form-label fs-6 fw-bold text-gray-700">Sexo</label>
+                                                        <select class="form-select" name="involucrados[0][sexo]">
+                                                            <option value="">Seleccione...</option>
+                                                            <option value="H">Hombre</option>
+                                                            <option value="M">Mujer</option>
+                                                            <option value="N/I">No identificado</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="fv-row mb-8">
+                                                        <label class="form-label fs-6 fw-bold text-gray-700">Tez</label>
+                                                        <input type="text" class="form-control" name="involucrados[0][tez]" placeholder="Ej: Morena clara, Blanca, etc." />
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="fv-row mb-8">
+                                                        <label class="form-label fs-6 fw-bold text-gray-700">Estatura aproximada (m)</label>
+                                                        <input type="number" step="0.01" class="form-control" name="involucrados[0][estatura_aprox]" placeholder="Ej: 1.75" />
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <div class="fv-row mb-8">
+                                                        <label class="form-label fs-6 fw-bold text-gray-700">Edad aproximada</label>
+                                                        <input type="number" class="form-control" name="involucrados[0][edad_aprox]" placeholder="Edad aproximada" />
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="fv-row mb-8">
+                                                        <label class="form-label fs-6 fw-bold text-gray-700">Complexión</label>
+                                                        <input type="text" class="form-control" name="involucrados[0][complexion]" placeholder="Ej: Delgada, Robusta, etc." />
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="fv-row mb-8">
+                                                        <label class="form-label fs-6 fw-bold text-gray-700">Color de ojos</label>
+                                                        <input type="text" class="form-control" name="involucrados[0][color_ojos]" placeholder="Ej: Cafés, Verdes, etc." />
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="fv-row mb-8">
+                                                        <label class="form-label fs-6 fw-bold text-gray-700">Tipo de cabello</label>
+                                                        <input type="text" class="form-control" name="involucrados[0][tipo_cabello]" placeholder="Ej: Lacio, Rizado, Calvo, etc." />
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="fv-row mb-8">
+                                                        <label class="form-label fs-6 fw-bold text-gray-700">Señas particulares</label>
+                                                        <input type="text" class="form-control" name="involucrados[0][senas_particulares]" placeholder="Ej: Tatuajes, Cicatrices, etc." />
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="fv-row mb-8">
+                                                        <label class="form-label fs-6 fw-bold text-gray-700">Descripción física adicional</label>
+                                                        <textarea class="form-control" name="involucrados[0][descripcion_fisica]" rows="3" placeholder="Describa cualquier característica física adicional del involucrado"></textarea>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                `;
                                 
-                                clearDynamicContainer('involucrados-container');
-                                clearDynamicContainer('testigos-container');
+                                testigosContainer.innerHTML = `
+                                    <div class="testigo-group card card-flush bg-light-success mb-6">
+                                        <div class="card-header">
+                                            <h5 class="card-title text-success">Testigo #1</h5>
+                                            <button type="button" class="btn btn-icon btn-light-danger remove-testigo">
+                                                <i class="fas fa-times"></i>
+                                            </button>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="fv-row mb-8">
+                                                        <label class="form-label fs-6 fw-bold text-gray-700">Nombre del testigo</label>
+                                                        <input type="text" class="form-control" name="testigos[0][nombre_testigo]" placeholder="Nombre completo del testigo" />
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="fv-row mb-8">
+                                                        <label class="form-label fs-6 fw-bold text-gray-700">Datos de contacto</label>
+                                                        <input type="text" class="form-control" name="testigos[0][datos_contacto]" placeholder="Teléfono, correo, etc." />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="fv-row mb-8">
+                                                        <label class="form-label fs-6 fw-bold text-gray-700">Observaciones</label>
+                                                        <textarea class="form-control" name="testigos[0][observaciones]" rows="3" placeholder="Observaciones adicionales sobre el testigo"></textarea>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                `;
+                                
+                                // Reset counters
+                                involucradoCount = 1;
+                                testigoCount = 1;
                                 
                                 Swal.fire({
                                     icon: "success",

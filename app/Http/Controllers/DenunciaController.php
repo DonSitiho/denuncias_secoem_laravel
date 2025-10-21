@@ -14,7 +14,9 @@ use App\Models\{
 };
 use Carbon\Carbon;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
-use Illuminate\Support\Facades\PDF;
+//use Illuminate\Support\Facades\PDF;
+use Barryvdh\DomPDF\Facade\Pdf;
+
 
 
 class DenunciaController extends Controller
@@ -65,7 +67,7 @@ class DenunciaController extends Controller
         DB::beginTransaction();
         
         //try {
-            /** 1️⃣ Crear denuncia principal sin folio aún */
+            /** 1️ Crear denuncia principal sin folio aún */
             //ver el id de la ultima denuncia
             $id_ultima_denuncia = Denuncia::select('id_denuncia')->orderBy('id_denuncia', 'desc')->first();
             if (!$id_ultima_denuncia) {
@@ -83,10 +85,10 @@ class DenunciaController extends Controller
                 'dinero_solicitado' => $request->dinero_solicitado ?? 0,
             ]);
            
-            /** 2️⃣ Generar folio único y guardarlo */
+            /** 2️ Generar folio único y guardarlo */
             $denuncia->save();
            
-            /** 3️⃣ Guardar datos de contacto si no es anónima */
+            /** 3️ Guardar datos de contacto si no es anónima */
             if (!$request->es_anonima) {
                 DatosContactoDenunciante::create([
                     'id_denuncia' => $denuncia->id_denuncia,
@@ -96,7 +98,7 @@ class DenunciaController extends Controller
                 ]);
             }
 
-            /** 4️⃣ Guardar circunstancias */
+            /** 4️ Guardar circunstancias */
             DenunciaCircunstancia::create([
                 'id_denuncia' => $denuncia->id_denuncia,
                 'fecha_hechos' => $request->fecha_hechos,
@@ -109,22 +111,29 @@ class DenunciaController extends Controller
                 'circunstancias_detalladas' => $request->circunstancias_detalladas ?? null,
             ]);
 
-            /** 5️⃣ Guardar involucrados (si existen) */
+            /** 5️ Guardar involucrados (si existen) */
             if ($request->has('involucrados') && is_array($request->involucrados)) {
                 foreach ($request->involucrados as $i) {
+                    //dd($i['estatura_aprox']);
                     DenunciaInvolucrado::create([
                         'id_denuncia' => $denuncia->id_denuncia,
                         'es_servidor_publico' => $i['es_servidor_publico'] ?? 0,
                         'nombre_denunciado' => $i['nombre_denunciado'] ?? null,
                         'puesto_denunciado' => $i['puesto_denunciado'] ?? null,
                         'sexo' => $i['sexo'] ?? null,
+                        'tez' => $i['tez'] ?? null, // Nuevo campo
+                        'estatura_aprox' => $i['estatura_aprox'] ?? null, // Nuevo campo
                         'edad_aprox' => $i['edad_aprox'] ?? null,
+                        'complexion' => $i['complexion'] ?? null, // Nuevo campo
+                        'color_ojos' => $i['color_ojos'] ?? null, // Nuevo campo
+                        'tipo_cabello' => $i['tipo_cabello'] ?? null, // Nuevo campo
+                        'senas_particulares' => $i['senas_particulares'] ?? null, // Nuevo campo
                         'descripcion_fisica' => $i['descripcion_fisica'] ?? null,
                     ]);
                 }
             }
 
-            /** 6️⃣ Guardar testigos (si existen) */
+            /** 6️ Guardar testigos (si existen) */
             if ($request->has('testigos') && is_array($request->testigos)) {
                 foreach ($request->testigos as $t) {
                     DenunciaTestigo::create([
@@ -139,7 +148,7 @@ class DenunciaController extends Controller
 
             DB::commit();
 
-            /** 7️⃣ Generar QR en base64 para la vista */
+            /** 7️ Generar QR en base64 para la vista */
              // Agregar propiedades computadas para la vista
             // $denuncia->estado_color = match($denuncia->estado) {
             //     'Registrada' => 'primary',
@@ -150,9 +159,9 @@ class DenunciaController extends Controller
             //     default => 'secondary'
             // };
             $url = route('denuncias.seguimiento', $folio);
-            $qrCode = QrCode::format('svg')->size(200)->generate($url);
+            $qrCode = QrCode::format('svg')->size(100)->generate($url);
 
-            /** 8️⃣ Retornar vista de confirmación */
+            /** 8️ Retornar vista de confirmación */
             return view('denuncias.confirmacion', compact('folio', 'qrCode'));
         // } catch (\Throwable $e) {
         //     DB::rollBack();
@@ -189,13 +198,14 @@ class DenunciaController extends Controller
     public function generarPDF($folio)
     {
         // Buscar la denuncia
-        $denuncia = Denuncia::with(['municipio'])
-            ->where('folio', $folio)
+       
+        $denuncia = Denuncia::where('folio_seguimiento', $folio)
             ->firstOrFail();
 
         // Generar QR code para el PDF también
         $urlSeguimiento = route('denuncias.seguimiento', $folio);
-        $qrCode = QrCode::format('png')->size(150)->generate($urlSeguimiento);
+        $qrCode = QrCode::format('svg')->size(200)->generate($urlSeguimiento);
+        //$qrCode = QrCode::format('png')->size(150)->generate($urlSeguimiento);
 
         // Datos para la vista
         $data = [
