@@ -8,6 +8,9 @@ use App\Http\Controllers\AdminDenuncias\ExportController;
 use App\Http\Controllers\Auth\SocialiteController;
 use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\DenunciaController;
+
+
 
 /*
 |--------------------------------------------------------------------------
@@ -66,6 +69,19 @@ Route::middleware(['auth'])->prefix('admin/denuncias')->name('admin.denuncias.')
 Route::get('/error', function () {
     abort(500);
 });
+//********************** DENUNCIAS ********************************* */
+// Página pública de inicio con dos opciones
+Route::get('/inicio', [DenunciaController::class, 'inicio'])->name('inicio');
+//denuncias
+Route::get('/denunciar', [DenunciaController::class, 'create'])->name('denunciar'); // <-- create, no crear
+Route::get('/buscar-denuncia', [DenunciaController::class, 'buscar'])->name('buscar.denuncia');
+Route::post('/api/denuncias', [DenunciaController::class, 'store'])->name('denuncias.store');
+//qr
+Route::get('/denuncias/seguimiento/{folio}', [DenunciaController::class, 'seguimiento'])
+    ->name('denuncias.seguimiento');
+//PDF
+Route::get('/denuncias/{folio}/pdf', [App\Http\Controllers\DenunciaController::class, 'generarPDF'])->name('denuncias.pdf');
+//********************** FIN DENUNCIAS ********************************* */
 
 Route::get('/auth/redirect/{provider}', [SocialiteController::class, 'redirect']);
 

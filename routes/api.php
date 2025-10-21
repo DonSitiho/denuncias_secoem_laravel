@@ -110,16 +110,9 @@ Route::prefix('v1')->group(function () {
     });
 });
 
-// Página pública de inicio con dos opciones
-Route::get('/inicio', [DenunciaController::class, 'inicio'])->name('inicio');
-Route::get('/denunciar', [DenunciaController::class, 'create'])->name('denunciar'); // <-- create, no crear
-Route::get('/buscar-denuncia', [DenunciaController::class, 'buscar'])->name('buscar.denuncia');
+
 
 // API pública
-Route::post('/api/denuncias', [DenunciaController::class, 'store'])->name('denuncias.store');
+//Route::post('/api/denuncias', [DenunciaController::class, 'store'])->name('denuncias.store');
 
-//qr
-Route::get('/denuncias/seguimiento/{folio}', [DenunciaController::class, 'seguimiento'])
-    ->name('denuncias.seguimiento');
-//PDF
-Route::get('/denuncias/{folio}/pdf', [App\Http\Controllers\DenunciaController::class, 'generarPDF'])->name('denuncias.pdf');
+
