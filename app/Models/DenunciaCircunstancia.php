@@ -11,6 +11,19 @@ class DenunciaCircunstancia extends Model
     protected $primaryKey = 'id_circunstancia';
     public $timestamps = false; 
 
+    //triple chale
+     protected $fillable = [
+        'id_denuncia',
+        'fecha_hechos',
+        'hora_hechos',
+        'id_municipio',
+        'localidad',
+        'direccion_exacta',
+        'dependencia_involucrada',
+        'tramite_solicitado',
+        'circunstancias_detalladas',
+    ];
+
     protected $casts = [
         'fecha_hechos' => 'date',
     ];
