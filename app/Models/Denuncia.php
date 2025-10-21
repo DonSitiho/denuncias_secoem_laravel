@@ -17,6 +17,23 @@ class Denuncia extends Model
     // Deshabilitamos timestamps (created_at, updated_at) si no se usan
     public $timestamps = false; 
 
+    //chaleeee
+     protected $fillable = [
+        'folio_seguimiento',
+        'es_anonima',
+        'fecha_recepcion',
+        'motivo_denuncia',
+        'programa_publico',
+        'dinero_solicitado',
+        'id_denunciante',
+    ];
+
+    protected $casts = [
+        'es_anonima' => 'boolean',
+        'fecha_recepcion' => 'datetime',
+        'dinero_solicitado' => 'decimal:2',
+    ];
+
     // Relación 1:1 con los metadatos de seguimiento (doc_denuncias)
     // Esta parte se integrará al dar seguimiento a la denuncia (fase administrativa)
     // Clave local: id_denuncia, Clave foránea: id_denuncia

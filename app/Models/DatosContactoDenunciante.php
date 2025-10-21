@@ -11,6 +11,14 @@ class DatosContactoDenunciante extends Model
     protected $primaryKey = 'id_contacto';
     public $timestamps = false;
 
+    //doble chale
+     protected $fillable = [
+        'id_denuncia',
+        'nombre_completo',
+        'telefono',
+        'correo_electronico',
+    ];
+
     // Relación 1:1 Inversa con Denuncia
     public function denuncia(): BelongsTo
     {

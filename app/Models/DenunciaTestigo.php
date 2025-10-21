@@ -11,6 +11,15 @@ class DenunciaTestigo extends Model
     protected $primaryKey = 'id_testigo';
     public $timestamps = false;
 
+    //pentuple chale
+     protected $fillable = [
+        'id_denuncia',
+        'tiene_testigos',
+        'nombre_testigo',
+        'datos_contacto',
+        'observaciones',
+    ];
+
     protected $casts = [
         'tiene_testigos' => 'boolean',
     ];
