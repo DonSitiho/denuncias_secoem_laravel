@@ -5,9 +5,9 @@
             <div class="card w-md-550px shadow-sm">
                 <div class="card-body py-15 px-10 text-center">
                     <!--begin::Icon-->
-                    <div class="mb-7">
-                        <img src="{{ asset('assets/media/illustrations/custom/confirmation.svg') }}" alt="confirmado" class="w-150px">
-                    </div>
+                    {{-- <div class="mb-7">
+                        <img src="{{ asset('assets/media/illustrations/unitedpalms-1/4.png') }}" alt="confirmado" class="w-100px">
+                    </div> --}}
 
                     <!--begin::Title-->
                     <h1 class="fw-bolder text-success mb-5">¡Denuncia registrada con éxito!</h1>
@@ -18,15 +18,19 @@
                     </p>
 
                     <!--begin::Folio-->
-                    <div class="mb-10">
-                        <div class="fw-bold fs-3 mb-2">Folio de denuncia:</div>
+                    <div class="mb-2">
+                        <div class="fw-bold fs-3 mb-1">Folio de denuncia:</div>
                         <div class="fs-2hx fw-bolder text-gray-800">{{ $folio }}</div>
                     </div>
 
                     <!--begin::QR-->
-                    <div class="mb-10">
-                        <img src="data:image/png;base64,{{ base64_encode($qrCode) }}" alt="QR Code" class="w-150px">
-                        <p class="text-muted mt-3">Escanea para consultar el estatus de tu denuncia</p>
+                    <div class="mb-12 d-flex flex-column align-items-center">
+                        <div class="w-100px text-center">
+                            {!! $qrCode !!}
+                        </div>
+                        <p class="text-muted mt-3 text-center">
+                            Escanea para consultar el estatus de tu denuncia
+                        </p>
                     </div>
 
                     <!--begin::Buttons-->
