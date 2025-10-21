@@ -26,7 +26,7 @@ class AdminDenunciasController extends Controller
     {
         // El middleware 'can:admin-denuncia-ver' ya protegió el acceso.
         
-        $denuncias = DocDenuncias::with('denuncia', 'estado')
+        $denuncias = Denuncia::with('denuncia', 'estado')
             ->orderBy('fecha_recepcion', 'desc')
             ->paginate(15);
             
