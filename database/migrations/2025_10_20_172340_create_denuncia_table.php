@@ -25,7 +25,8 @@ return new class extends Migration
             $table->unsignedInteger('id_estado')->nullable();
             $table->string('no_expediente_inter', 50)->nullable();
             $table->unsignedInteger('id_dependencia_denunciada')->nullable();
-            $table->unsignedInteger('id_responsable_secoem')->nullable();
+            $table->unsignedInteger('id_area_responsable')->nullable();
+            $table->unsignedInteger('id_responsable')->nullable();
             $table->string('token_validacion', 50)->unique();
             $table->dateTime('fecha_cierre')->nullable();
 
