@@ -17,6 +17,8 @@ use SimpleSoftwareIO\QrCode\Facades\QrCode;
 //use Illuminate\Support\Facades\PDF;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Str;
+use App\Helpers\ArchivoHelper;
+use App\Models\ArchivoAdjunto;
 
 
 
@@ -40,7 +42,7 @@ class DenunciaController extends Controller
     {
         //dd($request->all());
         // Validación del request
-         
+
         $request->validate([
             'es_anonima' => 'required|in:0,1', // Cambiar de boolean a in:0,1
             'motivo_denuncia' => 'required|string',
@@ -65,114 +67,134 @@ class DenunciaController extends Controller
             'testigos' => 'nullable|array',
         ]);
         //dd($request->all());
-       
+
 
         DB::beginTransaction();
-        
+
         //try {
-            /** 1️ Crear denuncia principal sin folio aún */
-            //ver el id de la ultima denuncia
-            $id_ultima_denuncia = Denuncia::select('id_denuncia')->orderBy('id_denuncia', 'desc')->first();
+        /** 1️ Crear denuncia principal sin folio aún */
+        //ver el id de la ultima denuncia
+        $id_ultima_denuncia = Denuncia::select('id_denuncia')->orderBy('id_denuncia', 'desc')->first();
 
-            $ultimo_id = $id_ultima_denuncia ? $id_ultima_denuncia->id_denuncia : 0;
+        $ultimo_id = $id_ultima_denuncia ? $id_ultima_denuncia->id_denuncia : 0;
 
-            $folio = 'DEN-' . now()->format('Y') . '-' . str_pad($ultimo_id + 1, 6, '0', STR_PAD_LEFT);
+        $folio = 'DEN-' . now()->format('Y') . '-' . str_pad($ultimo_id + 1, 6, '0', STR_PAD_LEFT);
 
-            //Generar token de validación único
-            $codigo = Str::upper(Str::random(5)); // Ej: "A1B2C"
+        //Generar token de validación único
+        $codigo = Str::upper(Str::random(5)); // Ej: "A1B2C"
 
-            $denuncia = Denuncia::create([
-                'folio_seguimiento' => $folio,
-                'es_anonima' => $request->es_anonima,
-                'fecha_recepcion' => now(),
-                'motivo_denuncia' => $request->motivo_denuncia,
-                'programa_publico' => $request->programa_publico,
-                'dinero_solicitado' => $request->dinero_solicitado ?? 0,
-                'id_estado' => 1, // Falta poner el catalogo en formulario
-                'no_expediente_inter' => $request->no_expediente_inter ?? null,
-                'id_dependencia_denunciada' => $request->id_dependencia_denunciada ?? null,
-                'id_responsable_secoem' => $request->id_responsable_secoem ?? null,
-                'token_validacion' => $codigo,
+        $denuncia = Denuncia::create([
+            'folio_seguimiento' => $folio,
+            'es_anonima' => $request->es_anonima,
+            'fecha_recepcion' => now(),
+            'motivo_denuncia' => $request->motivo_denuncia,
+            'programa_publico' => $request->programa_publico,
+            'dinero_solicitado' => $request->dinero_solicitado ?? 0,
+            'id_estado' => 1, // Falta poner el catalogo en formulario
+            'no_expediente_inter' => $request->no_expediente_inter ?? null,
+            'id_dependencia_denunciada' => $request->id_dependencia_denunciada ?? null,
+            'id_responsable_secoem' => $request->id_responsable_secoem ?? null,
+            'token_validacion' => $codigo,
+        ]);
+
+        /** 2️ Generar folio único y guardarlo */
+        $denuncia->save();
+
+        /** 3️ Guardar datos de contacto si no es anónima */
+        if (!$request->es_anonima) {
+            DatosContactoDenunciante::create([
+                'id_denuncia' => $denuncia->id_denuncia,
+                'nombre_completo' => $request->nombre_completo,
+                'telefono' => $request->telefono,
+                'correo_electronico' => $request->correo_electronico,
             ]);
-           
-            /** 2️ Generar folio único y guardarlo */
-            $denuncia->save();
-           
-            /** 3️ Guardar datos de contacto si no es anónima */
-            if (!$request->es_anonima) {
-                DatosContactoDenunciante::create([
+        }
+
+        /** 4️ Guardar circunstancias */
+        DenunciaCircunstancia::create([
+            'id_denuncia' => $denuncia->id_denuncia,
+            'fecha_hechos' => $request->fecha_hechos,
+            'hora_hechos' => $request->hora_hechos ?? null,
+            'id_municipio' => $request->id_municipio ?? null,
+            'localidad' => $request->localidad ?? null,
+            'direccion_exacta' => $request->direccion_exacta,
+            'dependencia_involucrada' => $request->dependencia_involucrada ?? null,
+            'tramite_solicitado' => $request->tramite_solicitado ?? null,
+            'circunstancias_detalladas' => $request->circunstancias_detalladas ?? null,
+        ]);
+
+        /** 5️ Guardar involucrados (si existen) */
+        if ($request->has('involucrados') && is_array($request->involucrados)) {
+            foreach ($request->involucrados as $i) {
+                //dd($i['estatura_aprox']);
+                DenunciaInvolucrado::create([
                     'id_denuncia' => $denuncia->id_denuncia,
-                    'nombre_completo' => $request->nombre_completo,
-                    'telefono' => $request->telefono,
-                    'correo_electronico' => $request->correo_electronico,
+                    'es_servidor_publico' => $i['es_servidor_publico'] ?? 0,
+                    'nombre_denunciado' => $i['nombre_denunciado'] ?? null,
+                    'puesto_denunciado' => $i['puesto_denunciado'] ?? null,
+                    'sexo' => $i['sexo'] ?? null,
+                    'tez' => $i['tez'] ?? null, // Nuevo campo
+                    'estatura_aprox' => $i['estatura_aprox'] ?? null, // Nuevo campo
+                    'edad_aprox' => $i['edad_aprox'] ?? null,
+                    'complexion' => $i['complexion'] ?? null, // Nuevo campo
+                    'color_ojos' => $i['color_ojos'] ?? null, // Nuevo campo
+                    'tipo_cabello' => $i['tipo_cabello'] ?? null, // Nuevo campo
+                    'senas_particulares' => $i['senas_particulares'] ?? null, // Nuevo campo
+                    'descripcion_fisica' => $i['descripcion_fisica'] ?? null,
                 ]);
             }
+        }
 
-            /** 4️ Guardar circunstancias */
-            DenunciaCircunstancia::create([
-                'id_denuncia' => $denuncia->id_denuncia,
-                'fecha_hechos' => $request->fecha_hechos,
-                'hora_hechos' => $request->hora_hechos ?? null,
-                'id_municipio' => $request->id_municipio ?? null,
-                'localidad' => $request->localidad ?? null,
-                'direccion_exacta' => $request->direccion_exacta,
-                'dependencia_involucrada' => $request->dependencia_involucrada ?? null,
-                'tramite_solicitado' => $request->tramite_solicitado ?? null,
-                'circunstancias_detalladas' => $request->circunstancias_detalladas ?? null,
-            ]);
+        /** 6️ Guardar testigos (si existen) */
+        if ($request->has('testigos') && is_array($request->testigos)) {
+            foreach ($request->testigos as $t) {
+                DenunciaTestigo::create([
+                    'id_denuncia' => $denuncia->id_denuncia,
+                    'tiene_testigos' => 1,
+                    'nombre_testigo' => $t['nombre_testigo'] ?? null,
+                    'datos_contacto' => $t['datos_contacto'] ?? null,
+                    'observaciones' => $t['observaciones'] ?? null,
+                ]);
+            }
+        }
 
-            /** 5️ Guardar involucrados (si existen) */
-            if ($request->has('involucrados') && is_array($request->involucrados)) {
-                foreach ($request->involucrados as $i) {
-                    //dd($i['estatura_aprox']);
-                    DenunciaInvolucrado::create([
+        //VERIFICAR SI LLEGO ARCHIVO depues encryptarlo y almacenarlo(uso de helper) composer dump-autoload
+
+        if ($request->hasFile('archivos')) {
+            foreach ($request->file('archivos') as $archivo) {
+                $resultado = ArchivoHelper::guardarArchivoEncriptado($archivo);
+
+                if ($resultado) {
+                    ArchivoAdjunto::create([
                         'id_denuncia' => $denuncia->id_denuncia,
-                        'es_servidor_publico' => $i['es_servidor_publico'] ?? 0,
-                        'nombre_denunciado' => $i['nombre_denunciado'] ?? null,
-                        'puesto_denunciado' => $i['puesto_denunciado'] ?? null,
-                        'sexo' => $i['sexo'] ?? null,
-                        'tez' => $i['tez'] ?? null, // Nuevo campo
-                        'estatura_aprox' => $i['estatura_aprox'] ?? null, // Nuevo campo
-                        'edad_aprox' => $i['edad_aprox'] ?? null,
-                        'complexion' => $i['complexion'] ?? null, // Nuevo campo
-                        'color_ojos' => $i['color_ojos'] ?? null, // Nuevo campo
-                        'tipo_cabello' => $i['tipo_cabello'] ?? null, // Nuevo campo
-                        'senas_particulares' => $i['senas_particulares'] ?? null, // Nuevo campo
-                        'descripcion_fisica' => $i['descripcion_fisica'] ?? null,
+                        'nombre_original' => $resultado['nombre'],
+                        'tipo_archivo' => $resultado['categoria'],
+                        'ruta_cifrada' => $resultado['ruta'],
+                        'fecha_carga' => now(),
                     ]);
+                } else {
+                    return back()->with('error', 'No se pudo guardar el archivo: ' . $archivo->getClientOriginalName());
                 }
             }
+        }
 
-            /** 6️ Guardar testigos (si existen) */
-            if ($request->has('testigos') && is_array($request->testigos)) {
-                foreach ($request->testigos as $t) {
-                    DenunciaTestigo::create([
-                        'id_denuncia' => $denuncia->id_denuncia,
-                        'tiene_testigos' => 1,
-                        'nombre_testigo' => $t['nombre_testigo'] ?? null,
-                        'datos_contacto' => $t['datos_contacto'] ?? null,
-                        'observaciones' => $t['observaciones'] ?? null,
-                    ]);
-                }
-            }
+        DB::commit();
 
-            DB::commit();
+        /** 7️ Generar QR en base64 para la vista */
+        // Agregar propiedades computadas para la vista
+        // $denuncia->estado_color = match($denuncia->estado) {
+        //     'Registrada' => 'primary',
+        //     'En Revisión' => 'warning',
+        //     'En Proceso' => 'info',
+        //     'Resuelta' => 'success',
+        //     'Cerrada' => 'danger',
+        //     default => 'secondary'
+        // };
+        $url = route('denuncias.seguimiento', $folio);
+        $qrCode = QrCode::format('svg')->size(100)->generate($url);
 
-            /** 7️ Generar QR en base64 para la vista */
-             // Agregar propiedades computadas para la vista
-            // $denuncia->estado_color = match($denuncia->estado) {
-            //     'Registrada' => 'primary',
-            //     'En Revisión' => 'warning',
-            //     'En Proceso' => 'info',
-            //     'Resuelta' => 'success',
-            //     'Cerrada' => 'danger',
-            //     default => 'secondary'
-            // };
-            $url = route('denuncias.seguimiento', $folio);
-            $qrCode = QrCode::format('svg')->size(100)->generate($url);
-
-            /** 8️ Retornar vista de confirmación */
-            return view('denuncias.confirmacion', compact('folio', 'codigo', 'qrCode'));
+        /** 8️ Retornar vista de confirmación */
+        return view('denuncias.confirmacion', compact('folio', 'codigo', 'qrCode'));
         // } catch (\Throwable $e) {
         //     DB::rollBack();
         //     return back()->withErrors(['error' => 'Error al registrar la denuncia: ' . $e->getMessage()]);
@@ -186,7 +208,7 @@ class DenunciaController extends Controller
             ->firstOrFail();
 
         // Agregar propiedades computadas para la vista
-        $denuncia->estado_color = match($denuncia->estado) {
+        $denuncia->estado_color = match ($denuncia->estado) {
             'Registrada' => 'primary',
             'En Revisión' => 'warning',
             'En Proceso' => 'info',
@@ -208,7 +230,7 @@ class DenunciaController extends Controller
     public function generarPDF($folio)
     {
         // Buscar la denuncia
-       
+
         $denuncia = Denuncia::where('folio_seguimiento', $folio)
             ->firstOrFail();
 
