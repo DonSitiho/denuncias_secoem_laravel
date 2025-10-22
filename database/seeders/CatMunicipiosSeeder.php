@@ -189,7 +189,7 @@ class CatMunicipiosSeeder extends Seeder
             ],
             [
                 'id_municipio' => 35,
-                'nombre_municipio' => 'Huacana, La',
+                'nombre_municipio' => 'La Huacana',
                 'clave_municipio' => '035'
             ],
             [
@@ -364,12 +364,12 @@ class CatMunicipiosSeeder extends Seeder
             ],
             [
                 'id_municipio' => 70,
-                'nombre_municipio' => 'Piedad, La',
+                'nombre_municipio' => 'La Piedad',
                 'clave_municipio' => '070'
             ],
             [
                 'id_municipio' => 71,
-                'nombre_municipio' => 'Purúa, La',
+                'nombre_municipio' => 'La Purúa',
                 'clave_municipio' => '071'
             ],
             [
@@ -389,7 +389,7 @@ class CatMunicipiosSeeder extends Seeder
             ],
             [
                 'id_municipio' => 75,
-                'nombre_municipio' => 'Reyes, Los',
+                'nombre_municipio' => 'Los Reyes',
                 'clave_municipio' => '075'
             ],
             [
