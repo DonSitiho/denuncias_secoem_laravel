@@ -41,29 +41,29 @@ class DenunciaController extends Controller
         //dd($request->all());
         // Validación del request
          
-        $request->validate([
-            'es_anonima' => 'required|in:0,1', // Cambiar de boolean a in:0,1
-            'motivo_denuncia' => 'required|string',
-            'fecha_hechos' => 'required|date',
-            'direccion_exacta' => 'required|string',
+        // $request->validate([
+        //     'es_anonima' => 'required|in:0,1', // Cambiar de boolean a in:0,1
+        //     'motivo_denuncia' => 'required|string',
+        //     'fecha_hechos' => 'required|date',
+        //     'direccion_exacta' => 'required|string',
 
-            // Datos de contacto solo si NO es anónima
-            'nombre_completo' => 'required_if:es_anonima,0|string|max:255', // Cambiar false por 0
-            'telefono' => 'required_if:es_anonima,0|string|max:20', // Cambiar false por 0
-            'correo_electronico' => 'required_if:es_anonima,0|email|max:255', // Cambiar false por 0
+        //     // Datos de contacto solo si NO es anónima
+        //     'nombre_completo' => 'required_if:es_anonima,0|string|max:255', // Cambiar false por 0
+        //     'telefono' => 'required_if:es_anonima,0|string|max:20', // Cambiar false por 0
+        //     'correo_electronico' => 'required_if:es_anonima,0|email|max:255', // Cambiar false por 0
 
-            // Circunstancias opcionales - algunos campos en tu form están como required pero en validación son nullable
-            'hora_hechos' => 'nullable|string|max:10',
-            'id_municipio' => 'nullable|integer',
-            'localidad' => 'nullable|string|max:255',
-            'dependencia_involucrada' => 'nullable|string|max:255',
-            'tramite_solicitado' => 'nullable|string|max:255',
-            'circunstancias_detalladas' => 'nullable|string', // En tu form está como required
+        //     // Circunstancias opcionales - algunos campos en tu form están como required pero en validación son nullable
+        //     'hora_hechos' => 'nullable|string|max:10',
+        //     'id_municipio' => 'nullable|integer',
+        //     'localidad' => 'nullable|string|max:255',
+        //     'dependencia_involucrada' => 'nullable|string|max:255',
+        //     'tramite_solicitado' => 'nullable|string|max:255',
+        //     'circunstancias_detalladas' => 'nullable|string', // En tu form está como required
 
-            // Arrays opcionales
-            'involucrados' => 'nullable|array',
-            'testigos' => 'nullable|array',
-        ]);
+        //     // Arrays opcionales
+        //     'involucrados' => 'nullable|array',
+        //     'testigos' => 'nullable|array',
+        // ]);
         //dd($request->all());
        
 

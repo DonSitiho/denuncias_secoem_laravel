@@ -23,31 +23,38 @@ class AdminDenunciasController extends Controller
      * Muestra el Dashboard de Recepción (Bandeja de Entrada).
      */
     public function index(Request $request)
-    {
-        // El middleware 'can:admin-denuncia-ver' ya protegió el acceso.
+{
+    // El middleware 'can:admin-denuncia-ver' ya protegió el acceso.
+    
+    $denuncias = Denuncia::with([
+        'circunstancia', // Relación 1:1 con DenunciaCircunstancia (existe en tu modelo)
+        'contacto',      // Relación 1:1 con DatosContactoDenunciante (existe en tu modelo)
+    ])
+        ->orderBy('fecha_recepcion', 'desc') // Ordenado por fecha de recepción
+        ->paginate(15);
         
-        $denuncias = Denuncia::with('denuncia', 'estado')
-            ->orderBy('fecha_recepcion', 'desc')
-            ->paginate(15);
-            
-        return view('admin-denuncias.index', compact('denuncias'));
-    }
+    return view('admin-denuncias.index', compact('denuncias'));
+}
 
     /**
      * Muestra la Vista Detalle de una Denuncia específica.
      */
     public function show($id_denuncia)
     {
-        // El middleware 'can:admin-denuncia-ver' ya protegió el acceso.
+        /**
+         * Muestra la vista detallada de una denuncia específica para su revisión administrativa.
+         * Carga las relaciones directas que contienen la información de captura del ciudadano.
+         * * El acceso a esta función está previamente protegido por el middleware 'can:admin-denuncia-ver'.
+         */
         
         $denuncia = Denuncia::with([
-            'circunstancia.municipio', 
-            'involucrados', 
-            'testigos', 
-            'archivos', 
-            'contacto',
-            'seguimiento'
-        ])->findOrFail($id_denuncia);
+            'circunstancia', // Carga los detalles de ubicación, fecha y dependencia
+            'involucrados',  // Carga la lista de personas denunciadas y su descripción física
+            'testigos',      // Carga los datos de los testigos
+            'archivos',      // Carga los metadatos de las evidencias adjuntas
+            'contacto',      // Carga el nombre, teléfono y correo del denunciante (si no es anónima)
+        ])
+        ->findOrFail($id_denuncia);
 
         return view('admin-denuncias.show', compact('denuncia'));
     }
