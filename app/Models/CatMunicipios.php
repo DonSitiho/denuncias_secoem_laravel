@@ -10,6 +10,11 @@ class CatMunicipios extends Model
     protected $primaryKey = 'id_municipio';
     public $timestamps = false;
 
+    protected $fillable = [
+        'nombre_municipio',
+        'clave_municipio',
+    ];
+
     // Relación 1:N con DenunciaCircunstancia (opcional, para ver dónde se usó)
     public function circunstancias()
     {

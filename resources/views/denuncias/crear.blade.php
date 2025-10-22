@@ -158,7 +158,7 @@
                                             <option value="">Seleccione un municipio...</option>
                                             @foreach ($municipios as $mun)
                                                 <option value="{{ $mun->id_municipio }}" {{ old('id_municipio') == $mun->id_municipio ? 'selected' : '' }}>
-                                                    {{ $mun->nombre }}
+                                                    {{ $mun->nombre_municipio }}
                                                 </option>
                                             @endforeach
                                         </select>

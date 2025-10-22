@@ -10,6 +10,15 @@ class ArchivoAdjunto extends Model
     protected $table = 'archivo_adjunto';
     protected $primaryKey = 'id_archivo';
     public $timestamps = false;
+    public $incrementing = true;
+    //fffff
+    protected $fillable = [
+        'id_denuncia',
+        'nombre_original',
+        'ruta_cifrada',
+        'tipo_archivo',
+        'fecha_carga',
+    ];
 
     protected $casts = [
         'fecha_carga' => 'datetime',
