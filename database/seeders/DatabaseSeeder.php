@@ -2,8 +2,6 @@
 
 namespace Database\Seeders;
 
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-
 use App\Models\Address;
 use Illuminate\Database\Seeder;
 
@@ -19,10 +17,16 @@ class DatabaseSeeder extends Seeder
         $this->call([
             UsersSeeder::class,
             RolesPermissionsSeeder::class,
+
+            // 👇 Tus nuevos catálogos
+            CatEstadosSeeder::class,
+            CatInhabilSeeder::class,
+            CatAreasGobSeeder::class,
+            CatAreasSecoemSeeder::class,
+            CatMunicipiosSeeder::class,
         ]);
 
         \App\Models\User::factory(20)->create();
-
         Address::factory(20)->create();
 
         // \App\Models\User::factory()->create([
@@ -31,3 +35,4 @@ class DatabaseSeeder extends Seeder
         // ]);
     }
 }
+

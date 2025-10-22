@@ -16,6 +16,7 @@ return new class extends Migration
             $table->unsignedInteger('id_municipio')->autoIncrement()->primary();
             $table->string('nombre_municipio', 100)->unique('uk_nombre_municipio');
             $table->string('clave_municipio', 10)->unique('uk_clave_municipio');
+            $table->boolean('is_active')->default(1)->comment('1 = activo, 0 = inactivo');
             $table->comment('Catálogo de Municipios');
         });
     }
