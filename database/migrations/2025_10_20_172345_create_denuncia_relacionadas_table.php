@@ -50,7 +50,7 @@ return new class extends Migration
             // Características Físicas
             $table->enum('sexo', ['H', 'M', 'N/I'])->nullable();
             $table->string('tez', 50)->nullable();
-            $table->decimal('estatura_aprox', 3, 2)->nullable();
+            $table->decimal('estatura_aprox', 4, 2)->nullable();
             $table->integer('edad_aprox')->nullable();
             $table->string('complexion', 50)->nullable();
             $table->string('color_ojos', 50)->nullable();

@@ -14,12 +14,21 @@ return new class extends Migration
     {
         Schema::create('denuncia', function (Blueprint $table) {
             $table->unsignedBigInteger('id_denuncia')->autoIncrement()->primary();
-            $table->string('folio_seguimiento', 10)->unique('uk_folio_seguimiento');
+            $table->string('folio_seguimiento', 25)->unique('uk_folio_seguimiento');
             $table->boolean('es_anonima')->default(true);
             $table->dateTime('fecha_recepcion');
             $table->text('motivo_denuncia');
             $table->string('programa_publico', 255)->nullable();
             $table->decimal('dinero_solicitado', 10, 2)->default(0.00);
+
+            //Nuevos campos para seguimiento
+            $table->unsignedInteger('id_estado')->nullable();
+            $table->string('no_expediente_inter', 50)->nullable();
+            $table->unsignedInteger('id_dependencia_denunciada')->nullable();
+            $table->unsignedInteger('id_area_responsable')->nullable();
+            $table->unsignedInteger('id_responsable')->nullable();
+            $table->string('token_validacion', 50)->unique();
+            $table->dateTime('fecha_cierre')->nullable();
 
             // FK a la tabla de usuarios internos (temporalmente comentada)
             $table->unsignedInteger('id_denunciante')->nullable();

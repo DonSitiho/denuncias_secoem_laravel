@@ -6,6 +6,7 @@ use App\Actions\SampleUserApi;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\DenunciaController;
 
 /*
 |--------------------------------------------------------------------------
@@ -108,3 +109,10 @@ Route::prefix('v1')->group(function () {
         return app(SamplePermissionApi::class)->delete($id);
     });
 });
+
+
+
+// API pública
+//Route::post('/api/denuncias', [DenunciaController::class, 'store'])->name('denuncias.store');
+
+
