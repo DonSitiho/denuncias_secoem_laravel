@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
+
 class Denuncia extends Model
 {
     // Nombre de la tabla de la denuncia
@@ -77,5 +78,17 @@ class Denuncia extends Model
     public function testigos(): HasMany
     {
         return $this->hasMany(DenunciaTestigo::class, 'id_denuncia', 'id_denuncia');
+    }
+    
+    public function municipio()
+    {
+        return $this->hasOneThrough(
+            CatMunicipios::class,          // Modelo destino
+            DenunciaCircunstancia::class, // Modelo intermedio
+            'id_denuncia',                // FK en DenunciaCircunstancia que apunta a Denuncia
+            'id_municipio',               // PK en CatMunicipio
+            'id_denuncia',                // Local key en Denuncia
+            'id_municipio'                // Local key en DenunciaCircunstancia
+        );
     }
 }

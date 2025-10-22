@@ -34,6 +34,7 @@ class DenunciaController extends Controller
     public function create()
     {
         $municipios = CatMunicipios::orderBy('nombre_municipio')->get();
+
         return view('denuncias.crear', compact('municipios'));
     }
 
@@ -95,6 +96,7 @@ class DenunciaController extends Controller
             'id_dependencia_denunciada' => $request->id_dependencia_denunciada ?? null,
             'id_responsable_secoem' => $request->id_responsable_secoem ?? null,
             'token_validacion' => $codigo,
+
         ]);
 
         /** 2️ Generar folio único y guardarlo */
@@ -111,11 +113,12 @@ class DenunciaController extends Controller
         }
 
         /** 4️ Guardar circunstancias */
+        //dd($request->id_municipio);
         DenunciaCircunstancia::create([
             'id_denuncia' => $denuncia->id_denuncia,
             'fecha_hechos' => $request->fecha_hechos,
             'hora_hechos' => $request->hora_hechos ?? null,
-            'id_municipio' => $request->id_municipio ?? null,
+            'id_municipio' => intval($request->id_municipio) ?? null,
             'localidad' => $request->localidad ?? null,
             'direccion_exacta' => $request->direccion_exacta,
             'dependencia_involucrada' => $request->dependencia_involucrada ?? null,
@@ -229,33 +232,44 @@ class DenunciaController extends Controller
 
     public function generarPDF($folio)
     {
-        // Buscar la denuncia
+        // Cargar denuncia con todas las relaciones necesarias
+        $denuncia = Denuncia::with([
+            'contacto',
+            'involucrados',
+            'testigos',
+            'circunstancia.municipio',
+            'archivos'
+        ])->where('folio_seguimiento', $folio)->firstOrFail();
 
-        $denuncia = Denuncia::where('folio_seguimiento', $folio)
-            ->firstOrFail();
+        // Datos individuales
+        $datosContactoDenunciante = $denuncia->contacto;
+        $datosCircunstancia = $denuncia->circunstancia;
+        $datosMunicipio = $datosCircunstancia->municipio ?? null;
 
-        // Generar QR code para el PDF también
+        // Generar QR en SVG
         $urlSeguimiento = route('denuncias.seguimiento', $folio);
         $qrCode = QrCode::format('svg')->size(200)->generate($urlSeguimiento);
-        //$qrCode = QrCode::format('png')->size(150)->generate($urlSeguimiento);
 
         // Datos para la vista
         $data = [
             'denuncia' => $denuncia,
-            'qrCode' => base64_encode($qrCode),
+            'qrCode' => base64_encode($qrCode), // SVG codificado en base64
             'fechaActual' => now()->format('d/m/Y H:i'),
+            'datosContactoDenunciante' => $datosContactoDenunciante,
+            'datosDenunciaInvolucrado' => $denuncia->involucrados,
+            'datosTestigos' => $denuncia->testigos,
+            'datosCircunstancia' => $datosCircunstancia,
+            'datosMunicipio' => $datosMunicipio,
         ];
 
-        // Configurar el PDF
+        // Generar PDF
         $pdf = PDF::loadView('denuncias.comprobante-pdf', $data);
-
-        // Configurar opciones del PDF
         $pdf->setPaper('letter', 'portrait');
         $pdf->setOption('defaultFont', 'Arial');
         $pdf->setOption('isHtml5ParserEnabled', true);
         $pdf->setOption('isRemoteEnabled', true);
 
-        // Descargar el PDF
+        // Descargar PDF
         return $pdf->download("comprobante-denuncia-{$folio}.pdf");
     }
 }
