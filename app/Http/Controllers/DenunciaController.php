@@ -94,7 +94,7 @@ class DenunciaController extends Controller
             'id_estado' => 1, // Falta poner el catalogo en formulario
             'no_expediente_inter' => $request->no_expediente_inter ?? null,
             'id_dependencia_denunciada' => $request->id_dependencia_denunciada ?? null,
-            'id_responsable_secoem' => $request->id_responsable_secoem ?? null,
+            'id_responsable' => $request->id_responsable ?? null,
             'token_validacion' => $codigo,
 
         ]);

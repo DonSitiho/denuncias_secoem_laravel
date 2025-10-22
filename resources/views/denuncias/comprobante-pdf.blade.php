@@ -297,10 +297,15 @@
                     <div class="value">
                         @foreach ($datosDenunciaInvolucrado as $involucrado)
                             <p>Nombre: {{ $involucrado->nombre_denunciado ?? 'Sin nombre' }}</p>
-                            <p>Tipo: {{ $involucrado->tipo_involucrado ?? 'Sin tipo' }}</p>
-                            <p>Documento: {{ $involucrado->documento_identidad ?? 'Sin documento' }}</p>
-                            <p>Teléfono: {{ $involucrado->telefono ?? 'Sin teléfono' }}</p>
-                            <p>Correo: {{ $involucrado->correo_electronico ?? 'Sin correo' }}</p>
+                            <p>Puesto: {{ $involucrado->puesto_denunciado ?? 'Sin puesto' }}</p>
+                            <p>Tipo de Tez: {{ $involucrado->tipo_tez ?? 'No especificado' }}</p>
+                            <p>Estatura: {{ $involucrado->estatura_aprox ?? 'No especificada' }}</p>
+                            <p>Edad: {{ $involucrado->edad_aprox ?? 'No especificada' }}</p>
+                            <p>Complexión: {{ $involucrado->complexion ?? 'No especificada' }}</p>
+                            <p>Color Ojo: {{ $involucrado->color_ojo ?? 'No especificado' }}</p>
+                            <p>Tipo Cabello: {{ $involucrado->tipo_cabello ?? 'No especificado' }}</p>
+                            <p>Señas Particulares: {{ $involucrado->senas_particulares ?? 'No especificadas' }}</p>
+                            <p>Descripción Física: {{ $involucrado->descripcion_fisica ?? 'No especificadas' }}</p>
                             <hr>
                         @endforeach
                     </div>
@@ -312,9 +317,8 @@
                         <div class="value">
                             @foreach ($datosTestigos as $testigo)
                                 <p>Nombre: {{ $testigo->nombre_testigo ?? 'Sin nombre' }}</p>
-                                <p>Documento: {{ $testigo->documento_identidad ?? 'Sin documento' }}</p>
-                                <p>Teléfono: {{ $testigo->telefono ?? 'Sin teléfono' }}</p>
-                                <p>Correo: {{ $testigo->correo_electronico ?? 'Sin correo' }}</p>
+                                <p>Datos Contacto: {{ $testigo->datos_contacto ?? 'Sin datos de contacto' }}</p>
+                                <p>Observaciones: {{ $testigo->observaciones ?? 'Sin observaciones' }}</p>
                                 <hr>
                             @endforeach
                         </div>
