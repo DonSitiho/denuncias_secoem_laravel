@@ -27,6 +27,15 @@ return new class extends Migration
             
             $table->comment('Catálogo de Áreas responsables');
         });
+
+        Schema::table('users', function (Blueprint $table) {
+            // Aseguramos que 'id_area' sea del mismo tipo que 'areas.id_area' (unsignedBigInteger)
+            // Ya existe en tu migración original de users, solo la definimos como FK.
+            $table->foreign('id_area')
+                ->references('id_area')
+                ->on('areas')
+                ->onDelete('SET NULL');
+        });
     }
 
     /**
@@ -34,6 +43,11 @@ return new class extends Migration
      */
     public function down(): void
     {
+        //Eliminar la clave foránea de 'users' antes de eliminar la tabla 'areas'
+        Schema::table('users', function (Blueprint $table) {
+            $table->dropForeign(['id_area']);
+        });
+
         Schema::dropIfExists('areas');
     }
 };
