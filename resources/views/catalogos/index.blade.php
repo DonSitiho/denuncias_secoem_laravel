@@ -24,7 +24,7 @@
             </tr>
             <tr>
                 <td>Áreas de Gobierno</td>
-                <td><a href="{{ route('cat_estados.index') }}" class="btn btn-primary btn-sm">Abrir</a></td>
+                <td><a href="{{ route('cat_areas_gob.index') }}" class="btn btn-primary btn-sm">Abrir</a></td>
             </tr>
             {{-- Aquí luego puedes agregar otros catálogos como usuarios, productos, etc. --}}
         </tbody>
