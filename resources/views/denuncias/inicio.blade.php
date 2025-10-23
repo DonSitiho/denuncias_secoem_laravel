@@ -117,7 +117,7 @@
                             <div class="d-flex flex-column flex-sm-row justify-content-center gap-4">
                                 <a href="tel:014434322600" class="btn botonGuinda btn-lg fw-bold">
                                     <i class="fas fa-phone me-2"></i>
-                                    Llamar al (443) 432-2600
+                                    Llamar al (443) 443 310 8600
                                 </a>
                                 <a href="mailto:denuncias@secoem.michoacan.gob.mx" class="btn botonGuinda btn-lg fw-bold">
                                     <i class="fas fa-envelope me-2"></i>
@@ -142,14 +142,14 @@
                         <div class="text-center">
                             <i class="fas fa-map-marker-alt fs-2x text-guinda mb-3"></i>
                             <h5 class="fw-bold text-gray-800">Dirección</h5>
-                            <p class="text-gray-600">Av. Francisco I. Madero Oriente No. 560<br>Col. Centro, Morelia, Michoacán</p>
+                            <p class="text-gray-600">Benito Juárez 127<br>Centro Histórico, 58000, Morelia, Michoacán</p>
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="text-center">
                             <i class="fas fa-phone fs-2x text-guinda mb-3"></i>
                             <h5 class="fw-bold text-gray-800">Teléfono</h5>
-                            <p class="text-gray-600">(443) 432-2600<br>Ext. 1234, 1235</p>
+                            <p class="text-gray-600">(443) 443 310 8600<br>Ext. 1234, 1235</p>
                         </div>
                     </div>
                     <div class="col-md-4">
