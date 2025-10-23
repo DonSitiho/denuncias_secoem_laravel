@@ -7,6 +7,7 @@ use App\Http\Controllers\AdminDenuncias\AdminDenunciasController;
 use App\Http\Controllers\AdminDenuncias\ExportController;
 use App\Http\Controllers\Auth\SocialiteController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\OICDenunciasController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CatEstadosController;
 use App\Http\Controllers\DenunciaController;
@@ -65,7 +66,31 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::resource('/user-management/permissions', PermissionManagementController::class);
     });
 
+    /*
+    Route::name('oic.')->group(function () {
+
+        Route::get('/oic/mis-denuncias/', [OICDenunciasController::class, 'getMisDenuncias'])->name('mis-denuncias');
+        Route::get('/oic/denuncia/{id}', [OICDenunciasController::class, 'verDetallesDenuncia'])->name('ver-denuncia');
+
+    });
+    */
 });
+
+
+// Grupo de rutas para el Usuario OIC
+Route::middleware(['auth'])->prefix('oic')->name('oic.')->group(function (){
+
+    // Listado de mis denuncias para un OIC
+    Route::get('/mis-denuncias', [OICDenunciasController::class, 'getMisDenuncias'])
+        ->name('mis-denuncias')
+        ->middleware('can:oic-denuncia-ver');
+
+    Route::get('/denuncia/{id_denuncia}', [OICDenunciasController::class, 'verDetallesDenuncia'])
+        ->name('ver-denuncia')
+        ->middleware('can:oic-denuncia-detalles');
+
+});
+
 
 // Grupo de rutas para el Administrador de Denuncias
 Route::middleware(['auth'])->prefix('admin/denuncias')->name('admin.denuncias.')->group(function () {

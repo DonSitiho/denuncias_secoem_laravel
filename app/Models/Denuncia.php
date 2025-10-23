@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-
+use Illuminate\Support\Facades\Auth;
 
 class Denuncia extends Model
 {
@@ -121,5 +121,11 @@ class Denuncia extends Model
             'id_denuncia',                // Local key en Denuncia
             'id_municipio'                // Local key en DenunciaCircunstancia
         );
+    }
+
+    // Scope para mostrar las denuncias que pertenecen a los usuarios OIC
+    public function scopeDenunciasByResponsable($query){
+
+        return $query->where('id_responsable', Auth::user()->id);
     }
 }
