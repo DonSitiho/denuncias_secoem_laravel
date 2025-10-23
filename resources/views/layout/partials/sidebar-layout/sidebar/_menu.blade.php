@@ -53,6 +53,14 @@
 						<!--end:Menu link-->
 					</div>
 					<!--end:Menu item-->
+					@can('admin-areas-crud')
+					<div class="menu-item">
+						<a class="menu-link {{ request()->routeIs('areas.index') ? 'active' : '' }}" href="{{ route('areas.index') }}">
+							<span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
+							<span class="menu-title">Áreas</span>
+						</a>
+					</div>
+				    @endcan
 				</div>
 				<!--end:Menu sub-->
 			</div>
@@ -75,19 +83,12 @@
 							<span class="menu-bullet">
 								<span class="bullet bullet-dot"></span>
 							</span>
-							<span class="menu-title">Admin.</span>
+							<span class="menu-title">Denuncias</span>
 						</a>
 						<!--end:Menu link-->
 					</div>
 					<!--end:Menu item-->
-					@can('admin-areas-crud')
-					<div class="menu-sub menu-sub-accordion">
-						<a class="menu-link {{ request()->routeIs('areas.index') ? 'active' : '' }}" href="{{ route('areas.index') }}">
-							<span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
-							<span class="menu-title">Catálogo de Áreas</span>
-						</a>
-					</div>
-				    @endcan
+					
 				</div>
 				<!--end:Menu sub-->
 			</div>

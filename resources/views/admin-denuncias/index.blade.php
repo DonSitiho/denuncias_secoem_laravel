@@ -5,7 +5,6 @@
     @endsection
 
     @section('breadcrumbs')
-        {{-- Asumiendo una ruta de migas de pan para el dashboard de admin --}}
         {{-- {{ Breadcrumbs::render('admin-denuncias.index') }} --}}
     @endsection
 
@@ -22,9 +21,9 @@
         </div>
 
     @push('scripts')
-        {{-- Scripts necesarios para Livewire si no están incluidos globalmente --}}
+        
         <script>
-            // Script para inicializar cualquier funcionalidad de Metronic necesaria (tooltips, etc.)
+            // Script para inicializar cualquier funcionalidad
         </script>
     @endpush
 

@@ -12,7 +12,7 @@
             </h3>
             <div class="card-toolbar">
                 <button type="button" id="kt_create_area" class="btn btn-primary me-2">
-                    <i class="fas fa-plus"></i> {{ __('Nueva Área Raíz') }}
+                    <i class="fas fa-plus"></i> {{ __('Nueva Área') }}
                 </button>
                 <button type="button" id="kt_rename_area" class="btn btn-light me-2">
                     <i class="fas fa-edit"></i> {{ __('Renombrar') }}
@@ -69,7 +69,7 @@
             // Crear nueva área raíz
             $('#kt_create_area').on('click', function () {
                 Swal.fire({
-                    title: 'Crear Nueva Área Raíz',
+                    title: 'Nueva Área',
                     html: 
                         // Utilizamos w-100 y mb-5 para que los inputs ocupen todo el ancho y tengan espacio
                         '<div class="mb-5 w-100">' +
@@ -83,9 +83,9 @@
                         '</div>' +
                         '<div class="mb-5 w-100">' +
                             // El nivel se cambia a type="text" y se añade un placeholder descriptivo.
-                            '<label for="swal-nivel" class="form-label">Nivel (Ej: Secretaría, Dirección)</label>' +
+                            '<label for="swal-nivel" class="form-label">Nivel (Ej: Secretaría, Dirección)(Opcional)</label>' +
                             // type="text" para coincidir con la migración
-                            '<input id="swal-nivel" class="form-control w-100" type="text" value="Secretaría" placeholder="Ej: Secretaría, Subsecretaría, Dirección, etc.">' + 
+                            '<input id="swal-nivel" class="form-control w-100" type="text" value="" placeholder="Ej: Secretaría, Subsecretaría, Dirección, etc.">' + 
                         '</div>',
                     
                     // Configuraciones del Modal
