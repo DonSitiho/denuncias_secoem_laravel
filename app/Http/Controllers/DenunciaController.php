@@ -43,7 +43,6 @@ class DenunciaController extends Controller
     {
         //dd($request->all());
         // Validación del request
-
         $request->validate([
             'es_anonima' => 'required|in:0,1', // Cambiar de boolean a in:0,1
             'motivo_denuncia' => 'required|string',
@@ -68,7 +67,6 @@ class DenunciaController extends Controller
             'testigos' => 'nullable|array',
         ]);
         //dd($request->all());
-
 
         DB::beginTransaction();
 
