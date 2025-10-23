@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Denuncia;
 use App\Models\DocDenuncias;
+use App\Models\Area;
+use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 use App\Models\ArchivoAdjunto;
@@ -29,6 +31,8 @@ class AdminDenunciasController extends Controller
     $denuncias = Denuncia::with([
         'circunstancia', // Relación 1:1 con DenunciaCircunstancia (existe en tu modelo)
         'contacto',      // Relación 1:1 con DatosContactoDenunciante (existe en tu modelo)
+        'estado',        // Relación N:1 con CatEstados (existe en tu modelo)
+        'areaResponsable', // Relación N:1 con Area (existe en tu modelo)
     ])
         ->orderBy('fecha_recepcion', 'desc') // Ordenado por fecha de recepción
         ->paginate(15);
