@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 
 class Denuncia extends Model
@@ -79,6 +80,35 @@ class Denuncia extends Model
     public function testigos(): HasMany
     {
         return $this->hasMany(DenunciaTestigo::class, 'id_denuncia', 'id_denuncia');
+    }
+
+    // Relaciones para turnado y cambio de estado
+    /**
+     * Relación N:1 con el Catálogo de Estados (cat_estados).
+     */
+    public function estado(): BelongsTo
+    {
+        // Asume que la FK es 'id_estado' en la tabla 'denuncia'
+        return $this->belongsTo(CatEstados::class, 'id_estado', 'id_estado');
+    }
+    
+    /**
+     * Relación N:1 con el Área Responsable (areas).
+     */
+    public function areaResponsable(): BelongsTo
+    {
+        // Une denuncia.id_area_responsable con areas.id_area
+        return $this->belongsTo(Area::class, 'id_area_responsable', 'id_area');
+    }
+    
+    /**
+     * Relación N:1 con el Usuario Responsable (users).
+     * Usa el nuevo nombre de campo: id_responsable.
+     */
+    public function responsable(): BelongsTo
+    {
+        // Une denuncia.id_responsable con users.id
+        return $this->belongsTo(User::class, 'id_responsable', 'id');
     }
     
     public function municipio()
