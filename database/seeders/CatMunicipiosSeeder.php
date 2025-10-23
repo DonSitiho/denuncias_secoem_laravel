@@ -16,6 +16,10 @@ class CatMunicipiosSeeder extends Seeder
         
         DB::statement('SET FOREIGN_KEY_CHECKS=0;');
 
+         // Opcional: Truncar la tabla antes de insertar para evitar duplicados si se corre varias veces
+        DB::table('cat_areas_gob')->truncate();
+        
+
         DB::table('cat_municipios')->insert([
             [
                 'id_municipio' => 1,
@@ -364,12 +368,12 @@ class CatMunicipiosSeeder extends Seeder
             ],
             [
                 'id_municipio' => 70,
-                'nombre_municipio' => 'Piedad, La',
+                'nombre_municipio' => 'La Piedad',
                 'clave_municipio' => '070'
             ],
             [
                 'id_municipio' => 71,
-                'nombre_municipio' => 'Purúa, La',
+                'nombre_municipio' => 'La Purúa',
                 'clave_municipio' => '071'
             ],
             [
@@ -389,7 +393,7 @@ class CatMunicipiosSeeder extends Seeder
             ],
             [
                 'id_municipio' => 75,
-                'nombre_municipio' => 'Reyes, Los',
+                'nombre_municipio' => 'Los Reyes ',
                 'clave_municipio' => '075'
             ],
             [
