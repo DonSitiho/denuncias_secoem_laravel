@@ -50,7 +50,7 @@ class DenunciaController extends Controller
             'fecha_hechos' => 'required|date',
             'direccion_exacta' => 'required|string',
 
-        //     // Datos de contacto solo si NO es anónima
+            //     // Datos de contacto solo si NO es anónima
             'nombre_completo' => 'required_if:es_anonima,0|string|max:255', // Cambiar false por 0
             'telefono' => 'required_if:es_anonima,0|string|max:20', // Cambiar false por 0
             'correo_electronico' => 'required_if:es_anonima,0|email|max:255', // Cambiar false por 0
@@ -228,6 +228,112 @@ class DenunciaController extends Controller
     public function buscar()
     {
         return view('denuncias.buscar');
+    }
+
+    public function buscarDenunciaFolio(Request $request)
+    {
+        try {
+            // Validar datos manualmente para evitar redirección HTML
+            $validated = $request->validate([
+                'folio' => 'required|string',
+                'codigo' => 'required|string|size:5',
+            ]);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Datos inválidos o incompletos.',
+                'errors' => $e->errors(),
+            ], 422);
+        }
+
+        // Buscar la denuncia con folio y código
+        $denuncia = Denuncia::where('folio_seguimiento', $validated['folio'])
+            ->where('token_validacion', $validated['codigo'])
+            ->first();
+
+        if ($denuncia) {
+            return response()->json([
+                'success' => true,
+                'redirect_url' => route('denuncias.show', $denuncia->id_denuncia),
+            ]);
+        }
+
+        return response()->json([
+            'success' => false,
+            'message' => 'No se encontró ninguna denuncia con el folio y código proporcionados.',
+        ], 404);
+    }
+
+    public function show(Denuncia $denuncia)
+    {
+        // Cargar relaciones necesarias
+        $denuncia = Denuncia::with([
+            'contacto',
+            'involucrados',
+            'testigos',
+            'circunstancia.municipio',
+            'archivos'
+        ])->where('id_denuncia', $denuncia->id_denuncia)->firstOrFail();
+
+        return view('denuncias.show', compact('denuncia'));
+    }
+
+    public function verificarPalabraClave(Denuncia $denuncia, Request $request)
+    {
+        $request->validate([
+            'token_validacion' => 'required|string'
+        ]);
+
+        // Asumiendo que tienes un campo 'palabra_clave' en tu modelo Denuncia
+        // if ($denuncia->palabra_clave === $request->palabra_clave) {
+        //dd($denuncia->token_validacion);
+        if ($denuncia->token_validacion === $request->token_validacion) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Palabra clave correcta'
+            ]);
+        }
+        
+
+        return response()->json([
+            'success' => false,
+            'message' => 'La palabra clave ingresada es incorrecta'
+        ], 401);
+    }
+
+    public function detallesCompletos(Denuncia $denuncia)
+    {
+        // Cargar todas las relaciones para los detalles completos
+        $denuncia = Denuncia::with([
+            'contacto',
+            'involucrados',
+            'testigos',
+            'circunstancia.municipio',
+            'archivos'
+        ])->where('id_denuncia', $denuncia->id_denuncia)->firstOrFail();
+
+        // Datos individuales
+        $datosContactoDenunciante = $denuncia->contacto;
+        $datosCircunstancia = $denuncia->circunstancia;
+        $datosMunicipio = $datosCircunstancia->municipio ?? null;
+
+        $data = [
+            'denuncia' => $denuncia,
+            'fechaActual' => now()->format('d/m/Y H:i'),
+            'datosContactoDenunciante' => $datosContactoDenunciante,
+            'datosDenunciaInvolucrado' => $denuncia->involucrados,
+            'datosTestigos' => $denuncia->testigos,
+            'datosCircunstancia' => $datosCircunstancia,
+            'datosMunicipio' => $datosMunicipio,
+        ];
+
+        // Retornar la vista como HTML
+        $html = view('denuncias.partials.detalles-completos', $data)->render();
+
+        return response()->json([
+            'success' => true,
+            'html' => $html
+        ]);
     }
 
     public function generarPDF($folio)
