@@ -13,9 +13,13 @@ class CatMunicipiosSeeder extends Seeder
      */
     public function run(): void
     {
-           DB::table('cat_municipios')->truncate(); 
+           //DB::table('cat_municipios')->truncate(); 
 
         DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+
+         // Opcional: Truncar la tabla antes de insertar para evitar duplicados si se corre varias veces
+        DB::table('cat_areas_gob')->truncate();
+        
 
         DB::table('cat_municipios')->insert([
             [

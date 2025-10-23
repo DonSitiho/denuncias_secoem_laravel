@@ -10,6 +10,7 @@ use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CatEstadosController;
 use App\Http\Controllers\DenunciaController;
+use App\Http\Controllers\CatAreaGobController;
 
 
 
@@ -35,7 +36,25 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::patch('cat_municipios/{id}/activate', [CatMunicipioController::class, 'activate'])->name('cat_municipios.activate');
     Route::resource('cat_municipios', CatMunicipioController::class);
     
+    Route::patch('cat_areas_gob/{id}/activate', [CatAreaGobController::class, 'activate'])->name('cat_municipios.activate');
+    Route::resource('cat_municipios', CatMunicipioController::class);
 
+ Route::prefix('cat_areas_gob')->name('cat_areas_gob.')->group(function () {
+    // Listado de áreas
+    Route::get('/', [CatAreaGobController::class, 'index'])->name('index');
+
+    // Crear área
+    Route::get('/create', [CatAreaGobController::class, 'create'])->name('create');
+    Route::post('/', [CatAreaGobController::class, 'store'])->name('store');
+
+    // Editar área
+    Route::get('/{id}/edit', [CatAreaGobController::class, 'edit'])->name('edit');
+    Route::put('/{id}', [CatAreaGobController::class, 'update'])->name('update');
+
+    // Activar / Desactivar
+    Route::delete('/{id}', [CatAreaGobController::class, 'destroy'])->name('destroy');
+    Route::patch('/{id}/activate', [CatAreaGobController::class, 'activate'])->name('activate');
+});
     Route::resource('cat_estados', CatEstadosController::class);
     Route::patch('cat_estados/{id}/activate', [CatEstadosController::class, 'activate'])->name('cat_estados.activate');
 
