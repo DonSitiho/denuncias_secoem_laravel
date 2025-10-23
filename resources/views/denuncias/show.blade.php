@@ -28,7 +28,7 @@
                             <!--begin::Item-->
                             <div class="d-flex flex-stack">
                                 <span class="text-gray-600 fw-semibold">Folio:</span>
-                                <span class="text-gray-800 fw-bold">{{ $denuncia->folio }}</span>
+                                <span class="text-gray-800 fw-bold">{{ $denuncia->folio_seguimiento }}</span>
                             </div>
                             <!--end::Item-->
 
@@ -40,12 +40,12 @@
                             <div class="d-flex flex-stack">
                                 <span class="text-gray-600 fw-semibold">Estado:</span>
                                 <span class="badge badge-lg {{ 
-                                    $denuncia->estado == 'registrada' ? 'badge-light-primary' : 
-                                    ($denuncia->estado == 'en_proceso' ? 'badge-light-warning' : 
-                                    ($denuncia->estado == 'resuelta' ? 'badge-light-success' : 
+                                    $denuncia->estado->nombre == 'Recibida' ? 'badge-light-primary' : 
+                                    ($denuncia->estado->nombre == 'En trámite' ? 'badge-light-warning' : 
+                                    ($denuncia->estado->nombre == 'Cerrada' ? 'badge-light-success' : 
                                     'badge-light-danger'))
                                 }}">
-                                    {{ ucfirst(str_replace('_', ' ', $denuncia->estado)) }}
+                                    {{ ucfirst(str_replace('_', ' ', $denuncia->estado->nombre   )) }}
                                 </span>
                             </div>
                             <!--end::Item-->
@@ -73,7 +73,8 @@
                                     ($denuncia->prioridad == 'media' ? 'badge-light-warning' : 
                                     'badge-light-success')
                                 }}">
-                                    {{ ucfirst($denuncia->prioridad) }}
+                                    {{-- {{ ucfirst($denuncia->prioridad) }} --}}
+                                    ver si se ocupara
                                 </span>
                             </div>
                             <!--end::Item-->
@@ -86,7 +87,7 @@
                             <!--begin::Item-->
                             <div class="d-flex flex-stack">
                                 <span class="text-gray-600 fw-semibold">Municipio:</span>
-                                <span class="text-gray-800 fw-bold">{{ $denuncia->circunstancia->municipio->nombre }}</span>
+                                <span class="text-gray-800 fw-bold">{{ $denuncia->circunstancia->municipio->nombre_municipio }}</span>
                             </div>
                             <!--end::Item-->
                             @endif
@@ -141,12 +142,13 @@
                             <div class="card-toolbar">
                                 <div class="d-flex justify-content-end">
                                     <span class="badge badge-lg {{ 
-                                        $denuncia->estado == 'registrada' ? 'badge-light-primary' : 
-                                        ($denuncia->estado == 'en_proceso' ? 'badge-light-warning' : 
-                                        ($denuncia->estado == 'resuelta' ? 'badge-light-success' : 
+                                        $denuncia->estado->nombre == 'Recibida' ? 'badge-light-primary' : 
+                                        ($denuncia->estado->nombre == 'En trámite' ? 'badge-light-warning' : 
+                                        ($denuncia->estado->nombre == 'Cerrada' ? 'badge-light-success' : 
                                         'badge-light-danger'))
                                     }} fs-6 px-4 py-2">
-                                        {{ ucfirst(str_replace('_', ' ', $denuncia->estado)) }}
+                                        {{ ucfirst(str_replace('_', ' ', $denuncia->estado->nombre)) }}
+                                        {{-- poner el estado --}}
                                     </span>
                                 </div>
                             </div>
@@ -173,14 +175,14 @@
                                     <div class="col-md-6">
                                         <label class="form-label fw-semibold text-gray-600">Estado actual</label>
                                         <div>
-                                            <span class="badge badge-lg {{
-                                                $denuncia->estado == 'registrada' ? 'badge-primary' : 
-                                                ($denuncia->estado == 'en_proceso' ? 'badge-warning' : 
-                                                ($denuncia->estado == 'resuelta' ? 'badge-success' : 
-                                                'badge-danger'))
-                                            }} fs-6">
-                                                {{ ucfirst(str_replace('_', ' ', $denuncia->estado)) }}
-                                            </span>
+                                            <span class="badge badge-lg {{ 
+                                    $denuncia->estado->nombre == 'Recibida' ? 'badge-light-primary' : 
+                                    ($denuncia->estado->nombre == 'En trámite' ? 'badge-light-warning' : 
+                                    ($denuncia->estado->nombre == 'Cerrada' ? 'badge-light-success' : 
+                                    'badge-light-danger'))
+                                }}">
+                                    {{ ucfirst(str_replace('_', ' ', $denuncia->estado->nombre   )) }}
+                                </span>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
@@ -191,7 +193,8 @@
                                                 ($denuncia->prioridad == 'media' ? 'badge-warning' : 
                                                 'badge-success')
                                             }} fs-6">
-                                                {{ ucfirst($denuncia->prioridad) }}
+                                                {{-- {{ ucfirst($denuncia->prioridad) }} --}}
+                                                ver si se ocupara
                                             </span>
                                         </div>
                                     </div>
@@ -201,7 +204,7 @@
                                 <div class="row mb-6">
                                     <div class="col-md-6">
                                         <label class="form-label fw-semibold text-gray-600">Municipio de los hechos</label>
-                                        <div class="text-gray-800 fw-bold fs-5">{{ $denuncia->circunstancia->municipio->nombre }}</div>
+                                        <div class="text-gray-800 fw-bold fs-5">{{ $denuncia->circunstancia->municipio->nombre_municipio }}</div>
                                     </div>
                                     @if($denuncia->circunstancia->fecha_hechos)
                                     <div class="col-md-6">
