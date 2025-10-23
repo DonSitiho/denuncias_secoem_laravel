@@ -52,7 +52,10 @@
             <!--begin::Body-->
             <div class="d-flex flex-column-fluid flex-lg-row-auto justify-content-center justify-content-lg-end p-12">
                 <!--begin::Wrapper-->
-                <div class="bg-body d-flex flex-column flex-center rounded-4 w-md-600px p-10">
+                <div class="bg-body d-flex flex-column flex-center rounded-4 w-md-600px p-10"  style="
+                            border-radius: 12px;
+                            box-shadow: 0 6px 18px rgba(75, 43, 65, 0.15);
+                            ">
                     <!--begin::Content-->
                     <div class="d-flex flex-center flex-column align-items-stretch h-lg-100 w-md-400px">
                         <!--begin::Wrapper-->
