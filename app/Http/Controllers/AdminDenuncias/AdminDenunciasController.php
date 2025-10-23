@@ -66,14 +66,14 @@ class AdminDenunciasController extends Controller
     {
         // El middleware 'can:admin-denuncia-turnar' ya protegió el acceso.
         
-        $request->validate(['id_responsable_secoem' => 'required|integer']);
+        $request->validate(['id_responsable' => 'required|integer']);
 
         try {
             DB::beginTransaction();
 
-            $docDenuncia = DocDenuncias::where('id_denuncia', $id_denuncia)->firstOrFail();
+            $docDenuncia = Denuncia::where('id_denuncia', $id_denuncia)->firstOrFail();
             
-            $docDenuncia->id_responsable_secoem = $request->id_responsable_secoem;
+            $docDenuncia->id_responsable = $request->id_responsable;
             $docDenuncia->id_estado = 2; // Asumir '2' es 'Turnada'
             $docDenuncia->momento = now();
             $docDenuncia->save();

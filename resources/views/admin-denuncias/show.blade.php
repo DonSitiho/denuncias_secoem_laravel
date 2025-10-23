@@ -45,7 +45,6 @@
                 </div>
                 
                 <div class="card-toolbar">
-                    {{-- ACCIONES CLAVE DEL ADMINISTRADOR (D2) --}}
                     
                     {{-- 1. Botón de Exportación (Permiso: admin-denuncia-descarga) --}}
                     @can('admin-denuncia-descarga')
@@ -200,7 +199,7 @@
                                     <span class="text-muted fw-semibold d-block">Tipo: {{ strtoupper($archivo->tipo_archivo) }} | Carga: {{ $archivo->fecha_carga->format('d/m/Y') }}</span>
                                 </div>
                                 <span class="ms-2">
-                                    {{-- Botón de descarga SEGURA (D2.W.08) --}}
+                                    
                                     @can('admin-denuncia-descarga')
                                         <a href="{{ route('admin.denuncias.descargar.evidencia', $archivo->id_archivo) }}" class="btn btn-icon btn-sm btn-info" title="Descargar">
                                             <i class="fas fa-download"></i>
@@ -240,5 +239,3 @@
         </div>
     </div>
 </x-default-layout>
-
-{{-- NOTA: El partial modal_turno.blade.php debe ser creado por el D2 --}}

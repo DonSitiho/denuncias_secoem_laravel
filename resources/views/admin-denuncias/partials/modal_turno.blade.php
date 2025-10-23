@@ -32,10 +32,7 @@
                         >
                             <option value="">{{ __('Seleccionar responsable...') }}</option>
                             
-                            {{-- 
-                                NOTA: La variable $usuariosOIC debe ser pasada a la vista show.blade.php 
-                                y contener solo usuarios con el rol 'usuario-oic'. (Trabajo del D2 en show).
-                            --}}
+                            
                             @if(isset($usuariosOIC))
                                 @foreach($usuariosOIC as $usuario)
                                     <option 

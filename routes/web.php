@@ -10,6 +10,7 @@ use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CatEstadosController;
 use App\Http\Controllers\DenunciaController;
+use App\Http\Controllers\AdminDenuncias\AreaController;
 
 
 
@@ -75,6 +76,19 @@ Route::middleware(['auth'])->prefix('admin/denuncias')->name('admin.denuncias.')
         ->name('exportar.expediente')
         ->middleware('can:admin-denuncia-descarga'); // Permiso para exportar
 });
+
+// RUTAS PARA LA GESTIÓN DE ÁREAS (Trabajo del D4)
+Route::middleware(['can:admin-areas-crud'])->prefix('areas')->name('areas.')->group(function () {
+    // Vista principal del gestor de áreas
+    Route::get('/', [AreaController::class, 'index'])->name('index');
+    
+    // API Endpoint para obtener la estructura del árbol
+    Route::get('/tree', [AreaController::class, 'getTreeData'])->name('tree_data');
+    
+    // API Endpoint para operaciones CRUD de jsTree
+    Route::post('/crud', [AreaController::class, 'crud'])->name('crud');
+});
+
 
 Route::get('/error', function () {
     abort(500);

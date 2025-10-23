@@ -15,18 +15,19 @@ class RolesPermissionsSeeder extends Seeder
     public function run(): void
     {
         $abilities = [
-            'read',
-            'write',
-            'create',
+            'ver',
+            'editar',
+            'crear',
         ];
 
         $permissions_by_role = [
             'administrator' => [
-                'user management',
-                'content management',
-                'financial management',
-                'reporting',
-                'payroll',
+                'admin usuarios',
+                'admin usuarios denuncias',
+                'reportes',
+                'catalogos',
+                'denuncias',
+                'api',
                 'disputes management',
                 'api controls',
                 'database management',

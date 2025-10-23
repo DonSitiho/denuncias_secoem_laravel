@@ -17,7 +17,7 @@ return new class extends Migration
             $table->unsignedBigInteger('id_area')->autoIncrement()->primary();
             $table->unsignedBigInteger('id_area_padre')->nullable()->comment('Relación jerárquica con otra área.');
             $table->string('nombre_area', 200);
-            $table->unsignedInteger('nivel')->comment('Nivel jerárquico dentro de la estructura.');
+            $table->string('nivel', 20);
             $table->string('siglas', 20);
             $table->boolean('is_active')->default(true);
             $table->timestamps();

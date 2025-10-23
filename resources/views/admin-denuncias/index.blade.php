@@ -17,12 +17,6 @@
             </h3>
         </div>
         <div class="card-body py-4">
-            {{-- 
-                INTEGRACIÓN DEL COMPONENTE LIVEWIRE 
-                Aquí Livewire se encarga de: 
-                1. La caja de búsqueda en tiempo real.
-                2. La paginación y la tabla.
-            --}}
             @livewire('admin-denuncias.denuncia-table')
         </div>
         </div>

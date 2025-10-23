@@ -80,20 +80,14 @@
 						<!--end:Menu link-->
 					</div>
 					<!--end:Menu item-->
-					<!--begin:Menu item-->
-					@can('view qr codes')
-					<div class="menu-item">
-						<!--begin:Menu link-->
-						<a class="menu-link {{ request()->routeIs('dashboard') ? 'active' : '' }}" href="{{ route('dashboard') }}">
-							<span class="menu-bullet">
-								<span class="bullet bullet-dot"></span>
-							</span>
-							<span class="menu-title">Administrar</span>
+					@can('admin-areas-crud')
+					<div class="menu-sub menu-sub-accordion">
+						<a class="menu-link {{ request()->routeIs('areas.index') ? 'active' : '' }}" href="{{ route('areas.index') }}">
+							<span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
+							<span class="menu-title">Catálogo de Áreas</span>
 						</a>
-						<!--end:Menu link-->
 					</div>
-					@endcan
-					<!--end:Menu item-->
+				    @endcan
 				</div>
 				<!--end:Menu sub-->
 			</div>

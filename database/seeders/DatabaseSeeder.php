@@ -20,9 +20,9 @@ class DatabaseSeeder extends Seeder
 
             // 👇 Tus nuevos catálogos
             CatEstadosSeeder::class,
-            CatInhabilSeeder::class,
-            CatAreasGobSeeder::class,
-            CatAreasSecoemSeeder::class,
+            //CatInhabilSeeder::class,
+            //CatAreasGobSeeder::class,
+            //CatAreasSecoemSeeder::class,
             CatMunicipiosSeeder::class,
         ]);
 
