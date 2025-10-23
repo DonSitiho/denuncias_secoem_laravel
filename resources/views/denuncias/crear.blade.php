@@ -1,6 +1,5 @@
 <x-auth-layout>
     @section('content')
-    
         <!--begin::Container-->
         <div class="container py-10">
             <!--begin::Card-->
