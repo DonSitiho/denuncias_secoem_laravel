@@ -250,11 +250,12 @@ class DenunciaController extends Controller
         $denuncia = Denuncia::where('folio_seguimiento', $validated['folio'])
             ->where('token_validacion', $validated['codigo'])
             ->first();
-
+        // Encriptar el ID de la denuncia
+        $id_denuncia_cifrada = encrypt($denuncia->id_denuncia);
         if ($denuncia) {
             return response()->json([
                 'success' => true,
-                'redirect_url' => route('denuncias.show', $denuncia->id_denuncia),
+                'redirect_url' => route('denuncias.show', $id_denuncia_cifrada),
             ]);
         }
 
@@ -264,8 +265,17 @@ class DenunciaController extends Controller
         ], 404);
     }
 
-    public function show(Denuncia $denuncia)
+    public function show($id_denuncia_cifrada)
     {
+        try {
+        // Desencriptar token recibido
+        $id_denuncia = decrypt($id_denuncia_cifrada);
+        } catch (\Exception $e) {
+            //fue manipulado
+            return response()->view('denuncias.error.404', [
+                'message' => 'Token de seguridad inválido o alterado.'
+            ], 401);
+        }
         // Cargar relaciones necesarias
         $denuncia = Denuncia::with([
             'contacto',
@@ -273,7 +283,7 @@ class DenunciaController extends Controller
             'testigos',
             'circunstancia.municipio',
             'archivos'
-        ])->where('id_denuncia', $denuncia->id_denuncia)->firstOrFail();
+        ])->where('id_denuncia', $id_denuncia)->firstOrFail();
 
         return view('denuncias.show', compact('denuncia'));
     }

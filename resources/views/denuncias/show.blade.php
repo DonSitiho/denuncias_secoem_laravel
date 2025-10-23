@@ -105,6 +105,13 @@
                                     <i class="ki-duotone ki-eye fs-2"></i>
                                     Acceder a información confidencial
                                 </button>
+                                <a href="{{ route('inicio') }}" class="btn btn-light">
+                                    <i class="ki-duotone ki-home-2 fs-2 me-2">
+                                        <span class="path1"></span>
+                                        <span class="path2"></span>
+                                    </i>
+                                    Volver al inicio
+                                </a>
                                 {{-- <a href="{{ route('denuncias.buscar.form') }}" class="btn btn-light btn-active-light-primary fw-bold mt-3">
                                     <i class="ki-duotone ki-magnifier fs-2"></i>
                                     Nueva búsqueda
