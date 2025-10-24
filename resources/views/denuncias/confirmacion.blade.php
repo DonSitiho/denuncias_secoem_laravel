@@ -8,6 +8,49 @@
     [data-bs-theme="dark"] body {
         background-image: url('/assets/media/auth/bg10-dark.jpeg');
     }
+     .btn-guinda {
+                background-color: #6A0F49 !important;
+                border-color: #6A0F49 !important;
+                color: #fff !important;
+            }
+
+            /* Hover */
+            .btn-guinda:hover {
+                background-color: #470c31 !important;
+                border-color: #470c31 !important;
+            }
+
+            /* Active / Focus */
+            .btn-guinda:active,
+            .btn-guinda:focus {
+                background-color: #470c31 !important;
+                border-color: #470c31 !important;
+                box-shadow: 0 0 0 0.25rem rgba(106, 15, 73, 0.25) !important;
+            }
+
+            .btn-light-guinda {
+                background-color: #f7eaf3 !important;
+                /* fondo claro tipo guinda */
+                color: #6A0F49 !important;
+                /* texto guinda */
+                border-color: #f7eaf3 !important;
+            }
+
+            /* Hover */
+            .btn-light-guinda:hover {
+                background-color: #6A0F49 !important;
+                color: #fff !important;
+                border-color: #6A0F49 !important;
+            }
+
+            /* Active / Focus */
+            .btn-light-guinda:active,
+            .btn-light-guinda:focus {
+                background-color: #470c31 !important;
+                border-color: #470c31 !important;
+                color: #fff !important;
+                box-shadow: 0 0 0 0.25rem rgba(106, 15, 73, 0.25) !important;
+            }
 </style>
         <div class="d-flex flex-column flex-lg-row flex-column-fluid">
             <!--begin::Aside-->
@@ -21,7 +64,7 @@
                     <!--end::Image-->
 
                     <!--begin::Title-->
-                    <h1 class="text-gray-800 fs-2qx fw-bold text-center mb-6">
+                    <h1 class=" fs-2qx fw-bold text-center mb-6"  style="color: #6A0F49;">
                         Su denuncia ha sido procesada
                     </h1>
                     <!--end::Title-->
@@ -59,9 +102,9 @@
                     <div class="d-flex flex-column flex-center mb-6">
                         <div class="mb-3">
                             <div class="fw-bold fs-5 text-gray-600 mb-1">Folio de denuncia:</div>
-                            <div class="fs-2hx fw-bolder text-primary">{{ $folio }}</div>
+                            <div class="fs-2hx fw-bolder" style="color: #6A0F49;">{{ $folio }}</div>
                         </div>
-                        <div class="mb-4">
+                        <div class="mb-4 text-center">
                             <div class="fw-bold fs-5 text-gray-600 mb-1">Código de seguimiento:</div>
                             <div class="fs-2hx fw-bolder text-danger">{{ $codigo }}</div>
                         </div>
@@ -98,14 +141,14 @@
 
                     <!--begin::Buttons-->
                     <div class="d-flex flex-center gap-3">
-                        <a href="{{ route('denuncias.pdf', $folio) }}" class="btn btn-primary">
+                        <a href="{{ route('denuncias.pdf', $folio) }}" class="btn btn-guinda">
                             <i class="ki-duotone ki-file-down fs-2 me-2">
                                 <span class="path1"></span>
                                 <span class="path2"></span>
                             </i>
                             Descargar PDF
                         </a>
-                        <a href="{{ route('inicio') }}" class="btn btn-light">
+                        <a href="{{ route('inicio') }}" class="btn btn-light-guinda">
                             <i class="ki-duotone ki-home-2 fs-2 me-2">
                                 <span class="path1"></span>
                                 <span class="path2"></span>

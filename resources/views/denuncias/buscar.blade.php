@@ -1,24 +1,15 @@
 <x-auth-layout>
     @section('content')
-    <style>
-    body {
-        background-image: url('/assets/media/auth/bg10.jpg');
-    }
+        <style>
+            body {
+                background-image: url('/assets/media/auth/bg10.jpg');
+            }
 
-    [data-bs-theme="dark"] body {
-        background-image: url('/assets/media/auth/bg10-dark.jpeg');
-    }
-    .botonGinda{
-        background-color: #6A0F49;
-        border-color: #6A0F49;
-        color: white;
-    }
-    .botonGinda:hover{
-        background-color: #470c31;
-        border-color: #470c31;
-        color: white;
-    }
-</style>
+            [data-bs-theme="dark"] body {
+                background-image: url('/assets/media/auth/bg10-dark.jpeg');
+            }
+        </style>
+        <link rel="stylesheet" href="/assets/css/botonesGob.css">
         <div class="d-flex flex-column flex-lg-row flex-column-fluid">
             <!--begin::Aside-->
             <div class="d-flex flex-lg-row-fluid">
@@ -52,7 +43,8 @@
             <!--begin::Body-->
             <div class="d-flex flex-column-fluid flex-lg-row-auto justify-content-center justify-content-lg-end p-12">
                 <!--begin::Wrapper-->
-                <div class="bg-body d-flex flex-column flex-center rounded-4 w-md-600px p-10"  style="
+                <div class="bg-body d-flex flex-column flex-center rounded-4 w-md-600px p-10"
+                    style="
                             border-radius: 12px;
                             box-shadow: 0 6px 18px rgba(75, 43, 65, 0.15);
                             ">
@@ -121,9 +113,9 @@
                                 <!--end::Heading-->
 
                                 <!--begin::Submit-->
-                                <div class="d-flex flex-center">
+                                <div class="d-flex flex-column align-items-center gap-3 mt-5">
                                     <button type="submit" id="kt_buscar_denuncia_submit"
-                                        class="btn btn-lg botonGinda  fw-bold w-100" >
+                                        class="btn btn-lg btn-guinda fw-bold w-100">
                                         <span class="indicator-label">
                                             Buscar Denuncia
                                         </span>
@@ -132,7 +124,13 @@
                                                 class="spinner-border spinner-border-sm align-middle ms-2"></span>
                                         </span>
                                     </button>
+
+                                    <a href="{{ route('inicio') }}" class="btn btn-light-guinda w-100">
+                                       
+                                        Volver al inicio
+                                    </a>
                                 </div>
+
                                 <!--end::Submit-->
                             </form>
                             <!--end::Form-->

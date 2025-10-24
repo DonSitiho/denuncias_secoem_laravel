@@ -1,402 +1,365 @@
-<!--begin::Información Confidencial-->
-<div class="informacion-confidencial-content">
-    <!--begin::Encabezado-->
-    <div class="d-flex align-items-center mb-10">
-        <!--begin::Icono-->
-        <span class="svg-icon svg-icon-2hx svg-icon-primary me-4">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M20 14H18V10H20C20.6 10 21 10.4 21 11V13C21 13.6 20.6 14 20 14ZM21 19V17C21 16.4 20.6 16 20 16H18V20H20C20.6 20 21 19.6 21 19ZM21 7V5C21 4.4 20.6 4 20 4H18V8H20C20.6 8 21 7.6 21 7Z" fill="currentColor"/>
-                <path opacity="0.3" d="M17 22H3C2.4 22 2 21.6 2 21V3C2 2.4 2.4 2 3 2H17C17.6 2 18 2.4 18 3V21C18 21.6 17.6 22 17 22ZM10 7C8.9 7 8 7.9 8 9C8 10.1 8.9 11 10 11C11.1 11 12 10.1 12 9C12 7.9 11.1 7 10 7ZM13.3 16C13.3 16 13.3 16 13.3 16C13.3 16 13.2 15.9 13.2 15.9C13.2 15.9 13.1 15.8 13.1 15.8C12.7 15.4 12.1 15 10 15C8.9 15 8 15.9 8 17H12.7C12.9 16.7 13.1 16.3 13.3 16Z" fill="currentColor"/>
-            </svg>
-        </span>
-        <!--end::Icono-->
-        
-        <!--begin::Título-->
-        <div class="flex-grow-1">
-            <h1 class="text-gray-900 fw-bolder fs-2qx mb-1">INFORMACIÓN CONFIDENCIAL DE DENUNCIA</h1>
-            <span class="text-muted fw-semibold fs-6">Detalles completos protegidos por seguridad</span>
-        </div>
-        <!--end::Título-->
-        
-        <!--begin::Badge de Estado-->
-        <div class="badge badge-lg badge-light-{{ $denuncia->es_anonima ? 'warning' : 'primary' }}">
-            <i class="ki-duotone ki-{{ $denuncia->es_anonima ? 'shield-cross' : 'user-tick' }} fs-4 me-2"></i>
-            {{ $denuncia->es_anonima ? 'ANÓNIMA' : 'CON IDENTIFICACIÓN' }}
-        </div>
-        <!--end::Badge de Estado-->
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comprobante de Denuncia - {{ $denuncia->folio_seguimiento }}</title>
+    <style>
+        /* Estilos para el PDF */
+        body {
+            font-family: 'DejaVu Sans', Arial, sans-serif;
+            font-size: 12px;
+            line-height: 1.4;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            border-bottom: 3px solid #2c5aa0;
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+        }
+
+        .header h1 {
+            color: #2c5aa0;
+            margin: 0;
+            font-size: 24px;
+        }
+
+        .header .subtitle {
+            color: #666;
+            font-size: 14px;
+            margin: 5px 0;
+        }
+
+        .folio-section {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .folio-number {
+            font-size: 20px;
+            font-weight: bold;
+            color: #2c5aa0;
+        }
+
+        .section {
+            margin-bottom: 20px;
+            page-break-inside: avoid;
+        }
+
+        .section-title {
+            background-color: #2c5aa0;
+            color: white;
+            padding: 8px 12px;
+            font-weight: bold;
+            border-radius: 3px;
+            margin-bottom: 10px;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .info-item {
+            margin-bottom: 8px;
+        }
+
+        .label {
+            font-weight: bold;
+            color: #555;
+            margin-bottom: 2px;
+        }
+
+        .value {
+            padding: 5px;
+            background-color: #f8f9fa;
+            border-radius: 3px;
+            border-left: 3px solid #2c5aa0;
+        }
+
+        .full-width {
+            grid-column: 1 / -1;
+        }
+
+        .qr-section {
+            text-align: center;
+            margin: 30px 0;
+            padding: 20px;
+            border: 2px dashed #ddd;
+            border-radius: 5px;
+        }
+
+        .footer {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #ddd;
+            font-size: 10px;
+            color: #666;
+            text-align: center;
+        }
+
+        .alert {
+            background-color: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 3px;
+            padding: 10px;
+            margin: 10px 0;
+        }
+
+        .alert-warning {
+            background-color: #fff3cd;
+            border-color: #ffeaa7;
+        }
+
+        .alert-info {
+            background-color: #d1ecf1;
+            border-color: #bee5eb;
+        }
+
+        .timestamp {
+            text-align: right;
+            font-size: 10px;
+            color: #666;
+            margin-bottom: 10px;
+        }
+
+        /* Estilos para listas */
+        .list-item {
+            margin-bottom: 3px;
+            padding-left: 15px;
+            position: relative;
+        }
+
+        .list-item:before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: #2c5aa0;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Timestamp -->
+    <div class="timestamp">
+        Generado el: {{ $fechaActual }}
     </div>
-    <!--end::Encabezado-->
 
-    <!--begin::Sección de Folio-->
-    <div class="card card-flush bg-light-primary mb-10">
-        <div class="card-body py-8">
-            <div class="text-center">
-                <div class="text-gray-600 fw-semibold fs-5 mb-2">NÚMERO DE FOLIO DE SEGUIMIENTO</div>
-                <div class="text-primary fw-bolder fs-1">{{ $denuncia->folio_seguimiento }}</div>
-                <div class="text-gray-500 fs-6 mt-2">
-                    <i class="ki-duotone ki-magnifier fs-4 me-1"></i>
-                    Utilice este folio para consultar el estado de su denuncia
+    <!-- Encabezado -->
+    <div class="header">
+        <h1>COMPROBANTE DE DENUNCIA</h1>
+        <div class="subtitle">Sistema de Denuncias Ciudadanas</div>
+    </div>
+
+    <!-- Sección del Folio -->
+    <div class="folio-section">
+        <div class="label">NÚMERO DE FOLIO</div>
+        <div class="folio-number">{{ $denuncia->folio_seguimiento }}</div>
+        <div style="margin-top: 5px; font-size: 11px; color: #666;">
+            Utilice este folio para consultar el estado de su denuncia
+        </div>
+    </div>
+
+    <!-- Información General -->
+    <div class="section">
+        <div class="section-title">INFORMACIÓN GENERAL</div>
+        <div class="info-grid">
+            <div class="info-item">
+                <div class="label">Folio</div>
+                <div class="value">{{ $denuncia->folio_seguimiento }}</div>
+            </div>
+            <div class="info-item">
+                <div class="label">Fecha de Registro</div>
+                <div class="value">{{ $denuncia->fecha_recepcion->format('d/m/Y H:i') }}</div>
+            </div>
+            {{-- <div class="info-item">
+                <div class="label">Estado Actual</div>
+                <div class="value">{{ $denuncia->estado }}</div>
+            </div> --}}
+            <div class="info-item">
+                <div class="label">Tipo de Denuncia</div>
+                <div class="value">
+                    @if ($denuncia->es_anonima)
+                        <strong>ANÓNIMA</strong>
+                    @else
+                        CON IDENTIFICACIÓN
+                    @endif
                 </div>
             </div>
         </div>
     </div>
-    <!--end::Sección de Folio-->
 
-    <!--begin::Layout de 2 columnas-->
-    <div class="row g-10 mb-10">
-        <!--begin::Columna izquierda-->
-        <div class="col-xl-6">
-            <!--begin::Información General-->
-            <div class="card card-flush h-xl-100">
-                <!--begin::Card header-->
-                <div class="card-header pt-7">
-                    <h3 class="card-title align-items-start flex-column">
-                        <span class="card-label fw-bold text-gray-800">Información General</span>
-                        <span class="text-gray-500 mt-1 fw-semibold fs-6">Datos básicos del registro</span>
-                    </h3>
+    <!-- Datos del Denunciante -->
+
+    @if ($datosContactoDenunciante)
+        <div class="section">
+            <div class="section-title">DATOS DEL DENUNCIANTE</div>
+            @if ($denuncia->es_anonima)
+                <div class="alert alert-warning">
+                    <strong>DENUNCIA ANÓNIMA</strong><br>
+                    Esta denuncia fue registrada de forma anónima. No se cuenta con información de contacto del
+                    denunciante.
                 </div>
-                <!--end::Card header-->
-
-                <!--begin::Card body-->
-                <div class="card-body pt-4">
-                    <!--begin::Item-->
-                    <div class="d-flex flex-stack">
-                        <span class="text-gray-600 fw-semibold">Folio de seguimiento:</span>
-                        <span class="text-gray-800 fw-bold">{{ $denuncia->folio_seguimiento }}</span>
+            @else
+                <div class="info-grid">
+                    <div class="info-item">
+                        <div class="label">Nombre completo</div>
+                        <div class="value">{{ $datosContactoDenunciante->nombre_completo }}</div>
                     </div>
-                    <!--end::Item-->
-
-                    <!--begin::Separator-->
-                    <div class="separator separator-dashed my-4"></div>
-                    <!--end::Separator-->
-
-                    <!--begin::Item-->
-                    <div class="d-flex flex-stack">
-                        <span class="text-gray-600 fw-semibold">Fecha de registro:</span>
-                        <span class="text-gray-800 fw-bold">{{ $denuncia->fecha_recepcion->format('d/m/Y H:i') }}</span>
+                    <div class="info-item">
+                        <div class="label">Teléfono</div>
+                        <div class="value">{{ $datosContactoDenunciante->telefono }}</div>
                     </div>
-                    <!--end::Item-->
-
-                    <!--begin::Separator-->
-                    <div class="separator separator-dashed my-4"></div>
-                    <!--end::Separator-->
-
-                    <!--begin::Item-->
-                    <div class="d-flex flex-stack">
-                        <span class="text-gray-600 fw-semibold">Tipo de denuncia:</span>
-                        <span class="badge badge-lg badge-{{ $denuncia->es_anonima ? 'warning' : 'primary' }}">
-                            {{ $denuncia->es_anonima ? 'ANÓNIMA' : 'CON IDENTIFICACIÓN' }}
-                        </span>
+                    <div class="info-item full-width">
+                        <div class="label">Correo electrónico</div>
+                        <div class="value">{{ $datosContactoDenunciante->correo_electronico }}</div>
                     </div>
-                    <!--end::Item-->
                 </div>
-                <!--end::Card body-->
-            </div>
-            <!--end::Información General-->
-
-            <!--begin::Datos del Denunciante-->
-            @if ($datosContactoDenunciante && !$denuncia->es_anonima)
-            <div class="card card-flush mt-10">
-                <!--begin::Card header-->
-                <div class="card-header pt-7">
-                    <h3 class="card-title align-items-start flex-column">
-                        <span class="card-label fw-bold text-gray-800">Datos del Denunciante</span>
-                        <span class="text-gray-500 mt-1 fw-semibold fs-6">Información de contacto</span>
-                    </h3>
-                </div>
-                <!--end::Card header-->
-
-                <!--begin::Card body-->
-                <div class="card-body pt-4">
-                    <!--begin::Item-->
-                    <div class="d-flex flex-stack mb-5">
-                        <span class="text-gray-600 fw-semibold">Nombre completo:</span>
-                        <span class="text-gray-800 fw-bold">{{ $datosContactoDenunciante->nombre_completo }}</span>
-                    </div>
-                    <!--end::Item-->
-
-                    <!--begin::Item-->
-                    <div class="d-flex flex-stack mb-5">
-                        <span class="text-gray-600 fw-semibold">Teléfono:</span>
-                        <span class="text-gray-800 fw-bold">{{ $datosContactoDenunciante->telefono }}</span>
-                    </div>
-                    <!--end::Item-->
-
-                    <!--begin::Item-->
-                    <div class="d-flex flex-stack">
-                        <span class="text-gray-600 fw-semibold">Correo electrónico:</span>
-                        <span class="text-gray-800 fw-bold">{{ $datosContactoDenunciante->correo_electronico }}</span>
-                    </div>
-                    <!--end::Item-->
-                </div>
-                <!--end::Card body-->
-            </div>
-            @elseif ($denuncia->es_anonima)
-            <div class="card card-flush bg-light-warning mt-10">
-                <div class="card-body text-center py-10">
-                    <i class="ki-duotone ki-shield-cross fs-2hx text-warning mb-4"></i>
-                    <h4 class="text-gray-900 mb-3">Denuncia Anónima</h4>
-                    <p class="text-gray-600">
-                        Esta denuncia fue registrada de forma anónima. No se cuenta con información de contacto del denunciante.
-                    </p>
-                </div>
-            </div>
             @endif
-            <!--end::Datos del Denunciante-->
         </div>
-        <!--end::Columna izquierda-->
-
-        <!--begin::Columna derecha-->
-        <div class="col-xl-6">
-            <!--begin::Hechos Denunciados-->
-            <div class="card card-flush h-100">
-                <!--begin::Card header-->
-                <div class="card-header pt-7">
-                    <h3 class="card-title align-items-start flex-column">
-                        <span class="card-label fw-bold text-gray-800">Hechos Denunciados</span>
-                        <span class="text-gray-500 mt-1 fw-semibold fs-6">Circunstancias del caso</span>
-                    </h3>
-                </div>
-                <!--end::Card header-->
-
-                <!--begin::Card body-->
-                <div class="card-body pt-4">
-                    <!--begin::Motivo-->
-                    <div class="mb-8">
-                        <label class="form-label fw-semibold text-gray-600">Motivo de la denuncia</label>
-                        <div class="bg-light rounded p-5">
-                            <p class="text-gray-800 fs-6 mb-0">{{ $denuncia->motivo_denuncia }}</p>
-                        </div>
-                    </div>
-                    <!--end::Motivo-->
-
-                    <!--begin::Grid de información-->
-                    <div class="row g-5 mb-8">
-                        <div class="col-sm-6">
-                            <label class="form-label fw-semibold text-gray-600">Fecha de los hechos</label>
-                            <div class="text-gray-800 fw-bold">{{ \Carbon\Carbon::parse($denuncia->fecha_hechos)->format('d/m/Y') }}</div>
-                        </div>
-                        <div class="col-sm-6">
-                            <label class="form-label fw-semibold text-gray-600">Hora de los hechos</label>
-                            <div class="text-gray-800 fw-bold">{{ $datosCircunstancia->hora_hechos ?? 'No especificada' }}</div>
-                        </div>
-                    </div>
-
-                    <div class="row g-5 mb-8">
-                        <div class="col-sm-6">
-                            <label class="form-label fw-semibold text-gray-600">Municipio</label>
-                            <div class="text-gray-800 fw-bold">{{ $datosMunicipio->nombre_municipio ?? 'No especificado' }}</div>
-                        </div>
-                        <div class="col-sm-6">
-                            <label class="form-label fw-semibold text-gray-600">Localidad</label>
-                            <div class="text-gray-800 fw-bold">{{ $datosCircunstancia->localidad ?? 'No especificada' }}</div>
-                        </div>
-                    </div>
-
-                    <div class="mb-8">
-                        <label class="form-label fw-semibold text-gray-600">Dirección exacta</label>
-                        <div class="text-gray-800 fw-bold">{{ $datosCircunstancia->direccion_exacta }}</div>
-                    </div>
-
-                    @if ($datosCircunstancia->dependencia_involucrada)
-                    <div class="mb-8">
-                        <label class="form-label fw-semibold text-gray-600">Dependencia involucrada</label>
-                        <div class="text-gray-800 fw-bold">{{ $datosCircunstancia->dependencia_involucrada }}</div>
-                    </div>
-                    @endif
-
-                    @if ($datosCircunstancia->tramite_solicitado)
-                    <div class="mb-8">
-                        <label class="form-label fw-semibold text-gray-600">Trámite solicitado</label>
-                        <div class="text-gray-800 fw-bold">{{ $datosCircunstancia->tramite_solicitado }}</div>
-                    </div>
-                    @endif
-
-                    @if ($datosCircunstancia->circunstancias_detalladas)
-                    <div class="mb-0">
-                        <label class="form-label fw-semibold text-gray-600">Circunstancias detalladas</label>
-                        <div class="bg-light rounded p-5">
-                            <p class="text-gray-800 fs-6 mb-0">{{ $datosCircunstancia->circunstancias_detalladas }}</p>
-                        </div>
-                    </div>
-                    @endif
-                </div>
-                <!--end::Card body-->
-            </div>
-            <!--end::Hechos Denunciados-->
-        </div>
-        <!--end::Columna derecha-->
-    </div>
-    <!--end::Layout de 2 columnas-->
-
-    <!--begin::Personas Involucradas-->
-    @if ($datosDenunciaInvolucrado && $datosDenunciaInvolucrado->count() > 0)
-    <div class="card card-flush mb-10">
-        <!--begin::Card header-->
-        <div class="card-header pt-7">
-            <h3 class="card-title align-items-start flex-column">
-                <span class="card-label fw-bold text-gray-800">Personas Involucradas</span>
-                <span class="text-gray-500 mt-1 fw-semibold fs-6">Involucrados y testigos del caso</span>
-            </h3>
-        </div>
-        <!--end::Card header-->
-
-        <!--begin::Card body-->
-        <div class="card-body pt-4">
-            <!--begin::Involucrados-->
-            <div class="mb-10">
-                <h4 class="text-gray-900 mb-6">Involucrados Principales</h4>
-                <div class="table-responsive">
-                    <table class="table table-row-bordered table-row-gray-300 align-middle gs-0 gy-4">
-                        <thead>
-                            <tr class="fw-bold text-muted bg-light">
-                                <th class="min-w-150px">Nombre</th>
-                                <th class="min-w-120px">Puesto</th>
-                                <th class="min-w-100px">Edad Aprox.</th>
-                                <th class="min-w-120px">Estatura</th>
-                                <th class="min-w-150px">Señas Particulares</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($datosDenunciaInvolucrado as $involucrado)
-                            <tr>
-                                <td>
-                                    <span class="text-gray-800 fw-bold">{{ $involucrado->nombre_denunciado ?? 'Sin nombre' }}</span>
-                                </td>
-                                <td>
-                                    <span class="text-gray-600">{{ $involucrado->puesto_denunciado ?? 'Sin puesto' }}</span>
-                                </td>
-                                <td>
-                                    <span class="text-gray-600">{{ $involucrado->edad_aprox ?? 'No especificada' }}</span>
-                                </td>
-                                <td>
-                                    <span class="text-gray-600">{{ $involucrado->estatura_aprox ?? 'No especificada' }}</span>
-                                </td>
-                                <td>
-                                    <span class="text-gray-600">{{ $involucrado->senas_particulares ?? 'No especificadas' }}</span>
-                                </td>
-                            </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            <!--end::Involucrados-->
-
-            <!--begin::Detalles Físicos-->
-            <div class="mb-10">
-                <h4 class="text-gray-900 mb-6">Descripciones Físicas Detalladas</h4>
-                <div class="row g-6">
-                    @foreach ($datosDenunciaInvolucrado as $involucrado)
-                    <div class="col-xl-6">
-                        <div class="card card-flush bg-light">
-                            <div class="card-header">
-                                <h5 class="card-title text-gray-800 fw-bold">{{ $involucrado->nombre_denunciado ?? 'Involucrado' }}</h5>
-                            </div>
-                            <div class="card-body">
-                                <div class="row g-3">
-                                    <div class="col-sm-6">
-                                        <span class="text-gray-600 fw-semibold">Tipo de tez:</span>
-                                        <span class="text-gray-800">{{ $involucrado->tipo_tez ?? 'No especificado' }}</span>
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <span class="text-gray-600 fw-semibold">Complexión:</span>
-                                        <span class="text-gray-800">{{ $involucrado->complexion ?? 'No especificada' }}</span>
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <span class="text-gray-600 fw-semibold">Color de ojos:</span>
-                                        <span class="text-gray-800">{{ $involucrado->color_ojo ?? 'No especificado' }}</span>
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <span class="text-gray-600 fw-semibold">Tipo de cabello:</span>
-                                        <span class="text-gray-800">{{ $involucrado->tipo_cabello ?? 'No especificado' }}</span>
-                                    </div>
-                                    @if ($involucrado->descripcion_fisica)
-                                    <div class="col-12">
-                                        <span class="text-gray-600 fw-semibold">Descripción adicional:</span>
-                                        <p class="text-gray-800 mt-1">{{ $involucrado->descripcion_fisica }}</p>
-                                    </div>
-                                    @endif
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    @endforeach
-                </div>
-            </div>
-            <!--end::Detalles Físicos-->
-
-            <!--begin::Testigos-->
-            @if ($datosTestigos && $datosTestigos->count() > 0)
-            <div class="mb-0">
-                <h4 class="text-gray-900 mb-6">Testigos del Hecho</h4>
-                <div class="table-responsive">
-                    <table class="table table-row-bordered table-row-gray-300 align-middle gs-0 gy-4">
-                        <thead>
-                            <tr class="fw-bold text-muted bg-light">
-                                <th class="min-w-200px">Nombre del Testigo</th>
-                                <th class="min-w-150px">Datos de Contacto</th>
-                                <th class="min-w-250px">Observaciones</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($datosTestigos as $testigo)
-                            <tr>
-                                <td>
-                                    <span class="text-gray-800 fw-bold">{{ $testigo->nombre_testigo ?? 'Sin nombre' }}</span>
-                                </td>
-                                <td>
-                                    <span class="text-gray-600">{{ $testigo->datos_contacto ?? 'Sin datos de contacto' }}</span>
-                                </td>
-                                <td>
-                                    <span class="text-gray-600">{{ $testigo->observaciones ?? 'Sin observaciones' }}</span>
-                                </td>
-                            </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            @endif
-            <!--end::Testigos-->
-        </div>
-        <!--end::Card body-->
-    </div>
     @endif
-    <!--end::Personas Involucradas-->
 
-    <!--begin::Información de Seguimiento-->
-    <div class="card card-flush bg-light-info">
-        <div class="card-body p-8">
-            <div class="d-flex align-items-center">
-                <i class="ki-duotone ki-information-2 fs-2hx text-info me-4"></i>
-                <div class="flex-grow-1">
-                    <h4 class="text-gray-900 mb-2">Información de Contacto para Seguimiento</h4>
-                    <p class="text-gray-700 mb-0">
-                        Para cualquier consulta sobre el estado de su denuncia, puede contactarnos a través de:<br>
-                        <strong>• Teléfono:</strong> [Número de contacto] • 
-                        <strong>• Correo electrónico:</strong> [correo@ejemplo.com] • 
-                        <strong>• Página web:</strong> [www.ejemplo.com]
-                    </p>
+    <!-- Hechos Denunciados -->
+    <div class="section">
+        <div class="section-title">HECHOS DENUNCIADOS</div>
+
+        <div class="info-item full-width">
+            <div class="label">Motivo de la denuncia</div>
+            <div class="value" style="min-height: 40px;">{{ $denuncia->motivo_denuncia }}</div>
+        </div>
+
+        <div class="info-grid">
+            <div class="info-item">
+                <div class="label">Fecha de los hechos</div>
+                <div class="value">{{ \Carbon\Carbon::parse($denuncia->fecha_hechos)->format('d/m/Y') }}</div>
+            </div>
+            <div class="info-item">
+                <div class="label">Hora de los hechos</div>
+                <div class="value">{{ $datosCircunstancia->hora_hechos ?? 'No especificada' }}</div>
+            </div>
+            <div class="info-item">
+                <div class="label">Municipio</div>
+                <div class="value">{{ $datosMunicipio->nombre_municipio ?? 'No especificado' }}</div>
+            </div>
+            <div class="info-item">
+                <div class="label">Localidad</div>
+                <div class="value">{{ $datosCircunstancia->localidad ?? 'No especificada' }}</div>
+            </div>
+        </div>
+
+        <div class="info-item full-width">
+            <div class="label">Dirección exacta</div>
+            <div class="value">{{ $datosCircunstancia->direccion_exacta }}</div>
+        </div>
+
+        @if ($datosCircunstancia->dependencia_involucrada)
+            <div class="info-item full-width">
+                <div class="label">Dependencia involucrada</div>
+                <div class="value">{{ $datosCircunstancia->dependencia_involucrada }}</div>
+            </div>
+        @endif
+
+        @if ($datosCircunstancia->tramite_solicitado)
+            <div class="info-item full-width">
+                <div class="label">Trámite solicitado</div>
+                <div class="value">{{ $datosCircunstancia->tramite_solicitado }}</div>
+            </div>
+        @endif
+
+        @if ($datosCircunstancia->circunstancias_detalladas)
+            <div class="info-item full-width">
+                <div class="label">Circunstancias detalladas</div>
+                <div class="value" style="min-height: 80px;">{{ $datosCircunstancia->circunstancias_detalladas }}
                 </div>
+            </div>
+        @endif
+    </div>
+
+    <!-- Personas Involucradas -->
+    <!-- Personas Involucradas -->
+    @if ($datosDenunciaInvolucrado && $datosDenunciaInvolucrado->count() > 0)
+        <div class="section">
+            <div class="section-title">PERSONAS INVOLUCRADAS</div>
+            <div class="info-grid">
+                <div class="info-item">
+                    <div class="label">Involucrados</div>
+                    <div class="value">
+                        @foreach ($datosDenunciaInvolucrado as $involucrado)
+                            <p>Nombre: {{ $involucrado->nombre_denunciado ?? 'Sin nombre' }}</p>
+                            <p>Puesto: {{ $involucrado->puesto_denunciado ?? 'Sin puesto' }}</p>
+                            <p>Tipo de Tez: {{ $involucrado->tipo_tez ?? 'No especificado' }}</p>
+                            <p>Estatura: {{ $involucrado->estatura_aprox ?? 'No especificada' }}</p>
+                            <p>Edad: {{ $involucrado->edad_aprox ?? 'No especificada' }}</p>
+                            <p>Complexión: {{ $involucrado->complexion ?? 'No especificada' }}</p>
+                            <p>Color Ojo: {{ $involucrado->color_ojo ?? 'No especificado' }}</p>
+                            <p>Tipo Cabello: {{ $involucrado->tipo_cabello ?? 'No especificado' }}</p>
+                            <p>Señas Particulares: {{ $involucrado->senas_particulares ?? 'No especificadas' }}</p>
+                            <p>Descripción Física: {{ $involucrado->descripcion_fisica ?? 'No especificadas' }}</p>
+                            <hr>
+                        @endforeach
+                    </div>
+                </div>
+
+                @if ($datosTestigos && $datosTestigos->count() > 0)
+                    <div class="info-item">
+                        <div class="label">Testigos</div>
+                        <div class="value">
+                            @foreach ($datosTestigos as $testigo)
+                                <p>Nombre: {{ $testigo->nombre_testigo ?? 'Sin nombre' }}</p>
+                                <p>Datos Contacto: {{ $testigo->datos_contacto ?? 'Sin datos de contacto' }}</p>
+                                <p>Observaciones: {{ $testigo->observaciones ?? 'Sin observaciones' }}</p>
+                                <hr>
+                            @endforeach
+                        </div>
+                    </div>
+                @endif
+            </div>
+        </div>
+    @endif
+
+
+    <!-- Código QR para Seguimiento -->
+    <div class="section">
+        <div class="qr-section">
+            <div style="margin-bottom: 10px;">
+                <strong>CONSULTA EL ESTADO DE TU DENUNCIA</strong>
+            </div>
+            <img src="data:image/png;base64,{{ $qrCode }}" alt="QR Code" style="width: 120px; height: 120px;">
+            <div style="margin-top: 10px; font-size: 10px; color: #666;">
+                Escanee este código QR para consultar el estado de su denuncia
             </div>
         </div>
     </div>
-    <!--end::Información de Seguimiento-->
 
-    <!--begin::Aviso de Confidencialidad-->
-    <div class="notice d-flex bg-light-warning rounded border-warning border border-dashed p-6 mt-10">
-        <i class="ki-duotone ki-shield-tick fs-2tx text-warning me-4"></i>
-        <div class="d-flex flex-stack flex-grow-1">
-            <div class="fw-semibold">
-                <h4 class="text-gray-900 mb-1">Información Confidencial</h4>
-                <div class="fs-6 text-gray-700">
-                    Este documento contiene información confidencial protegida por la ley. 
-                    La divulgación no autorizada de esta información está prohibida.
-                </div>
-            </div>
+    <!-- Información de Contacto -->
+    <div class="section">
+        <div class="alert alert-info">
+            <strong>INFORMACIÓN DE CONTACTO</strong><br>
+            Para cualquier consulta sobre el estado de su denuncia, puede contactarnos a través de:<br>
+            • Teléfono: [Número de contacto]<br>
+            • Correo electrónico: [correo@ejemplo.com]<br>
+            • Página web: [www.ejemplo.com]
         </div>
     </div>
-    <!--end::Aviso de Confidencialidad-->
-</div>
-<!--end::Información Confidencial-->
+
+    <!-- Pie de página -->
+    <div class="footer">
+        <p><strong>Sistema de Denuncias Ciudadanas</strong></p>
+        <p>Este documento es un comprobante oficial de la denuncia registrada en nuestro sistema.</p>
+        <p>La información contenida en este documento es confidencial y está protegida por la ley.</p>
+        <p>Folio: {{ $denuncia->folio_seguimiento }} | Generado el: {{ $fechaActual }}</p>
+    </div>
+</body>
+
+</html>
