@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 use App\Models\ArchivoAdjunto;
 use Illuminate\Support\Facades\Storage; // Necesario para gestionar archivos
+use Illuminate\Support\Facades\Log;
 
 class AdminDenunciasController extends Controller
 {
@@ -57,35 +58,56 @@ class AdminDenunciasController extends Controller
             'testigos',      // Carga los datos de los testigos
             'archivos',      // Carga los metadatos de las evidencias adjuntas
             'contacto',      // Carga el nombre, teléfono y correo del denunciante (si no es anónima)
+            'estado',        // Carga el estado actual de la denuncia
+            'areaResponsable', // Carga el área responsable asignada
+            'responsable',   // Carga el usuario OIC responsable asignado
         ])
         ->findOrFail($id_denuncia);
 
-        return view('admin-denuncias.show', compact('denuncia'));
+        $areaResponsable = Area::where('is_active', true)->get();
+
+        // Cargar usuarios que tienen asignado un id_area en la tabla users
+        $usuariosOIC = User::whereNotNull('id_area')
+                            ->orderBy('name', 'asc')
+                            ->get();
+
+        return view('admin-denuncias.show', compact('denuncia', 'areaResponsable', 'usuariosOIC'));
     }
 
     /**
      * Acción POST para turnar la denuncia a un Usuario OIC.
      */
+    /**
+     * Acción POST para turnar la denuncia al Área Responsable.
+     */
     public function turnar(Request $request, $id_denuncia)
     {
         // El middleware 'can:admin-denuncia-turnar' ya protegió el acceso.
         
-        $request->validate(['id_responsable' => 'required|integer']);
+        // 1. VALIDACIÓN ACTUALIZADA
+        $request->validate([
+            'id_area_responsable' => 'required|integer|exists:areas,id_area', // Área es OBLIGATORIA
+            'id_responsable' => 'nullable|integer|exists:users,id', // Usuario específico es OPCIONAL
+        ]);
 
         try {
             DB::beginTransaction();
 
-            $docDenuncia = Denuncia::where('id_denuncia', $id_denuncia)->firstOrFail();
+            $denuncia = Denuncia::findOrFail($id_denuncia);
             
-            $docDenuncia->id_responsable = $request->id_responsable;
-            $docDenuncia->id_estado = 2; // Asumir '2' es 'Turnada'
-            $docDenuncia->momento = now();
-            $docDenuncia->save();
+            // 2. ASIGNACIÓN ACTUALIZADA DE RESPONSABILIDAD
+            $denuncia->id_area_responsable = $request->id_area_responsable; 
+            $denuncia->id_responsable = $request->id_responsable; // ⬅️ Usando el nuevo nombre de campo
+            $denuncia->id_estado = 2; // Asumir '2' es 'Turnada al Área'
+            // Opcional: Asignar no_expediente_inter aquí si es el primer turno
+            $denuncia->save();
+            
+            // Lógica de Notificación (Pendiente D3/D4)
             
             DB::commit();
 
             return redirect()->route('admin.denuncias.show', $id_denuncia)
-                            ->with('success', 'Denuncia turnada exitosamente al OIC responsable.');
+                            ->with('success', 'Denuncia turnada exitosamente al área responsable.');
 
         } catch (\Exception $e) {
             DB::rollBack();
@@ -116,5 +138,19 @@ class AdminDenunciasController extends Controller
         // Devolvemos la descarga del archivo. 
         // Nota: 'denuncias_storage' debe estar configurado en config/filesystems.php
         return Storage::disk('denuncias_storage')->download($rutaCompleta, $archivo->nombre_original);
+    }
+
+    /**
+     * Obtiene los usuarios pertenecientes a un área específica.
+     */
+    public function getUsersForArea($id_area)
+    {
+        // Cargar usuarios que pertenecen al área dada
+        $usuarios = User::where('id_area', $id_area)
+                        ->whereNotNull('id_area')
+                        ->orderBy('name', 'asc')
+                        ->get(['id', 'name', 'email']); // Solo campos necesarios
+
+        return response()->json($usuarios);
     }
 }

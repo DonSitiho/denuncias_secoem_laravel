@@ -119,7 +119,11 @@ Route::middleware(['auth'])->prefix('admin/denuncias')->name('admin.denuncias.')
     Route::get('/{id_denuncia}/exportar', [ExportController::class, 'exportarExpediente'])
         ->name('exportar.expediente')
         ->middleware('can:admin-denuncia-descarga'); // Permiso para exportar
+    
 });
+
+Route::get('admin/areas/{id_area}/users', [AdminDenunciasController::class, 'getUsersForArea'])
+    ->name('admin.areas.getUsersForArea');
 
 // RUTAS PARA LA GESTIÓN DE ÁREAS (Trabajo del D4)
 Route::middleware(['can:admin-areas-crud'])->prefix('areas')->name('areas.')->group(function () {
