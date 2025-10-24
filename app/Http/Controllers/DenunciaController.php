@@ -22,6 +22,7 @@ use App\Models\ArchivoAdjunto;
 
 
 
+
 class DenunciaController extends Controller
 {
     /** Página de inicio */
@@ -43,32 +44,46 @@ class DenunciaController extends Controller
     {
         //dd($request->all());
         // Validación del request
+        //dd($request->all());
+        // es_anonima "0" si requiere llenar los datos
+        $request->merge([
+            'es_anonima' => $request->has('es_anonima') ? 1 : 0, // Forzar 0 o 1
+        ]);
 
-        $request->validate([
-            'es_anonima' => 'required|in:0,1', // Cambiar de boolean a in:0,1
+        $validator = \Validator::make($request->all(), [
+            'es_anonima' => 'required|in:0,1',
             'motivo_denuncia' => 'required|string',
             'fecha_hechos' => 'required|date',
             'direccion_exacta' => 'required|string',
 
-            //     // Datos de contacto solo si NO es anónima
-            'nombre_completo' => 'required_if:es_anonima,0|string|max:255', // Cambiar false por 0
-            'telefono' => 'required_if:es_anonima,0|string|max:20', // Cambiar false por 0
-            'correo_electronico' => 'required_if:es_anonima,0|email|max:255', // Cambiar false por 0
+            // Nueva validación de contraseña
+            'contrasena_seguridad' => 'required|string|min:6',
+            'confirmar_contrasena' => 'required|string|same:contrasena_seguridad',
 
-            // Circunstancias opcionales - algunos campos en tu form están como required pero en validación son nullable
+            // Validación de aceptación de términos
+            //'confirmacion_datos' => 'required|accepted',
+
+            // Circunstancias opcionales
             'hora_hechos' => 'nullable|string|max:10',
             'id_municipio' => 'nullable|integer',
             'localidad' => 'nullable|string|max:255',
             'dependencia_involucrada' => 'nullable|string|max:255',
             'tramite_solicitado' => 'nullable|string|max:255',
-            'circunstancias_detalladas' => 'nullable|string', // En tu form está como required
+            'circunstancias_detalladas' => 'nullable|string',
 
             // Arrays opcionales
             'involucrados' => 'nullable|array',
             'testigos' => 'nullable|array',
         ]);
-        //dd($request->all());
 
+        // Validar campos de contacto solo si NO es anónima
+        if ($request->es_anonima == 0) {
+            $validator->sometimes(['nombre_completo', 'telefono', 'correo_electronico'], 'required|string|max:255', function () {
+                return true; // Siempre requeridos si llegamos aquí
+            });
+        }
+
+        $validator->validate();
 
         DB::beginTransaction();
 
@@ -84,6 +99,8 @@ class DenunciaController extends Controller
         //Generar token de validación único
         $codigo = Str::upper(Str::random(5)); // Ej: "A1B2C"
 
+        $clave_denunciante = password_hash($request->contrasena_seguridad, PASSWORD_DEFAULT);
+
         $denuncia = Denuncia::create([
             'folio_seguimiento' => $folio,
             'es_anonima' => $request->es_anonima,
@@ -96,6 +113,7 @@ class DenunciaController extends Controller
             'id_dependencia_denunciada' => $request->id_dependencia_denunciada ?? null,
             'id_responsable' => $request->id_responsable ?? null,
             'token_validacion' => $codigo,
+            'clave_denunciante' => $clave_denunciante,
 
         ]);
 
@@ -268,8 +286,8 @@ class DenunciaController extends Controller
     public function show($id_denuncia_cifrada)
     {
         try {
-        // Desencriptar token recibido
-        $id_denuncia = decrypt($id_denuncia_cifrada);
+            // Desencriptar token recibido
+            $id_denuncia = decrypt($id_denuncia_cifrada);
         } catch (\Exception $e) {
             //fue manipulado
             return response()->view('denuncias.error.404', [
@@ -285,7 +303,7 @@ class DenunciaController extends Controller
             'archivos',
             'estado'
         ])->where('id_denuncia', $id_denuncia)->firstOrFail();
-            
+
         return view('denuncias.show', compact('denuncia'));
     }
 
@@ -298,17 +316,17 @@ class DenunciaController extends Controller
         // Asumiendo que tienes un campo 'palabra_clave' en tu modelo Denuncia
         // if ($denuncia->palabra_clave === $request->palabra_clave) {
         //dd($denuncia->token_validacion);
-        if ($denuncia->token_validacion === $request->token_validacion) {
-            return response()->json([
+        if (password_verify($request->token_validacion, $denuncia->clave_denunciante)) {
+             return response()->json([
                 'success' => true,
                 'message' => 'Palabra clave correcta'
             ]);
         }
-        
+
 
         return response()->json([
             'success' => false,
-            'message' => 'La palabra clave ingresada es incorrecta'
+            'message' => 'La contraseña ingresada es incorrecta'
         ], 401);
     }
 

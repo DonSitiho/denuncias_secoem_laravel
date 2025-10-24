@@ -33,6 +33,7 @@ class Denuncia extends Model
         'id_area_responsable',
         'id_responsable',
         'token_validacion',
+        'clave_denunciante',
         'fecha_cierre',
         'id_denunciante',
     ];

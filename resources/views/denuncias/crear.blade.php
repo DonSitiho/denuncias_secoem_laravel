@@ -1,6 +1,6 @@
 <x-auth-layout>
     @section('content')
-      <link rel="stylesheet" href="/assets/css/botonesGob.css">
+        <link rel="stylesheet" href="/assets/css/botonesGob.css">
 
         <body id="kt_body" class="app-blank">
             <!--begin::Root-->
@@ -218,6 +218,24 @@
                                             </div>
                                             <!--end::Heading-->
 
+                                            <!--begin::Alert-->
+                                            <div
+                                                class="notice d-flex align-items-center rounded border border-dashed p-6 mb-10 bg-guinda-light border-guinda">
+
+                                                <div class="d-flex flex-column">
+                                                    <h4 class="mb-1 fw-bold text-guinda">Aviso importante</h4>
+                                                    <div class="fs-6 text-gray-700">
+                                                        Su colaboración contribuye al fortalecimiento de la integridad
+                                                        institucional.
+                                                        <span class='fw-bold text-guinda'>La información que proporcione
+                                                            será tratada con estricta reserva</span>
+                                                        y utilizada únicamente para el análisis y seguimiento de los hechos
+                                                        reportados.
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!--end::Alert-->
+
                                             <!--begin::Input group-->
                                             <div class="fv-row mb-10">
                                                 <input type="hidden" name="es_anonima" value="0">
@@ -242,7 +260,8 @@
                                                             completo</label>
                                                         <input type="text"
                                                             class="form-control form-control-solid @error('nombre_completo') is-invalid @enderror"
-                                                            name="nombre_completo" placeholder="Ingrese su nombre completo"
+                                                            name="nombre_completo"
+                                                            placeholder="Ingrese su nombre completo"
                                                             value="{{ old('nombre_completo') }}" />
                                                         @error('nombre_completo')
                                                             <div class="invalid-feedback">{{ $message }}</div>
@@ -609,8 +628,7 @@
                                                         </div>
                                                     @endforeach
                                                 </div>
-                                                <button type="button" class="btn btn-light-guinda"
-                                                    id="add-involucrado">
+                                                <button type="button" class="btn btn-light-guinda" id="add-involucrado">
                                                     <i class="fas fa-plus me-2"></i>Agregar otro involucrado
                                                 </button>
                                             </div>
@@ -738,6 +756,175 @@
                                             </div>
                                             <!--end::Heading-->
 
+                                            <!--begin::Security Notice-->
+                                            <div
+                                                class="notice d-flex align-items-center rounded border border-dashed p-6 mb-10 bg-guinda-light border-guinda">
+                                                
+
+                                                <!--begin::Wrapper-->
+                                                <div class="d-flex flex-stack flex-grow-1">
+                                                    <!--begin::Content-->
+                                                    <div class="fw-semibold">
+                                                        <div class="fs-6 text-gray-700">
+                                                            <strong class="text-guinda">PROTECCIÓN DE SU DENUNCIA - ATENCIÓN
+                                                                IMPORTANTE</strong><br>
+                                                            Establezca una contraseña de seguridad para proteger el acceso a
+                                                            la información completa de su denuncia.
+                                                            <span class="text-danger fw-bold">ESTA CONTRASEÑA NO PODRÁ SER
+                                                                RECUPERADA NI MODIFICADA</span> una vez enviada la denuncia.
+                                                        </div>
+                                                    </div>
+                                                    <!--end::Content-->
+                                                </div>
+                                                <!--end::Wrapper-->
+                                            </div>
+                                            <!--end::Security Notice-->
+
+                                            <!--begin::Security Fields-->
+                                            <div class="row mb-8">
+                                                <div class="col-md-6 fv-row">
+                                                    <!--begin::Label-->
+                                                    <label class="form-label required-label fs-6 fw-bold mb-3">
+                                                        Contraseña de Seguridad
+                                                    </label>
+                                                    <!--end::Label-->
+
+                                                    <!--begin::Input-->
+                                                    <div class="position-relative">
+                                                        <input type="password"
+                                                            class="form-control form-control-solid @error('contrasena_seguridad') is-invalid @enderror"
+                                                            name="contrasena_seguridad" id="contrasena_seguridad"
+                                                            placeholder="Ingrese una contraseña segura"
+                                                            value="{{ old('contrasena_seguridad') }}" minlength="6"
+                                                            required />
+                                                        <span
+                                                            class="btn btn-sm btn-icon position-absolute translate-middle top-50 end-0 me-n2"
+                                                            onclick="togglePasswordVisibility('contrasena_seguridad', this)">
+                                                            <i class="ki-duotone ki-eye-slash fs-2"></i>
+                                                            <i class="ki-duotone ki-eye fs-2 d-none"></i>
+                                                        </span>
+                                                    </div>
+                                                    <!--end::Input-->
+
+                                                    <!--begin::Hint-->
+                                                    <div class="text-muted fs-7 mt-1">
+                                                        Mínimo 6 caracteres. Esta contraseña le permitirá acceder a la
+                                                        información completa de su denuncia.
+                                                    </div>
+                                                    <!--end::Hint-->
+
+                                                    @error('contrasena_seguridad')
+                                                        <div class="invalid-feedback">{{ $message }}</div>
+                                                    @enderror
+                                                </div>
+
+                                                <div class="col-md-6 fv-row">
+                                                    <!--begin::Label-->
+                                                    <label class="form-label required-label fs-6 fw-bold mb-3">
+                                                        Confirmar Contraseña
+                                                    </label>
+                                                    <!--end::Label-->
+
+                                                    <!--begin::Input-->
+                                                    <div class="position-relative">
+                                                        <input type="password"
+                                                            class="form-control form-control-solid @error('confirmar_contrasena') is-invalid @enderror"
+                                                            name="confirmar_contrasena" id="confirmar_contrasena"
+                                                            placeholder="Confirme su contraseña"
+                                                            value="{{ old('confirmar_contrasena') }}" minlength="6"
+                                                            required />
+                                                        <span
+                                                            class="btn btn-sm btn-icon position-absolute translate-middle top-50 end-0 me-n2"
+                                                            onclick="togglePasswordVisibility('confirmar_contrasena', this)">
+                                                            <i class="ki-duotone ki-eye-slash fs-2"></i>
+                                                            <i class="ki-duotone ki-eye fs-2 d-none"></i>
+                                                        </span>
+                                                    </div>
+                                                    <!--end::Input-->
+
+                                                    <!--begin::Hint-->
+                                                    <div class="text-muted fs-7 mt-1">
+                                                        Repita la contraseña para verificar que sea correcta.
+                                                    </div>
+                                                    <!--end::Hint-->
+
+                                                    <!--begin::Validation Message-->
+                                                    <div id="password-match-error" class="text-danger fs-7 mt-1 d-none">
+                                                        <i class="ki-duotone ki-cross-circle fs-4 text-danger me-1">
+                                                            <span class="path1"></span>
+                                                            <span class="path2"></span>
+                                                        </i>
+                                                        Las contraseñas no coinciden
+                                                    </div>
+                                                    <div id="password-match-success"
+                                                        class="text-success fs-7 mt-1 d-none">
+                                                        <i class="ki-duotone ki-check-circle fs-4 text-success me-1">
+                                                            <span class="path1"></span>
+                                                            <span class="path2"></span>
+                                                        </i>
+                                                        Las contraseñas coinciden
+                                                    </div>
+                                                    <!--end::Validation Message-->
+
+                                                    @error('confirmar_contrasena')
+                                                        <div class="invalid-feedback">{{ $message }}</div>
+                                                    @enderror
+                                                </div>
+                                            </div>
+                                            <!--end::Security Fields-->
+
+                                            <!--begin::Password Strength Meter-->
+                                            <div class="mb-10" id="password-strength-meter">
+                                                <!--begin::Meter-->
+                                                <div class="d-flex align-items-center mb-3">
+                                                    <div class="flex-grow-1 bg-secondary bg-active-success rounded h-5px me-2"
+                                                        id="strength-bar-1"></div>
+                                                    <div class="flex-grow-1 bg-secondary bg-active-success rounded h-5px me-2"
+                                                        id="strength-bar-2"></div>
+                                                    <div class="flex-grow-1 bg-secondary bg-active-success rounded h-5px me-2"
+                                                        id="strength-bar-3"></div>
+                                                    <div class="flex-grow-1 bg-secondary bg-active-success rounded h-5px"
+                                                        id="strength-bar-4"></div>
+                                                </div>
+                                                <!--end::Meter-->
+
+                                                <!--begin::Hint-->
+                                                <div class="text-muted fs-7" id="password-hint">
+                                                    La contraseña debe contener al menos 6 caracteres entre letras, números
+                                                    y símbolos.
+                                                </div>
+                                                <!--end::Hint-->
+                                            </div>
+                                            <!--end::Password Strength Meter-->
+
+                                            <!--begin::Irreversible Warning-->
+                                            <div
+                                                class="notice d-flex align-items-center rounded border border-dashed p-6 mb-10 bg-guinda-light border-guinda">
+                                                <!--begin::Icon-->
+                                                
+                                                <!--end::Icon-->
+
+                                                <!--begin::Wrapper-->
+                                                <div class="d-flex flex-column pe-0 pe-sm-10">
+                                                    <!--begin::Title-->
+                                                    <h4 class="fw-bold text-danger">CONTRASEÑA IRREVERSIBLE</h4>
+                                                    <!--end::Title-->
+
+                                                    <!--begin::Content-->
+                                                    <span class="text-gray-700 fw-semibold fs-6">
+                                                        Por razones de seguridad, <strong class="text-danger">NO PODRÁ
+                                                            RECUPERAR NI CAMBIAR ESTA CONTRASEÑA</strong> una vez enviada la
+                                                        denuncia.
+                                                        Le recomendamos guardarla en un lugar seguro. Sin esta contraseña no
+                                                        podrá acceder a la información completa de su denuncia.
+                                                    </span>
+                                                    <!--end::Content-->
+                                                </div>
+                                                <!--end::Wrapper-->
+                                            </div>
+                                            <!--end::Irreversible Warning-->
+
+                                            <!--begin::Confirmation Checkbox-->
                                             <div class="fv-row mb-8">
                                                 <div class="form-check form-check-custom form-check-solid">
                                                     <input
@@ -758,6 +945,7 @@
                                                     @enderror
                                                 </div>
                                             </div>
+                                            <!--end::Confirmation Checkbox-->
                                         </div>
                                     </div>
                                     <!--end::Step 5-->
@@ -1175,6 +1363,151 @@
 
                     // Inicializar navegación
                     updateNavigation();
+                });
+            </script>
+
+            <script>
+                // Función para mostrar/ocultar contraseña
+                function togglePasswordVisibility(inputId, element) {
+                    const input = document.getElementById(inputId);
+                    const eyeIcon = element.querySelector('.ki-eye-slash');
+                    const eyeSlashIcon = element.querySelector('.ki-eye');
+
+                    if (input.type === 'password') {
+                        input.type = 'text';
+                        eyeIcon.classList.add('d-none');
+                        eyeSlashIcon.classList.remove('d-none');
+                    } else {
+                        input.type = 'password';
+                        eyeIcon.classList.remove('d-none');
+                        eyeSlashIcon.classList.add('d-none');
+                    }
+                }
+
+                // Validación de coincidencia de contraseñas
+                function validatePasswordMatch() {
+                    const password = document.getElementById('contrasena_seguridad');
+                    const confirmPassword = document.getElementById('confirmar_contrasena');
+                    const errorElement = document.getElementById('password-match-error');
+                    const successElement = document.getElementById('password-match-success');
+
+                    if (password.value && confirmPassword.value) {
+                        if (password.value !== confirmPassword.value) {
+                            errorElement.classList.remove('d-none');
+                            successElement.classList.add('d-none');
+                            confirmPassword.classList.add('is-invalid');
+                            confirmPassword.classList.remove('is-valid');
+                            return false;
+                        } else {
+                            errorElement.classList.add('d-none');
+                            successElement.classList.remove('d-none');
+                            confirmPassword.classList.remove('is-invalid');
+                            confirmPassword.classList.add('is-valid');
+                            return true;
+                        }
+                    }
+                    return null;
+                }
+
+                // Medidor de fortaleza de contraseña
+                function checkPasswordStrength(password) {
+                    let strength = 0;
+                    const bars = [
+                        document.getElementById('strength-bar-1'),
+                        document.getElementById('strength-bar-2'),
+                        document.getElementById('strength-bar-3'),
+                        document.getElementById('strength-bar-4')
+                    ];
+                    const hint = document.getElementById('password-hint');
+
+                    // Reset bars
+                    bars.forEach(bar => {
+                        bar.classList.remove('bg-success', 'bg-warning', 'bg-danger');
+                        bar.classList.add('bg-secondary');
+                    });
+
+                    if (!password) {
+                        hint.textContent = "La contraseña debe contener al menos 6 caracteres entre letras, números y símbolos.";
+                        return;
+                    }
+
+                    // Longitud mínima
+                    if (password.length >= 6) strength++;
+                    // Contiene números
+                    if (/\d/.test(password)) strength++;
+                    // Contiene letras minúsculas y mayúsculas
+                    if (/[a-z]/.test(password) && /[A-Z]/.test(password)) strength++;
+                    // Contiene caracteres especiales
+                    if (/[^a-zA-Z0-9]/.test(password)) strength++;
+
+                    // Actualizar barras y mensaje
+                    bars.forEach((bar, index) => {
+                        if (index < strength) {
+                            bar.classList.remove('bg-secondary');
+                            if (strength <= 2) {
+                                bar.classList.add('bg-danger');
+                            } else if (strength === 3) {
+                                bar.classList.add('bg-warning');
+                            } else {
+                                bar.classList.add('bg-success');
+                            }
+                        }
+                    });
+
+                    // Actualizar mensaje
+                    switch (strength) {
+                        case 0:
+                        case 1:
+                            hint.textContent = "Contraseña débil - agregue más caracteres y variedad";
+                            hint.className = "text-danger fs-7";
+                            break;
+                        case 2:
+                            hint.textContent = "Contraseña moderada - puede mejorar";
+                            hint.className = "text-warning fs-7";
+                            break;
+                        case 3:
+                            hint.textContent = "Contraseña buena";
+                            hint.className = "text-info fs-7";
+                            break;
+                        case 4:
+                            hint.textContent = "Contraseña fuerte";
+                            hint.className = "text-success fs-7";
+                            break;
+                    }
+                }
+
+                // Event listeners cuando el DOM esté listo
+                document.addEventListener('DOMContentLoaded', function() {
+                    const passwordInput = document.getElementById('contrasena_seguridad');
+                    const confirmPasswordInput = document.getElementById('confirmar_contrasena');
+
+                    if (passwordInput) {
+                        passwordInput.addEventListener('input', function() {
+                            checkPasswordStrength(this.value);
+                            validatePasswordMatch();
+                        });
+                    }
+
+                    if (confirmPasswordInput) {
+                        confirmPasswordInput.addEventListener('input', validatePasswordMatch);
+                    }
+
+                    // Validar antes de enviar el formulario
+                    const form = document.querySelector('form');
+                    if (form) {
+                        form.addEventListener('submit', function(e) {
+                            if (!validatePasswordMatch()) {
+                                e.preventDefault();
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Contraseñas no coinciden',
+                                    text: 'Por favor, verifique que las contraseñas coincidan antes de enviar la denuncia.',
+                                    confirmButtonText: 'Entendido',
+                                    confirmButtonColor: '#3699FF'
+                                });
+                            }
+                        });
+                    }
                 });
             </script>
         @endsection

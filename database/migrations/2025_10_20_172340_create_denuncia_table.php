@@ -27,7 +27,8 @@ return new class extends Migration
             $table->unsignedInteger('id_dependencia_denunciada')->nullable();
             $table->unsignedInteger('id_area_responsable')->nullable();
             $table->unsignedInteger('id_responsable')->nullable();
-            $table->string('token_validacion', 50)->unique();
+            $table->string('token_validacion', 6)->nullable();
+            $table->string('clave_denunciante', 120)->nullable();
             $table->dateTime('fecha_cierre')->nullable();
 
             // FK a la tabla de usuarios internos (temporalmente comentada)
