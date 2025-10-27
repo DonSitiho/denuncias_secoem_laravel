@@ -3,7 +3,7 @@
     <!--begin::Encabezado-->
     <div class="d-flex align-items-center mb-10">
         <!--begin::Icono-->
-        <span class="svg-icon svg-icon-2hx svg-icon-primary me-4">
+        <span class="svg-icon svg-icon-2hx h1-guinda me-4">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M20 14H18V10H20C20.6 10 21 10.4 21 11V13C21 13.6 20.6 14 20 14ZM21 19V17C21 16.4 20.6 16 20 16H18V20H20C20.6 20 21 19.6 21 19ZM21 7V5C21 4.4 20.6 4 20 4H18V8H20C20.6 8 21 7.6 21 7Z" fill="currentColor"/>
                 <path opacity="0.3" d="M17 22H3C2.4 22 2 21.6 2 21V3C2 2.4 2.4 2 3 2H17C17.6 2 18 2.4 18 3V21C18 21.6 17.6 22 17 22ZM10 7C8.9 7 8 7.9 8 9C8 10.1 8.9 11 10 11C11.1 11 12 10.1 12 9C12 7.9 11.1 7 10 7ZM13.3 16C13.3 16 13.3 16 13.3 16C13.3 16 13.2 15.9 13.2 15.9C13.2 15.9 13.1 15.8 13.1 15.8C12.7 15.4 12.1 15 10 15C8.9 15 8 15.9 8 17H12.7C12.9 16.7 13.1 16.3 13.3 16Z" fill="currentColor"/>
@@ -13,7 +13,7 @@
         
         <!--begin::Título-->
         <div class="flex-grow-1">
-            <h1 class="text-gray-900 fw-bolder fs-2qx mb-1">INFORMACIÓN CONFIDENCIAL DE DENUNCIA</h1>
+            <h1 class="h1-guinda fw-bolder fs-2qx mb-1">INFORMACIÓN CONFIDENCIAL DE DENUNCIA</h1>
             <span class="text-muted fw-semibold fs-6">Detalles completos protegidos por seguridad</span>
         </div>
         <!--end::Título-->
@@ -28,11 +28,11 @@
     <!--end::Encabezado-->
 
     <!--begin::Sección de Folio-->
-    <div class="card card-flush bg-light-primary mb-10">
+    <div class="card card-flush mb-10"  style="background-color: #ffe3f0;">
         <div class="card-body py-8">
             <div class="text-center">
                 <div class="text-gray-600 fw-semibold fs-5 mb-2">NÚMERO DE FOLIO DE SEGUIMIENTO</div>
-                <div class="text-primary fw-bolder fs-1">{{ $denuncia->folio_seguimiento }}</div>
+                <div class=" fw-bolder fs-1" style="color: #6A0F49;">{{ $denuncia->folio_seguimiento }}</div>
                 <div class="text-gray-500 fs-6 mt-2">
                     <i class="ki-duotone ki-magnifier fs-4 me-1"></i>
                     Utilice este folio para consultar el estado de su denuncia
