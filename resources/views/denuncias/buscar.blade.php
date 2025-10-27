@@ -126,7 +126,7 @@
                                     </button>
 
                                     <a href="{{ route('inicio') }}" class="btn btn-light-guinda w-100">
-                                       
+
                                         Volver al inicio
                                     </a>
                                 </div>

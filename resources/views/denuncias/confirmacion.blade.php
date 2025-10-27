@@ -1,14 +1,15 @@
 <x-auth-layout>
     @section('content')
-    <style>
-    body {
-        background-image: url('/assets/media/auth/bg10.jpeg');
-    }
+        <style>
+            body {
+                background-image: url('/assets/media/auth/bg10.jpeg');
+            }
 
-    [data-bs-theme="dark"] body {
-        background-image: url('/assets/media/auth/bg10-dark.jpeg');
-    }
-     .btn-guinda {
+            [data-bs-theme="dark"] body {
+                background-image: url('/assets/media/auth/bg10-dark.jpeg');
+            }
+
+            .btn-guinda {
                 background-color: #6A0F49 !important;
                 border-color: #6A0F49 !important;
                 color: #fff !important;
@@ -51,7 +52,7 @@
                 color: #fff !important;
                 box-shadow: 0 0 0 0.25rem rgba(106, 15, 73, 0.25) !important;
             }
-</style>
+        </style>
         <div class="d-flex flex-column flex-lg-row flex-column-fluid">
             <!--begin::Aside-->
             <div class="d-flex flex-lg-row-fluid">
@@ -64,14 +65,14 @@
                     <!--end::Image-->
 
                     <!--begin::Title-->
-                    <h1 class=" fs-2qx fw-bold text-center mb-6"  style="color: #6A0F49;">
+                    <h1 class=" fs-2qx fw-bold text-center mb-6" style="color: #6A0F49;">
                         Su denuncia ha sido procesada
                     </h1>
                     <!--end::Title-->
 
                     <!--begin::Text-->
                     <div class="text-gray-600 fs-base text-center fw-semibold">
-                        Su compromiso con la <strong class="text-primary">transparencia</strong> y la 
+                        Su compromiso con la <strong class="text-primary">transparencia</strong> y la
                         <strong class="text-primary">integridad</strong> es fundamental para nosotros.<br>
                         Hemos registrado su denuncia de manera <strong class="text-success">confidencial y segura</strong>.
                     </div>
@@ -84,7 +85,7 @@
             <div class="d-flex flex-column-fluid flex-lg-row-auto justify-content-center justify-content-lg-end p-8">
                 <div class="bg-body d-flex flex-column flex-center rounded-4 w-md-550px p-8">
                     <!--begin::Icon-->
-                   
+
                     <!--end::Icon-->
 
                     <!--begin::Title-->
