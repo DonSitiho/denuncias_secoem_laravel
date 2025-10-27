@@ -13,6 +13,7 @@ use App\Http\Controllers\CatEstadosController;
 use App\Http\Controllers\DenunciaController;
 use App\Http\Controllers\AdminDenuncias\AreaController;
 use App\Http\Controllers\CatAreaGobController;
+use App\Http\Controllers\AdminDenuncias\AdminUserController;
 
 
 
@@ -121,6 +122,23 @@ Route::middleware(['auth'])->prefix('admin/denuncias')->name('admin.denuncias.')
         ->middleware('can:admin-denuncia-descarga'); // Permiso para exportar
     
 });
+
+Route::middleware(['auth', 'can:admin-usuarios-crud'])->prefix('admin/usuarios')->name('admin.usuarios.')->group(function () {
+    
+    // Listado de Usuarios
+    Route::get('/', [AdminUserController::class, 'index'])->name('index'); 
+
+    // Vista de Creación
+    Route::get('/create', [AdminUserController::class, 'create'])->name('create');
+
+    // Acción de Guardado
+    Route::post('/', [AdminUserController::class, 'store'])->name('store');
+    
+    // Opcional: Editar y Actualizar (si se requiere)
+    // Route::get('/{user}/edit', [AdminUserController::class, 'edit'])->name('edit');
+    // Route::put('/{user}', [AdminUserController::class, 'update'])->name('update');
+});
+
 
 Route::get('admin/areas/{id_area}/users', [AdminDenunciasController::class, 'getUsersForArea'])
     ->name('admin.areas.getUsersForArea');

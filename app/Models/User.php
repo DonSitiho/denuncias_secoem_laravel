@@ -8,6 +8,8 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+
 
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -23,6 +25,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'name',
         'email',
         'password',
+        'id_area',
         'last_login_at',
         'last_login_ip',
         'profile_photo_path',
@@ -65,5 +68,11 @@ class User extends Authenticatable implements MustVerifyEmail
     public function getDefaultAddressAttribute()
     {
         return $this->addresses?->first();
+    }
+
+    public function area(): BelongsTo
+    {
+        // Une users.id_area con areas.id_area
+        return $this->belongsTo(Area::class, 'id_area', 'id_area');
     }
 }

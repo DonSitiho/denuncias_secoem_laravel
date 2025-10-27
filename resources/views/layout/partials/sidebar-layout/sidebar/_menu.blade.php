@@ -53,14 +53,25 @@
 						<!--end:Menu link-->
 					</div>
 					<!--end:Menu item-->
-					@can('admin-areas-crud')
+					@can('admin-usuarios-crud')
 					<div class="menu-item">
-						<a class="menu-link {{ request()->routeIs('areas.index') ? 'active' : '' }}" href="{{ route('areas.index') }}">
+						<a class="menu-link {{ request()->routeIs('admin.usuarios.index') ? 'active' : '' }}" 
+						href="{{ route('admin.usuarios.index') }}">
 							<span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
-							<span class="menu-title">Áreas</span>
+							<span class="menu-title">Usuarios y Cuentas</span>
 						</a>
 					</div>
-				    @endcan
+					@endcan
+					
+					@can('admin-areas-crud')
+					<div class="menu-item">
+						<a class="menu-link {{ request()->routeIs('areas.index') ? 'active' : '' }}" 
+						href="{{ route('areas.index') }}">
+							<span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
+							<span class="menu-title">Estructura de Áreas</span>
+						</a>
+					</div>
+					@endcan
 				</div>
 				<!--end:Menu sub-->
 			</div>
