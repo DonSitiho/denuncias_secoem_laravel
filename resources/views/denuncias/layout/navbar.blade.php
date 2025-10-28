@@ -1,5 +1,6 @@
 <link rel="stylesheet" href="https://michoacan.gob.mx/cdn/css/bootstrap.min.css">
         <link rel="stylesheet" href="https://michoacan.gob.mx/cdn/css/estilos.css">
+        
         <link rel="shortcut icon" href="https://michoacan.gob.mx/cdn/img/favicon/favicon.ico" type="image/x-icon" />
         <link rel="stylesheet" href="{{ asset('assets/css/estiloGob.css') }}">
 
