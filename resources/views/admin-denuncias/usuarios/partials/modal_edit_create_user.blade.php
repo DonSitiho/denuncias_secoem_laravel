@@ -1,20 +1,22 @@
-{{-- admin-denuncias/usuarios/partials/modal_edit_create_user.blade.php --}}
-
+{{-- Este archivo YA DEBE ESTAR PEGADO DENTRO de user-table.blade.php --}}
 <div class="modal fade" tabindex="-1" id="modal_edit_create_user" wire:ignore.self>
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">
-                    {{ $isEditing ? __('Editar Usuario: ') . ($editingUser['name'] ?? '') : __('Crear Nuevo Usuario') }}
+                    @if ($isEditing)
+                        {{ __('Editar Usuario: ') }} {{ $editingUser['name'] ?? '' }}
+                    @else
+                        {{ __('Crear Nuevo Usuario') }}
+                    @endif
                 </h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             
-            {{-- Formulario para Livewire (maneja Creación y Edición) --}}
             <form wire:submit.prevent="saveUser">
                 <div class="modal-body">
                     
-                    {{-- Mensajes de Error/Éxito --}}
+                    {{-- Mostrar errores de validación de Livewire --}}
                     @if ($errors->any())
                         <div class="alert alert-danger">
                             {{ __('Por favor, corrija los errores del formulario.') }}
@@ -35,13 +37,13 @@
                         <div class="col-md-6 mb-4">
                             <label class="form-label required">{{ __('Usuario (Correo)') }}</label>
                             <div class="input-group">
-                                <input type="email" wire:model.defer="editingUser.email" class="form-control @error('editingUser.email') is-invalid @endror" required />
+                                <input type="email" wire:model.defer="editingUser.email" class="form-control @error('editingUser.email') is-invalid @enderror" required />
                                 <span class="input-group-text">@denuncias.secoem.gob.mx</span>
                             </div>
                             @error('editingUser.email') <div class="invalid-feedback">{{ $message }}</div> @enderror
                         </div>
                         
-                        {{-- Contraseña (Solo se muestra si es creación o si se quiere cambiar) --}}
+                        {{-- Contraseña --}}
                         <div class="col-md-6 mb-4">
                             <label class="form-label {{ $isEditing ? '' : 'required' }}">
                                 {{ $isEditing ? __('Nueva Contraseña (Dejar vacío para mantener)') : __('Contraseña') }}
@@ -51,7 +53,7 @@
                         </div>
 
                         {{-- Área de Adscripción --}}
-                        <div class="col-md-6 mb-4" wire:ignore>
+                        <div class="col-md-6 mb-4" wire:ignore> 
                             <label class="form-label required">{{ __('Área de Adscripción') }}</label>
                             <select 
                                 wire:model.defer="editingUser.id_area" 

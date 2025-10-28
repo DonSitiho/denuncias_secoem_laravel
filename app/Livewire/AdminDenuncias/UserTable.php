@@ -5,10 +5,7 @@ namespace App\Livewire\AdminDenuncias;
 use Livewire\Component;
 use Livewire\WithPagination;
 use App\Models\User;
-use App\Models\Area;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Http\Request;
-
 
 class UserTable extends Component
 {
@@ -17,57 +14,13 @@ class UserTable extends Component
     public string $search = '';
     public string $sortBy = 'name';
     public bool $sortAsc = true;
-    public $editingUser = null; // Almacenará el ID del usuario en edición
-    public $areas; // Para el catálogo en el modal de edición
 
     // Se reinicia la paginación cuando cambia el término de búsqueda
     public function updatingSearch(): void
     {
         $this->resetPage();
     }
-
-    public function mount()
-    {
-        // Cargar áreas una vez para el modal de edición
-        $this->areas = Area::where('is_active', true)->orderBy('nombre_area')->get();
-    }
     
-    /**
-     * Muestra los datos del usuario en un modal de edición.
-     */
-    public function editUser($userId)
-    {
-        // Emitir evento para que el JS abra el modal y cargue los datos
-        $this->editingUser = User::with('area')->findOrFail($userId);
-        $this->dispatch('open-edit-modal', ['user' => $this->editingUser]);
-    }
-
-    /**
-     * Guarda los cambios de edición de un usuario.
-     */
-    public function saveEdit(Request $request)
-    {
-        // NOTA: La lógica de guardado es compleja y normalmente se maneja en el controlador principal
-        // o con un método AJAX/Livewire más robusto que reciba los datos del modal de edición.
-    }
-
-
-    /**
-     * Cambia el estado 'activo' del usuario.
-     */
-    public function toggleActive($userId)
-    {
-        // Asumimos que la columna 'is_active' existe en la tabla 'users'
-        $user = User::findOrFail($userId);
-        
-        // Cambia el valor actual
-        $user->is_active = !$user->is_active; 
-        $user->save();
-        
-        // Emitir evento de notificación (opcional)
-        $status = $user->is_active ? 'activado' : 'desactivado';
-        session()->flash('success', "El usuario {$user->name} ha sido {$status} con éxito.");
-    }
     // Método para cambiar el orden de la tabla
     public function sortBy(string $field): void
     {
