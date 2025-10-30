@@ -401,7 +401,54 @@
                                                         placeholder="Trámite o servicio relacionado"
                                                         value="{{ old('tramite_solicitado') }}" />
                                                 </div>
+
+
                                             </div>
+                                            <div class="row mb-10">
+                                                <div class="col-md-6 fv-row">
+                                                    <input type="hidden" name="programa_publico" value="0">
+                                                    <div class="form-check form-switch form-check-custom form-check-solid">
+                                                        <input class="form-check-input" type="checkbox"
+                                                            id="programa_publico" name="programa_publico" value="1"
+                                                            {{ old('programa_publico', 0) ? 'checked="checked"' : '' }}>
+                                                        <label class="form-check-label fw-bold fs-6 text-gray-700"
+                                                            for="programa_publico">
+                                                            ¿Es un programa público?
+                                                        </label>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-6 fv-row">
+                                                    <label class="form-label fs-6 fw-bold mb-3">Monto de dinero solicitado
+                                                        (si aplica)</label>
+                                                    <input type="number" step="0.01" min="0"
+                                                        class="form-control form-control-solid @error('dinero_solicitado') is-invalid @enderror"
+                                                        name="dinero_solicitado" placeholder="Ejemplo: 1500.00"
+                                                        value="{{ old('dinero_solicitado') }}" />
+                                                    @error('dinero_solicitado')
+                                                        <div class="invalid-feedback">{{ $message }}</div>
+                                                    @enderror
+                                                </div>
+                                            </div>
+                                            <!--end::Input group-->
+
+                                            <!--begin::Campo dinámico: Nombre del programa público-->
+                                            <div id="campo_programa" class="fv-row mb-10" style="display: none;">
+                                                <label class="form-label required-label fs-6 fw-bold mb-3">Nombre del
+                                                    programa público</label>
+                                                <input type="text"
+                                                    class="form-control form-control-solid @error('nombre_programa_publico') is-invalid @enderror"
+                                                    name="nombre_programa_publico"
+                                                    placeholder="Escriba el nombre del programa público"
+                                                    value="{{ old('nombre_programa_publico') }}" />
+                                                @error('nombre_programa_publico')
+                                                    <div class="invalid-feedback">{{ $message }}</div>
+                                                @enderror
+                                            </div>
+                                            <!--end::Input group-->
+
+                                            <!--begin::Campo dinámico-->
+                                            
                                             <!--end::Input group-->
 
                                             <!--begin::Input group-->
@@ -759,14 +806,15 @@
                                             <!--begin::Security Notice-->
                                             <div
                                                 class="notice d-flex align-items-center rounded border border-dashed p-6 mb-10 bg-guinda-light border-guinda">
-                                                
+
 
                                                 <!--begin::Wrapper-->
                                                 <div class="d-flex flex-stack flex-grow-1">
                                                     <!--begin::Content-->
                                                     <div class="fw-semibold">
                                                         <div class="fs-6 text-gray-700">
-                                                            <strong class="text-guinda">PROTECCIÓN DE SU DENUNCIA - ATENCIÓN
+                                                            <strong class="text-guinda">PROTECCIÓN DE SU DENUNCIA -
+                                                                ATENCIÓN
                                                                 IMPORTANTE</strong><br>
                                                             Establezca una contraseña de seguridad para proteger el acceso a
                                                             la información completa de su denuncia.
@@ -901,7 +949,7 @@
                                             <div
                                                 class="notice d-flex align-items-center rounded border border-dashed p-6 mb-10 bg-guinda-light border-guinda">
                                                 <!--begin::Icon-->
-                                                
+
                                                 <!--end::Icon-->
 
                                                 <!--begin::Wrapper-->
@@ -1217,7 +1265,14 @@
                                         <div class="col-md-4">
                                             <div class="fv-row mb-8">
                                                 <label class="form-label fs-6 fw-bold text-gray-700">Estatura aproximada (m)</label>
-                                                <input type="number" step="0.01" class="form-control" name="involucrados[${involucradoCount-1}][estatura_aprox]" placeholder="Ej: 1.75" />
+                                                <input type="number"
+                                                    step="0.01"
+                                                    min="1.00"
+                                                    max="2.50"
+                                                    class="form-control estatura-aprox"
+                                                    name="involucrados[${involucradoCount-1}][estatura_aprox]"
+                                                    placeholder="Ej: 1.75"
+                                                />
                                             </div>
                                         </div>
                                     </div>
@@ -1507,6 +1562,41 @@
                                 });
                             }
                         });
+                    }
+                });
+            </script>
+            <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    const checkboxPrograma = document.getElementById('programa_publico');
+                    const campoPrograma = document.getElementById('campo_programa');
+
+                    function toggleCampoPrograma() {
+                        if (checkboxPrograma.checked) {
+                            campoPrograma.style.display = 'block';
+                        } else {
+                            campoPrograma.style.display = 'none';
+                        }
+                    }
+
+                    // Ejecutar al cargar y cuando cambie el switch
+                    toggleCampoPrograma();
+                    checkboxPrograma.addEventListener('change', toggleCampoPrograma);
+                });
+            </script>
+            <script>
+                document.addEventListener('input', function(e) {
+                    if (e.target.classList.contains('estatura-aprox')) {
+                        let valor = parseFloat(e.target.value);
+
+                        // Si no es número, no hacemos nada
+                        if (isNaN(valor)) return;
+
+                        // Limitar entre 1.00 y 2.50
+                        if (valor < 1) valor = 1.00;
+                        if (valor > 2.5) valor = 2.50;
+
+                        // Redondear a dos decimales
+                        e.target.value = valor.toFixed(2);
                     }
                 });
             </script>

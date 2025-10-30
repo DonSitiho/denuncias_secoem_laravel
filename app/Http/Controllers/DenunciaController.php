@@ -62,6 +62,10 @@ class DenunciaController extends Controller
 
             // Validación de aceptación de términos
             //'confirmacion_datos' => 'required|accepted',
+            // Nuevos campos
+            // 'programa_publico' => 'required|in:0,1',
+            'nombre_programa_publico' => 'nullable|string|max:255',
+            'dinero_solicitado' => 'nullable|numeric|min:0|max:9999999999.99',
 
             // Circunstancias opcionales
             'hora_hechos' => 'nullable|string|max:10',
@@ -73,6 +77,7 @@ class DenunciaController extends Controller
 
             // Arrays opcionales
             'involucrados' => 'nullable|array',
+            // 'involucrados.*.estatura_aprox' => 'nullable|numeric|min:1|max:2.5',
             'testigos' => 'nullable|array',
         ]);
 
@@ -100,13 +105,13 @@ class DenunciaController extends Controller
         $codigo = Str::upper(Str::random(5)); // Ej: "A1B2C"
 
         $clave_denunciante = password_hash($request->contrasena_seguridad, PASSWORD_DEFAULT);
-
+        //dd($request->all());
         $denuncia = Denuncia::create([
             'folio_seguimiento' => $folio,
             'es_anonima' => $request->es_anonima,
             'fecha_recepcion' => now(),
             'motivo_denuncia' => $request->motivo_denuncia,
-            'programa_publico' => $request->programa_publico,
+            'programa_publico' => $request->nombre_programa_publico,
             'dinero_solicitado' => $request->dinero_solicitado ?? 0,
             'id_estado' => 1, // Falta poner el catalogo en formulario
             'no_expediente_inter' => $request->no_expediente_inter ?? null,
