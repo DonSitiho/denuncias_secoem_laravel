@@ -17,6 +17,7 @@ class MisDenunciasTable extends Component
     // Propiedades para ordenar
     public string $sortBy = 'fecha_recepcion';
     public bool $sortAsc = false; // Ordenar de forma descendente por defecto
+    public bool $responsable = false; //
 
 
     protected $denunciaRepository;
@@ -35,6 +36,8 @@ class MisDenunciasTable extends Component
     {
 
         $denuncias = $this->denunciaRepository->denunciasPorResponsable($this->search, $this->sortBy, $this->sortAsc);
+
+        //return json_encode($denuncias);
 
         return view('livewire.oic-denuncias.mis-denuncias-table', ['denuncias' => $denuncias]);
     }

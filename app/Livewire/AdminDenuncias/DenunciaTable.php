@@ -50,18 +50,18 @@ class DenunciaTable extends Component
             ->when($this->search, function (Builder $query, $search) {
                 $query->where(function (Builder $q) use ($search) {
                     $q->where('denuncia.folio_seguimiento', 'like', '%' . $search . '%')
-                      ->orWhere('denuncia.motivo_denuncia', 'like', '%' . $search . '%')
-                      // Búsqueda en tablas relacionadas (es más complejo, pero Livewire lo permite)
-                      ->orWhere('dcd.nombre_completo', 'like', '%' . $search . '%') 
-                      ->orWhere('dc.dependencia_involucrada', 'like', '%' . $search . '%')
-                      ->orWhere('cm.nombre_municipio', 'like', '%' . $search . '%');
+                        ->orWhere('denuncia.motivo_denuncia', 'like', '%' . $search . '%')
+                        // Búsqueda en tablas relacionadas (es más complejo, pero Livewire lo permite)
+                        ->orWhere('dcd.nombre_completo', 'like', '%' . $search . '%') 
+                        ->orWhere('dc.dependencia_involucrada', 'like', '%' . $search . '%')
+                        ->orWhere('cm.nombre_municipio', 'like', '%' . $search . '%');
                 });
             })
             
             // Lógica de Ordenación
             ->orderBy($this->sortBy, $this->sortAsc ? 'asc' : 'desc')
             ->paginate(10);
-            
+                
         return view('livewire.admin-denuncias.denuncia-table', [
             'denuncias' => $denuncias,
         ]);

@@ -9,7 +9,9 @@ use Illuminate\Auth\Access\Response;
 class DenunciaPolicy
 {
     /**
-     * Determine whether the user can view any models.
+     * Permitir listar denuncias, 
+     * solo si la denuncia esta turnada a una area y responsable en especifico y coincida con el usuario logueado 
+     * o si tiene el rol Admin Denuncias.
      */
     public function viewAny(User $user): Response|bool
     {
@@ -23,11 +25,14 @@ class DenunciaPolicy
             return true;
         }
 
-        return Response::deny('No está autorizado para ver esta denuncia, ya que no le ha sido asignada o no cuenta con los privilegios de administrador.');
+        return Response::deny('No está autorizado para ver las denuncias, ya que no le ha sido asignada o no cuenta con los privilegios de administrador.');
     }
 
     /**
-     * Determine whether the user can view the model.
+     * Permite ver los detalles de una denuncia
+     * - Solo si el usuario tiene el rol de Admin Denuncias
+     * - Solo si el usuario es el responsable al que se turno la denuncia
+     * 
      */
     public function view(User $user, Denuncia $denuncia): Response|bool
     {

@@ -124,9 +124,39 @@ class Denuncia extends Model
         );
     }
 
-    // Scope para mostrar las denuncias que pertenecen a los usuarios OIC
-    public function scopeDenunciasByResponsable($query){
+    public function scopeDenunciasByAreaResponable($query){
 
-        return $query->where('id_responsable', Auth::user()->id);
+        $user = Auth::user();
+
+        return $query->where(function ($q) use ($user) {
+            // Denuncias sin responsable, visibles para todos del área
+            $q->whereNull('id_responsable')
+            ->where('id_area_responsable', $user->id_area);
+        })->orWhere(function ($q) use ($user) {
+            // Denuncias con responsable, solo visibles para ese usuario en el área
+            $q->where('id_responsable', $user->id)
+            ->where('id_area_responsable', $user->id_area);
+        });
+    }
+
+    // Scope para mostrar las denuncias por Area.
+    public function scopeDenunciasArea($query){
+
+        $userArea = Auth::user()->id_area;
+
+        if (!$userArea) {
+            // Devuelve un query vacío
+            return $query->whereRaw('1 = 0');
+        }
+
+        return $query->where('id_area_responsable', $userArea);
+
+    }
+
+    // Scope para mostrar las denuncias turnadas a un responable en especifico.
+    public function scopeDenunciasTurnadasResponsable($query){
+
+        return $query->where('id_estado', 2)
+                    ->where('id_responsable', Auth::user()->id);
     }
 }
