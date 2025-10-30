@@ -30,6 +30,13 @@ class CatEstadosSeeder extends Seeder
             ],
             [
                 'id_tipo' => 1,
+                'nombre' => 'Turnada',
+                'is_active' => 1,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'id_tipo' => 1,
                 'nombre' => 'En trámite',
                 'is_active' => 1,
                 'created_at' => now(),
