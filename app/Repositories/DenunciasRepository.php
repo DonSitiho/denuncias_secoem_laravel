@@ -7,12 +7,10 @@ use Illuminate\Database\Eloquent\Builder;
 
 class DenunciasRepository {
 
-
-    
     public function denunciasPorResponsable(string $search, string $sortBy, bool $sortAsc){
 
         // Consulta base con las relaciones necesarias
-        $denuncia = Denuncia::denunciasByResponsable()
+        $denuncia = Denuncia::denunciasByAreaResponable()
             ->with(['contacto', 'circunstancia.municipio'])
             ->select('denuncia.*')
             ->join('denuncia_circunstancia as dc', 'denuncia.id_denuncia', '=', 'dc.id_denuncia')
@@ -34,7 +32,20 @@ class DenunciasRepository {
             ->paginate(10); 
 
         return $denuncia;
+    }
 
+    public function totalDenunciasTurnadasResponsable(){
+
+        $totalDenuncias = Denuncia::denunciasTurnadasResponsable()->count();
+
+        return $totalDenuncias;
+    }
+
+    public function totalDenunciaAreaResponsable(){
+
+        $totalDenuncias = Denuncia::denunciasArea()->count();
+
+        return $totalDenuncias;
     }
 
 }

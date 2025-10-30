@@ -89,6 +89,10 @@ Route::middleware(['auth'])->prefix('oic')->name('oic.')->group(function (){
         ->name('ver-denuncia')
         ->middleware('can:oic-denuncia-detalles');
 
+    Route::get('/descargar/{id_archivo}', [OICDenunciasController::class, 'descargarEvidenciaDenuncia'])
+        ->name('descargar')
+        ->middleware('can:oic-denuncia-descargar');
+
 });
 
 

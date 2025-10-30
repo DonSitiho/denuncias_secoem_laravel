@@ -1,0 +1,154 @@
+<x-default-layout>
+    @section('title')
+        Dashboard
+    @endsection
+
+    @section('breadcrumbs')
+        {{ Breadcrumbs::render('dashboard') }}
+    @endsection
+
+    <!--begin::Row-->
+    <div class="row gy-5 gx-xl-10">
+        <!--begin::Col-->
+        <div class="col-xl-4 mb-xl-10">
+            <div class="card card-flush h-xl-10">
+                <!--begin::Heading-->
+                <div class="card-header rounded bgi-no-repeat bgi-size-cover bgi-position-y-top bgi-position-x-center align-items-start h-250px">
+                    <!--begin::Title-->
+                    <h3 class="card-title align-items-start flex-column text-blacl pt-15">
+                        <span class="fw-bold fs-2x mb-3">
+                            <font dir="auto" style="vertical-align: inherit;">
+                                <font dir="auto" style="vertical-align: inherit;">Mis Denuncias</font>
+                            </font>
+                        </span>
+                    </h3>
+                    <!--end::Title-->
+                </div>
+                <!--end::Heading-->
+                <!--begin::Body-->
+                <div class="card-body mt-n20">
+                    <!--begin::Stats-->
+                    <div class="mt-n20 position-relative">
+                        <!--begin::Row-->
+                        <div class="row g-3 g-lg-6">
+                            <!--begin::Col-->
+                            <div class="col-6">
+                                <!--begin::Items-->
+                                <div class="bg-gray-100 bg-opacity-70 rounded-2 px-6 py-5">
+                                    <!--begin::Stats-->
+                                    <div class="m-0">
+                                        <!--begin::Number-->
+                                        <span class="text-gray-700 fw-bolder d-block fs-2qx lh-1 ls-n1 mb-1">
+                                            <font dir="auto" style="vertical-align: inherit;">
+                                                <font dir="auto" style="vertical-align: inherit;">{{ $totalDenunciasArea }}</font>
+                                            </font>
+                                        </span>
+                                        <!--end::Number-->
+                                        <!--begin::Desc-->
+                                        <span class="text-gray-500 fw-semibold fs-6">
+                                            <font dir="auto" style="vertical-align: inherit;">
+                                                <font dir="auto" style="vertical-align: inherit;">Area</font>
+                                            </font>
+                                        </span>
+                                        <!--end::Desc-->
+                                    </div>
+                                    <!--end::Stats-->
+                                </div>
+                                <!--end::Items-->
+                            </div>
+                            <!--end::Col-->
+
+                            <!--begin::Col-->
+                            <div class="col-6">
+                                <!--begin::Items-->
+                                <div class="bg-gray-100 bg-opacity-70 rounded-2 px-6 py-5">
+                                    <!--begin::Stats-->
+                                    <div class="m-0">
+                                        <!--begin::Number-->
+                                        <span class="text-gray-700 fw-bolder d-block fs-2qx lh-1 ls-n1 mb-1">
+                                            <font dir="auto" style="vertical-align: inherit;">
+                                                <font dir="auto" style="vertical-align: inherit;">{{ $totalDenunciasTurnadaResponsable }}</font>
+                                            </font>
+                                        </span>
+                                        <!--end::Number-->
+                                        <!--begin::Desc-->
+                                        <span class="text-gray-500 fw-semibold fs-6">
+                                            <font dir="auto" style="vertical-align: inherit;">
+                                                <font dir="auto" style="vertical-align: inherit;">En tramite</font>
+                                            </font>
+                                        </span>
+                                        <!--end::Desc-->
+                                    </div>
+                                    <!--end::Stats-->
+                                </div>
+                                <!--end::Items-->
+                            </div>
+                            <!--end::Col-->
+
+                            <!--begin::Col-->
+                            <div class="col-6">
+                                <!--begin::Items-->
+                                <div class="bg-gray-100 bg-opacity-70 rounded-2 px-6 py-5">
+                                    <!--begin::Stats-->
+                                    <div class="m-0">
+                                        <!--begin::Number-->
+                                        <span class="text-gray-700 fw-bolder d-block fs-2qx lh-1 ls-n1 mb-1">
+                                            <font dir="auto" style="vertical-align: inherit;">
+                                                <font dir="auto" style="vertical-align: inherit;">{{ $totalDenunciasTurnadaResponsable }}</font>
+                                            </font>
+                                        </span>
+                                        <!--end::Number-->
+                                        <!--begin::Desc-->
+                                        <span class="text-gray-500 fw-semibold fs-6">
+                                            <font dir="auto" style="vertical-align: inherit;">
+                                                <font dir="auto" style="vertical-align: inherit;">Terminadas</font>
+                                            </font>
+                                        </span>
+                                        <!--end::Desc-->
+                                    </div>
+                                    <!--end::Stats-->
+                                </div>
+                                <!--end::Items-->
+                            </div>
+                            <!--end::Col-->
+
+                            <!--begin::Col-->
+                            <div class="col-6">
+                                <!--begin::Items-->
+                                <div class="bg-gray-100 bg-opacity-70 rounded-2 px-6 py-5">
+                                    <!--begin::Stats-->
+                                    <div class="m-0">
+                                        <!--begin::Number-->
+                                        <span class="text-gray-700 fw-bolder d-block fs-2qx lh-1 ls-n1 mb-1">
+                                            <font dir="auto" style="vertical-align: inherit;">
+                                                <font dir="auto" style="vertical-align: inherit;">{{ $totalDenunciasTurnadaResponsable }}</font>
+                                            </font>
+                                        </span>
+                                        <!--end::Number-->
+                                        <!--begin::Desc-->
+                                        <span class="text-gray-500 fw-semibold fs-6">
+                                            <font dir="auto" style="vertical-align: inherit;">
+                                                <font dir="auto" style="vertical-align: inherit;">Total</font>
+                                            </font>
+                                        </span>
+                                        <!--end::Desc-->
+                                    </div>
+                                    <!--end::Stats-->
+                                </div>
+                                <!--end::Items-->
+                            </div>
+                            <!--end::Col-->
+                        </div>
+                        <!--end::Row-->
+                    </div>
+                    <!--end::Stats-->
+                </div>
+                <!--end::Body-->
+            </div>
+        </div>
+        <!--end::Col-->
+
+        
+    </div>
+    <!--end::Row-->
+</x-default-layout>
