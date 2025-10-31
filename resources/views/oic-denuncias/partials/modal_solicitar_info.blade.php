@@ -11,21 +11,22 @@ MODAL DE SOLICITAR INFORMACION FALTANTE DE DENUNCIA
             </div>
 
             {{-- Formulario que llama a la ruta POST de turno --}}
-            <form action="{{ route('admin.denuncias.turnar', $denuncia->id_denuncia) }}" method="POST">
+            <form action="{{ route('oic.solicitar-informacion', $denuncia->id_denuncia) }}" method="POST">
                 @csrf
 
                 <div class="modal-body">
                     <p class="mb-4">
-                        {{ __('Seleccione el área/usuario responsable al que desea asignar esta denuncia.') }}
-                        <br>
-                        <span class="fw-bold">{{ __('Folio:') }} {{ $denuncia->folio_seguimiento }}</span>
+                        {{ __('Ingrese la observación del responsable y el tipo de campo del que desea solicitar mas información de la denuncia.') }}
+                        <br><br>
+                        <span class="fw-bold">{{ __('Folio:') }} {{ $denuncia->folio_seguimiento }}.</span>
+                        <span class="fw-bold">{{ __('Area Responsable:') }} {{ $areaResponsable->siglas }}.</span>
                     </p>
 
                     <div class="mb-3">
-                        <label for="observacion_responsable" class="form-label required">{{ __('Observacion
+                        <label for="observacion_responsable" class="form-label required">{{ __('Observación 
                             Responsable') }}</label>
                         <textarea class="form-control form-control-solid" name="observacion_responsable" rows="3"
-                            placeholder="Describa con el mayor detalle posible los campos faltantes de la denuncia"></textarea>
+                            placeholder="Describa con el mayor detalle posible los campos faltantes de la denuncia" required></textarea>
 
                         @error('observacion_responsable')
                         <div class="text-danger mt-1">{{ $message }}</div>
@@ -45,8 +46,7 @@ MODAL DE SOLICITAR INFORMACION FALTANTE DE DENUNCIA
                                         <span class="d-flex flex-column">
                                             <span class="fw-bold fs-6">{{ $tipoCampo }}</span>
 
-                                            <span class="fs-7 text-muted">Creating a clear text structure is just one
-                                                SEO</span>
+                                            <span class="fs-7 text-muted"></span>
                                         </span>
                                         <!--end:Info-->
                                     </span>
@@ -54,7 +54,7 @@ MODAL DE SOLICITAR INFORMACION FALTANTE DE DENUNCIA
 
                                     <!--begin:Input-->
                                     <span class="form-check form-check-custom form-check-solid">
-                                        <input class="form-check-input" type="radio" name="category" value="1"
+                                        <input class="form-check-input" type="radio" name="tipo_campo" value="{{ $tipoCampo }}"
                                             data-gtm-form-interact-field-id="0">
                                     </span>
                                     <!--end:Input-->

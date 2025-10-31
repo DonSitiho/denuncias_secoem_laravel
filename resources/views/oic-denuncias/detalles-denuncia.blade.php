@@ -59,13 +59,13 @@
                     @endcan
 
                     {{-- 2. Botón/Modal de Solventar informacion (Permiso: admin-denuncia-turnar) --}}
-                    
+                    @can('oic-denuncia-solventar-info')
                         {{-- El modal debe estar incluido como partial --}}
                         @include('oic-denuncias.partials.modal_solicitar_info', ['denuncia' => $denuncia]) 
                         <button type="button" class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#modal_solicitar_info">
-                            <i class="fas fa-arrow-right-rotate me-1"></i> Solventar Info
+                            <i class="fas fa-plus me-1"></i> Solventar Info
                         </button>
-                    
+                    @endcan
                 </div>
             </div>
             
