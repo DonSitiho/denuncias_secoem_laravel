@@ -23,9 +23,9 @@
         <!--end::Título-->
 
         <!--begin::Badge de Estado-->
-        <div class="badge badge-lg badge-light-{{ $denuncia->es_anonima ? 'warning' : 'primary' }}">
-            <i class="ki-duotone ki-{{ $denuncia->es_anonima ? 'shield-cross' : 'user-tick' }} fs-4 me-2"></i>
-            {{ $denuncia->es_anonima ? 'ANÓNIMA' : 'CON IDENTIFICACIÓN' }}
+        <div class="badge badge-lg badge-light-{{ $denuncia->es_anonima == 1 ? 'warning' : 'primary' }}">
+            <i class="ki-duotone ki-{{ $denuncia->es_anonima == 1 ? 'shield-cross' : 'user-tick' }} fs-4 me-2"></i>
+            {{ $denuncia->es_anonima == 1 ? 'ANÓNIMA' : 'CON IDENTIFICACIÓN' }}
         </div>
         <!--end::Badge de Estado-->
     </div>
@@ -80,8 +80,8 @@
                         <div class="col-md-4">
                             <div class="d-flex flex-column">
                                 <span class="text-gray-600 fw-semibold mb-2">Tipo de denuncia:</span>
-                                <span class="badge badge-lg badge-{{ $denuncia->es_anonima ? 'warning' : 'primary' }}">
-                                    {{ $denuncia->es_anonima ? 'ANÓNIMA' : 'CON IDENTIFICACIÓN' }}
+                                <span class="badge badge-lg badge-{{ $denuncia->es_anonima == 1 ? 'warning' : 'primary' }}">
+                                    {{ $denuncia->es_anonima == 1 ? 'ANÓNIMA' : 'CON IDENTIFICACIÓN' }}
                                 </span>
                             </div>
                         </div>
@@ -94,7 +94,7 @@
         <!--end::Fila 1: Información General-->
 
         <!--begin::Fila 2: Datos del Denunciante-->
-        @if ($datosContactoDenunciante && !$denuncia->es_anonima)
+        @if ($datosContactoDenunciante && $denuncia->es_anonima == 0)
             <div class="col-12">
                 <div class="card card-flush">
                     <!--begin::Card header-->
@@ -137,7 +137,7 @@
                     <!--end::Card body-->
                 </div>
             </div>
-        @elseif ($denuncia->es_anonima)
+        @elseif ($denuncia->es_anonima == 1)
             <div class="col-12">
                 <div class="card card-flush bg-light">
                     <div class="card-body text-center py-10">
