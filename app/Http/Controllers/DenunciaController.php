@@ -19,6 +19,7 @@ use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Str;
 use App\Helpers\ArchivoHelper;
 use App\Models\ArchivoAdjunto;
+use App\Models\SolventarInfo;
 
 
 
@@ -322,7 +323,7 @@ class DenunciaController extends Controller
         // if ($denuncia->palabra_clave === $request->palabra_clave) {
         //dd($denuncia->token_validacion);
         if (password_verify($request->token_validacion, $denuncia->clave_denunciante)) {
-             return response()->json([
+            return response()->json([
                 'success' => true,
                 'message' => 'Palabra clave correcta'
             ]);
@@ -337,6 +338,12 @@ class DenunciaController extends Controller
 
     public function detallesCompletos(Denuncia $denuncia)
     {
+        // Buscar si la denuncia tiene información por solventar
+        $informacion = SolventarInfo::where('id_denuncia', $denuncia->id_denuncia)
+            ->where('is_active', 1)
+            ->where('is_complete', 0)
+            ->get();
+
         // Cargar todas las relaciones para los detalles completos
         $denuncia = Denuncia::with([
             'contacto',
@@ -351,6 +358,7 @@ class DenunciaController extends Controller
         $datosCircunstancia = $denuncia->circunstancia;
         $datosMunicipio = $datosCircunstancia->municipio ?? null;
 
+        // Construir arreglo completo de datos
         $data = [
             'denuncia' => $denuncia,
             'fechaActual' => now()->format('d/m/Y H:i'),
@@ -358,7 +366,7 @@ class DenunciaController extends Controller
             'datosDenunciaInvolucrado' => $denuncia->involucrados,
             'datosTestigos' => $denuncia->testigos,
             'datosCircunstancia' => $datosCircunstancia,
-            'datosMunicipio' => $datosMunicipio,
+            'datosMunicipio' => $datosMunicipio
         ];
 
         // Retornar la vista como HTML
@@ -366,9 +374,75 @@ class DenunciaController extends Controller
 
         return response()->json([
             'success' => true,
-            'html' => $html
+            'html' => $html,
+            'info_solicitada' => $informacion,
         ]);
     }
+
+    public function guardarSolventarInfo(Request $request)
+    {
+        \DB::beginTransaction();
+
+        try {
+            $idDenuncia = $request->input('id_denuncia');
+            $infoSolicitada = $request->input('info_solicitada', []);
+            $archivos = $request->file('archivos', []);
+
+            // Recorrer todos los registros de SolventarInfo de esta denuncia
+            $registros = SolventarInfo::where('id_denuncia', $idDenuncia)->get();
+
+            foreach ($registros as $registro) {
+                $id = $registro->id;
+                $valor = $infoSolicitada[$id] ?? null;
+                $archivo = $archivos[$id] ?? null;
+
+                // Si el tipo es archivo y hay archivo cargado, usar el helper
+                if ($registro->tipo_campo === 'archivo' && $archivo && $archivo->isValid()) {
+                    $resultado = ArchivoHelper::guardarArchivoEncriptado($archivo, 'solventar_info');
+
+                    if ($resultado) {
+                        $valor = $resultado;
+                    } else {
+                        return response()->json([
+                            'success' => false,
+                            'message' => 'No se pudo guardar el archivo: ' . $archivo->getClientOriginalName()
+                        ]);
+                    }
+                }
+
+                // Si hay valor nuevo (texto o archivo), actualizar
+                if ($valor !== null) {
+                    $registro->update([
+                        'info_solicitada' => $valor,
+                        'is_complete' => 1,
+                        'fecha_respuesta_info' => now(),
+                    ]);
+                }
+            }
+
+            \DB::commit();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Información guardada correctamente'
+            ]);
+        } catch (\Exception $e) {
+            \DB::rollBack();
+
+            \Log::error('Error al guardar información solventar: ' . $e->getMessage(), [
+                'exception' => $e,
+                'request_data' => $request->all()
+            ]);
+
+            return response()->json([
+                'success' => false,
+                'message' => 'Error al guardar la información: ' . $e->getMessage()
+            ], 500);
+        }
+    }
+
+
+
 
     public function generarPDF($folio)
     {

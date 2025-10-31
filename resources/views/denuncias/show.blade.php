@@ -588,6 +588,86 @@
             </div>
         </div>
         <!--end::Modal - Acceso Confidencial-->
+
+        <!-- modal solventar informacion-->
+        <!-- Modal con estilo Metronic 8 -->
+        <div class="modal fade" id="modalSolventar" tabindex="-1" aria-labelledby="modalSolventarLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-lg modal-dialog-centered">
+                <div class="modal-content">
+                    <!-- Header del modal con estilo Metronic -->
+                    <div class="modal-header">
+                        <div class="d-flex align-items-center w-100">
+                            <!-- Icono de advertencia -->
+                            <i class="ki-duotone ki-information-5 fs-2x text-warning me-3">
+                                <span class="path1"></span>
+                                <span class="path2"></span>
+                                <span class="path3"></span>
+                            </i>
+
+                            <!-- Título del modal -->
+                            <h5 class="modal-title text-gray-800 fw-bolder" id="modalSolventarLabel">
+                                Información pendiente por solventar
+                            </h5>
+                        </div>
+
+                        <!-- Botón de cierre -->
+                        <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal"
+                            aria-label="Close">
+                            <i class="ki-duotone ki-cross fs-1">
+                                <span class="path1"></span>
+                                <span class="path2"></span>
+                            </i>
+                        </div>
+                    </div>
+
+                    <!-- Cuerpo del modal -->
+                    <div class="modal-body py-10 px-5">
+                        <div
+                            class="alert alert-dismissible bg-light-warning border border-warning border-dashed d-flex flex-column flex-sm-row p-5 mb-10">
+                            <!-- Icono de alerta -->
+                            <i class="ki-duotone ki-information fs-2hx text-warning me-4 mb-5 mb-sm-0">
+                                <span class="path1"></span>
+                                <span class="path2"></span>
+                                <span class="path3"></span>
+                            </i>
+
+                            <!-- Contenido de la alerta -->
+                            <div class="d-flex flex-column pe-0 pe-sm-10">
+                                <h5 class="mb-3 text-warning">Información requerida</h5>
+                                <span>Por favor, complete la siguiente información solicitada para proceder con el análisis
+                                    de la denuncia.</span>
+                            </div>
+                        </div>
+
+                        <!-- Contenedor del formulario -->
+                        <div id="formContainer">
+                            <!-- El formulario se cargará dinámicamente aquí -->
+                        </div>
+                    </div>
+
+                    <!-- Footer del modal -->
+                    <div class="modal-footer flex-center">
+                        <!-- Botón de cancelar -->
+                        <button type="button" class="btn btn-light me-3" data-bs-dismiss="modal">
+                            Cancelar
+                        </button>
+
+                        <!-- Botón de guardar -->
+                        <button type="button" class="btn btn-success" id="btnGuardarSolventar">
+                            <i class="ki-duotone ki-check-square fs-2 me-2">
+                                <span class="path1"></span>
+                                <span class="path2"></span>
+                                <span class="path3"></span>
+                            </i>
+                            Guardar información
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- fin del modal -->
+
     @endsection
 
     @push('scripts')
@@ -718,10 +798,119 @@
                         })
                         .then(data => {
                             if (data.success) {
+                                console.log(data);
                                 informacionConfidencial.innerHTML = data.html;
+
+                                if (data.info_solicitada && data.info_solicitada.length > 0) {
+                                    // Abrir modal después de medio segundo
+                                    setTimeout(() => {
+                                        const modal = new bootstrap.Modal(document.getElementById(
+                                            'modalSolventar'));
+                                        modal.show();
+                                    }, 500);
+
+                                    // Limpiar contenido anterior del formulario
+                                    const formContainer = document.getElementById('formContainer');
+                                    formContainer.innerHTML = '';
+
+                                    // Crear formulario dinámico
+                                    let formHtml = `
+                    <form id="formSolventarInfo" class="form" enctype="multipart/form-data">
+                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                        <input type="hidden" name="id_denuncia" value="${data.info_solicitada[0].id_denuncia}">
+                        <div class="row g-5">
+                `;
+
+                                    // Generar campos según tipo_campo
+                                    data.info_solicitada.forEach((item, index) => {
+                                        formHtml += `
+                        <div class="col-md-12 fv-row">
+                            <label class="fs-6 fw-semibold form-label mb-2">
+                                ${item.observacion_responsable}
+                                ${item.is_required ? '<span class="text-danger">*</span>' : ''}
+                            </label>
+                    `;
+
+                                        // Manejar diferentes tipos de campo
+                                        switch (item.tipo_campo) {
+                                            case 'date':
+                                                formHtml += `
+                                <input type="date" class="form-control form-control-solid" 
+                                    name="info_solicitada[${item.id}]" 
+                                    value="${item.info_solicitada || ''}"
+                                    ${item.is_required ? 'required' : ''}
+                                    placeholder="Seleccione una fecha">
+                            `;
+                                                break;
+
+                                            case 'text':
+                                                formHtml += `
+                                <input type="text" class="form-control form-control-solid" 
+                                    name="info_solicitada[${item.id}]" 
+                                    value="${item.info_solicitada || ''}"
+                                    ${item.is_required ? 'required' : ''}
+                                    placeholder="Ingrese la información solicitada">
+                            `;
+                                                break;
+
+                                            case 'archivo':
+                                                formHtml += `
+                                <div class="d-flex align-items-center">
+                                    <input type="file" class="form-control form-control-solid" 
+                                        name="archivos[${item.id}]"
+                                        ${item.is_required ? 'required' : ''}
+                                        accept=".pdf,.doc,.docx,.jpg,.jpeg,.png,.xls,.xlsx">
+                                    <small class="text-muted ms-2">Formatos: PDF, Word, Excel, JPG, PNG</small>
+                                </div>
+                                ${item.info_solicitada ? `
+                                            <div class="mt-2">
+                                                <small class="text-success">Archivo actual: ${item.info_solicitada}</small>
+                                            </div>
+                                        ` : ''}
+                            `;
+                                                break;
+
+                                            case 'entero':
+                                                formHtml += `
+                                <input type="number" class="form-control form-control-solid" 
+                                    name="info_solicitada[${item.id}]" 
+                                    value="${item.info_solicitada || ''}"
+                                    ${item.is_required ? 'required' : ''}
+                                    step="1"
+                                    placeholder="Ingrese un número entero">
+                            `;
+                                                break;
+
+                                            default:
+                                                formHtml += `
+                                <textarea class="form-control form-control-solid" 
+                                    name="info_solicitada[${item.id}]"
+                                    rows="3"
+                                    ${item.is_required ? 'required' : ''}
+                                    placeholder="Ingrese la información solicitada">${item.info_solicitada || ''}</textarea>
+                            `;
+                                        }
+
+                                        formHtml += `</div>`;
+                                    });
+
+                                    formHtml += `
+                        </div>
+                    </form>
+                `;
+
+                                    // Insertar el formulario dentro del contenedor
+                                    formContainer.innerHTML = formHtml;
+
+                                    // Inicializar componentes de Metronic si es necesario
+                                    if (typeof KTFormControls !== 'undefined') {
+                                        KTFormControls.init();
+                                    }
+                                } // <-- ESTA ES LA LLAVE DE CIERRE DEL IF PRINCIPAL QUE FALTABA
+
                                 // Inicializar cualquier componente necesario
                                 inicializarComponentes();
-                            }
+                            } // <-- CIERRE del if (data.success)
                         })
                         .catch(error => {
                             console.error('Error al cargar información confidencial:', error);
@@ -732,6 +921,15 @@
                                 confirmButtonColor: '#F64E60'
                             });
                         });
+                } // <-- CIERRE de la función cargarInformacionConfidencial
+
+                // Función para inicializar componentes (puedes agregar lo que necesites aquí)
+                function inicializarComponentes() {
+                    // Inicializar tooltips si es necesario
+                    const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+                    const tooltipList = tooltipTriggerList.map(function(tooltipTriggerEl) {
+                        return new bootstrap.Tooltip(tooltipTriggerEl);
+                    });
                 }
 
                 function inicializarComponentes() {
@@ -747,6 +945,82 @@
                     form.reset();
                     submitButton.removeAttribute('data-kt-indicator');
                     submitButton.disabled = false;
+                });
+            });
+        </script>
+
+        <!-- modal informacion a solventar-->
+
+        <script>
+            $('#btnGuardarSolventar').on('click', function() {
+                const $btn = $(this);
+                const originalText = $btn.html();
+
+                // Validar formulario antes de enviar
+                const form = document.getElementById('formSolventarInfo');
+                if (!form.checkValidity()) {
+                    form.reportValidity();
+                    return;
+                }
+
+                // Mostrar estado de carga
+                $btn.prop('disabled', true).html(`
+        <span class="spinner-border spinner-border-sm me-2" role="status"></span>
+        Guardando...
+    `);
+
+                let formData = new FormData($('#formSolventarInfo')[0]);
+
+                $.ajax({
+                    url: "{{ route('denuncias.solventar.guardar') }}",
+                    method: "POST",
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function(response) {
+                        if (response.success) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Información guardada',
+                                text: response.message ||
+                                    'Se ha completado correctamente la información solicitada.',
+                                timer: 2000,
+                                showConfirmButton: false
+                            });
+                            $('#modalSolventar').modal('hide');
+
+                            
+                            // setTimeout(() => {
+                            //     location.reload();
+                            // }, 2000);
+                        } else {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Error',
+                                text: response.message || 'No se pudo guardar la información.'
+                            });
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error completo:', xhr.responseJSON);
+
+                        let errorMessage = 'Ocurrió un error al guardar la información.';
+                        if (xhr.responseJSON && xhr.responseJSON.message) {
+                            errorMessage = xhr.responseJSON.message;
+                        } else if (xhr.status === 422) {
+                            errorMessage = 'Error de validación. Verifique los datos ingresados.';
+                        }
+
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: errorMessage
+                        });
+                    },
+                    complete: function() {
+                        // Restaurar el botón a su estado original
+                        $btn.prop('disabled', false).html(originalText);
+                    }
                 });
             });
         </script>
