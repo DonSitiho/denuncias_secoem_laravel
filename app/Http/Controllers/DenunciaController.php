@@ -83,6 +83,7 @@ class DenunciaController extends Controller
         ]);
 
         // Validar campos de contacto solo si NO es anónima
+      
         if ($request->es_anonima == 0) {
             $validator->sometimes(['nombre_completo', 'telefono', 'correo_electronico'], 'required|string|max:255', function () {
                 return true; // Siempre requeridos si llegamos aquí
@@ -343,7 +344,7 @@ class DenunciaController extends Controller
             ->where('is_active', 1)
             ->where('is_complete', 0)
             ->get();
-
+        
         // Cargar todas las relaciones para los detalles completos
         $denuncia = Denuncia::with([
             'contacto',
