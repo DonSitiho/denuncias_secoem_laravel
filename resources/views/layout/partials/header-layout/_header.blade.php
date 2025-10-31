@@ -5,7 +5,7 @@
 		<!--begin::Logo-->
 		<div class="d-flex align-items-center flex-grow-1 flex-lg-grow-0 me-lg-15">
 			<a href="{{ route('dashboard') }}">
-				<img alt="Logo" src="{{ image('logos/default-dark.svg') }}" class="h-20px h-lg-30px app-sidebar-logo-default" />
+				<img alt="Logo" src="{{ image('auth/secoem_blanco.svg') }}" class="h-20px h-lg-30px app-sidebar-logo-default" />
 			</a>
 		</div>
 		<!--end::Logo-->
