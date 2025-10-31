@@ -23,6 +23,7 @@ class SolventarInfo extends Model
         'tipo_campo',
         'info_solicitada',
         'fecha_solicitud',
+        'fecha_respuesta_info',
         'is_complete',
         'is_active'
 

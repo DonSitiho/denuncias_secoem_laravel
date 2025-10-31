@@ -23,4 +23,7 @@ Route::get('/denuncias/{denuncia}', [DenunciaController::class, 'show'])->name('
 Route::post('/denuncias/{denuncia}/verificar-palabra-clave', [DenunciaController::class, 'verificarPalabraClave'])->name('denuncias.verificar-palabra-clave');
 Route::get('/denuncias/{denuncia}/detalles-completos', [DenunciaController::class, 'detallesCompletos'])->name('denuncias.detalles-completos');
 
+Route::post('/denuncias/solventar/guardar', [DenunciaController::class, 'guardarSolventarInfo'])->name('denuncias.solventar.guardar');
+
+
 //********************** FIN DENUNCIAS ********************************* */

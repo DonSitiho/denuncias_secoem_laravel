@@ -26,6 +26,7 @@ return new class extends Migration
             ]);
             $table->string('info_solicitada', 500)->nullable();
             $table->date('fecha_solicitud_info');
+            $table->date('fecha_respuesta_info')->nullable();
             $table->boolean('is_complete')->default(false);
             $table->boolean('is_active')->default(true);
         });
