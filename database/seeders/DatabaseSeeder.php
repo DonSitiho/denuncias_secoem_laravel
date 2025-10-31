@@ -20,10 +20,10 @@ class DatabaseSeeder extends Seeder
 
             // 👇 Tus nuevos catálogos
             CatEstadosSeeder::class,
-            //CatInhabilSeeder::class,
-            //CatAreasGobSeeder::class,
-            //CatAreasSecoemSeeder::class,
+            CatAreasGobSeeder::class,
             CatMunicipiosSeeder::class,
+            //CatAreasSecoemSeeder::class,
+            //CatInhabilSeeder::class,
         ]);
 
         \App\Models\User::factory(20)->create();
