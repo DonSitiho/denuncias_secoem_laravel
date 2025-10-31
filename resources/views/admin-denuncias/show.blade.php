@@ -243,7 +243,7 @@
             </div>
         </div>
     </div>
-    
+
     @push('scripts')
     <script>
         // 1. Mapa de todos los usuarios OIC para la lógica inversa (Usuario -> Área)

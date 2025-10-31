@@ -58,14 +58,14 @@
                         </a>
                     @endcan
 
-                    {{-- 2. Botón/Modal de Turno (Permiso: admin-denuncia-turnar) --}}
-                    @can('admin-denuncia-turnar')
+                    {{-- 2. Botón/Modal de Solventar informacion (Permiso: admin-denuncia-turnar) --}}
+                    
                         {{-- El modal debe estar incluido como partial --}}
-                        @include('admin-denuncias.partials.modal_turno', ['denuncia' => $denuncia]) 
-                        <button type="button" class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#modal_turno">
-                            <i class="fas fa-arrow-right-rotate me-1"></i> Turnar a OIC
+                        @include('oic-denuncias.partials.modal_solicitar_info', ['denuncia' => $denuncia]) 
+                        <button type="button" class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#modal_solicitar_info">
+                            <i class="fas fa-arrow-right-rotate me-1"></i> Solventar Info
                         </button>
-                    @endcan
+                    
                 </div>
             </div>
             
