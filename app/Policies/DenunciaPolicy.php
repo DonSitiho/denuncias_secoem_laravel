@@ -15,6 +15,11 @@ class DenunciaPolicy
      */
     public function viewAny(User $user): Response|bool
     {
+        //Si el usuario es el administrador del sistema, puede ver todas las denuncias
+        if ($user->hasRole('Administrador')) {
+            return true;
+        }
+
         // Si el usuario tiene el rol "Admin Denuncias", devolver todas las denuncias
         if ($user->hasRole('Admin Denuncias')) {
             return true;
