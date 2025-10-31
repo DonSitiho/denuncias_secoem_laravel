@@ -238,11 +238,10 @@
 
                                             <!--begin::Input group-->
                                             <div class="fv-row mb-10">
-                                                <input type="hidden" name="es_anonima" value="0">
                                                 <div class="form-check form-switch form-check-custom form-check-solid">
                                                     <input class="form-check-input" type="checkbox" id="es_anonima"
                                                         name="es_anonima" value="1"
-                                                        {{ old('es_anonima', 0) ? 'checked="checked"' : '' }}>
+                                                        {{ old('es_anonima', $denuncia->es_anonima ?? 0) == 1 ? 'checked' : '' }}>
                                                     <label class="form-check-label fw-bold fs-6 text-gray-700"
                                                         for="es_anonima">
                                                         Realizar denuncia anónima
@@ -260,8 +259,7 @@
                                                             completo</label>
                                                         <input type="text"
                                                             class="form-control form-control-solid @error('nombre_completo') is-invalid @enderror"
-                                                            name="nombre_completo"
-                                                            placeholder="Ingrese su nombre completo"
+                                                            name="nombre_completo" placeholder="Ingrese su nombre completo"
                                                             value="{{ old('nombre_completo') }}" />
                                                         @error('nombre_completo')
                                                             <div class="invalid-feedback">{{ $message }}</div>
@@ -448,7 +446,7 @@
                                             <!--end::Input group-->
 
                                             <!--begin::Campo dinámico-->
-                                            
+
                                             <!--end::Input group-->
 
                                             <!--begin::Input group-->

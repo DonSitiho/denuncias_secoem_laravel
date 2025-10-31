@@ -654,7 +654,7 @@
                         </button>
 
                         <!-- Botón de guardar -->
-                        <button type="button" class="btn btn-success" id="btnGuardarSolventar">
+                        <button type="button" class="btn btn-guinda" id="btnGuardarSolventar">
                             <i class="ki-duotone ki-check-square fs-2 me-2">
                                 <span class="path1"></span>
                                 <span class="path2"></span>
