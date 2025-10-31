@@ -66,9 +66,12 @@
                         </td>
                         <td>
                             {{-- 2. Botón de Edición (dispara el evento Livewire que abre el modal) --}}
-                            <button wire:click="editUser({{ $user->id }})" class="btn btn-icon btn-light-warning btn-sm me-1" title="{{ __('Editar Usuario') }}">
-                                <i class="fas fa-edit"></i>
-                            </button>
+                            <a href="{{ route('admin.usuarios.edit', $user) }}" 
+    class="btn btn-icon btn-light-warning btn-sm me-1" 
+    title="{{ __('Editar Usuario') }}"
+>
+    <i class="fas fa-edit"></i>
+</a>
                             
                             {{-- Opcional: Botón para restablecer contraseña --}}
                             {{-- <button wire:click="resetPassword({{ $user->id }})" class="btn btn-icon btn-light-info btn-sm" title="{{ __('Restablecer Contraseña') }}">

@@ -5,9 +5,11 @@ namespace App\Http\Controllers;
 use App\Helpers\ArchivoHelper;
 use App\Models\ArchivoAdjunto;
 use App\Models\Denuncia;
+use App\Models\SolventarInfo;
 use App\Repositories\DenunciasRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class OICDenunciasController extends Controller
 {
@@ -54,13 +56,17 @@ class OICDenunciasController extends Controller
         // Aplicar politica para la denuncia sea visualizada unicamente por el responsable al que se le turno la denuncia.
         $this->authorize('view', $denuncia);
 
+        $tipoCampos = SolventarInfo::TIPOCAMPO;
+
+        ///return json_encode($tipoCampos);
+
         /**
          * Muestra la vista detallada de una denuncia específica para su revisión administrativa.
          * Carga las relaciones directas que contienen la información de captura del ciudadano.
          * * El acceso a esta función está previamente protegido por el middleware 'can:oic-denuncia-detalles'.
          */
         
-        return view('oic-denuncias.detalles-denuncia', compact('denuncia'));
+        return view('oic-denuncias.detalles-denuncia', compact('denuncia', 'tipoCampos'));
 
             
     }

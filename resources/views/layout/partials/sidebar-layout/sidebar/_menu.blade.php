@@ -44,7 +44,7 @@
 					<!--begin:Menu item-->
 					<div class="menu-item">
 						<!--begin:Menu link-->
-						<a class="menu-link {{ request()->routeIs('dashboard') ? 'active' : '' }}" href="{{ route('catalogos.index') }}">
+						<a class="menu-link {{ request()->routeIs('catalogos') ? 'active' : '' }}" href="{{ route('catalogos.index') }}">
 							<span class="menu-bullet">
 								<span class="bullet bullet-dot"></span>
 							</span>

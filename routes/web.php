@@ -131,16 +131,13 @@ Route::middleware(['auth', 'can:admin-usuarios-crud'])->prefix('admin/usuarios')
     
     // Listado de Usuarios
     Route::get('/', [AdminUserController::class, 'index'])->name('index'); 
-
     // Vista de Creación
     Route::get('/create', [AdminUserController::class, 'create'])->name('create');
-
     // Acción de Guardado
     Route::post('/', [AdminUserController::class, 'store'])->name('store');
-    
-    // Opcional: Editar y Actualizar (si se requiere)
-    // Route::get('/{user}/edit', [AdminUserController::class, 'edit'])->name('edit');
-    // Route::put('/{user}', [AdminUserController::class, 'update'])->name('update');
+    Route::get('usuarios/{user}/editar', [AdminUserController::class, 'edit'])->name('edit');
+    Route::put('usuarios/{user}', [AdminUserController::class, 'update'])->name('update');
+
 });
 
 

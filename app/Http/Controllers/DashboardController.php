@@ -20,7 +20,7 @@ class DashboardController extends Controller
         if(Auth::check()){
             $user = Auth::user();
             $role = $user->roles->first();
-            if($role->id != 7){
+            if($role->id == 7){
                 return $this->indexIOC();
             }
         }

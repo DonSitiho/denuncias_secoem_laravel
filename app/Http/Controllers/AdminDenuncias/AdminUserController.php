@@ -48,7 +48,7 @@ class AdminUserController extends Controller
         // 2. ASIGNACIÓN DE DATOS FINALES
         $emailFinal = $request->input('email');
         $defaultPassword = $emailFinal; 
-        $defaultRole = 'developer'; // Rol por defecto
+        $defaultRole = 'Usuario OIC'; // Rol por defecto
 
         // 3. CREACIÓN DEL USUARIO
         $user = User::create([
@@ -64,5 +64,56 @@ class AdminUserController extends Controller
         // 5. RETORNO con mensaje de éxito y la contraseña inicial
         return redirect()->route('admin.usuarios.index')
                          ->with('success', "Usuario '{$user->email}' creado y asignado. Contraseña inicial: {$defaultPassword}");
+    }
+    
+    public function edit(User $user)
+    {
+        // Carga las áreas para el select del formulario de edición
+        $areas = Area::where('is_active', true)->orderBy('nombre_area')->get();
+
+        // NOTA: Para obtener el nombre y apellidos por separado, 
+        // podrías necesitar lógica adicional o campos separados en la base de datos. 
+        // Aquí pasamos el usuario completo.
+        return view('admin-denuncias.usuarios.edit', compact('user', 'areas'));
+    }
+
+    /**
+     * Procesa la actualización de un usuario existente.
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Models\User $user El modelo de usuario a actualizar.
+     */
+    public function update(Request $request, User $user)
+    {
+        // 1. VALIDACIÓN
+        $validated = $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'email' => [
+                'required', 
+                'email', 
+                // Asegura que el email sea único, excluyendo al usuario actual.
+                Rule::unique('users', 'email')->ignore($user->id)
+            ], 
+            'id_area' => ['required', 'integer', 'exists:areas,id_area'],
+            'is_active' => ['required', 'boolean'],
+            // La contraseña es opcional, solo se valida si se proporciona.
+            'password' => ['nullable', 'string', 'min:8'], 
+        ]);
+        
+        $data = $validated;
+        
+        // 2. Manejo de la Contraseña
+        if (isset($data['password']) && !empty($data['password'])) {
+            $data['password'] = Hash::make($data['password']);
+        } else {
+            // Si la contraseña está vacía, la eliminamos del array de datos para que no se guarde un hash vacío.
+            unset($data['password']); 
+        }
+
+        // 3. Actualización del Usuario
+        $user->update($data);
+
+        // 4. Retorno
+        return redirect()->route('admin.usuarios.index')
+                         ->with('success', "El usuario '{$user->email}' ha sido actualizado con éxito.");
     }
 }
