@@ -5,14 +5,14 @@
 		<!--begin::Logo-->
 		<div class="d-flex align-items-center flex-grow-1 flex-lg-grow-0 me-lg-15">
 			<a href="{{ route('dashboard') }}">
-				<img alt="Logo" src="{{ image('logos/default-dark.svg') }}" class="h-20px h-lg-30px app-sidebar-logo-default" />
+				<img alt="Logo" src="{{ image('auth/secoem_blanco.svg') }}" class="h-20px h-lg-30px app-sidebar-logo-default" />
 			</a>
 		</div>
 		<!--end::Logo-->
 		<!--begin::Header wrapper-->
 		<div class="d-flex align-items-stretch justify-content-between flex-lg-grow-1" id="kt_app_header_wrapper">
-			@include(config('settings.KT_THEME_LAYOUT_DIR').'/partials/header-layout/header/_menu/_menu')
-			@include(config('settings.KT_THEME_LAYOUT_DIR').'/partials/header-layout/header/_navbar')
+			{{-- @include(config('settings.KT_THEME_LAYOUT_DIR').'/partials/header-layout/header/_menu/_menu')
+			@include(config('settings.KT_THEME_LAYOUT_DIR').'/partials/header-layout/header/_navbar') --}}
 		</div>
 		<!--end::Header wrapper-->
 	</div>

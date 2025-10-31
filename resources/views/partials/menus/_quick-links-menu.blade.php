@@ -1,6 +1,6 @@
 
 <!--begin::Menu-->
-<div class="menu menu-sub menu-sub-dropdown menu-column w-250px w-lg-325px" data-kt-menu="true">
+<div class="menu menu-sub menu-sub-dropdown menu-column w-250px w-lg-325px" data-kt-menu="false">
 	<!--begin::Heading-->
 	<div class="d-flex flex-column flex-center bgi-no-repeat rounded-top px-9 py-10" style="background-image:url('{{ image('misc/menu-header-bg.jpg') }}')">
 		<!--begin::Title-->

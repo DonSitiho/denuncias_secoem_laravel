@@ -22,7 +22,7 @@ class SolventarInfo extends Model
         'observacion_responsable',
         'tipo_campo',
         'info_solicitada',
-        'fecha_solicitud',
+        'fecha_solicitud_info',
         'fecha_respuesta_info',
         'is_complete',
         'is_active'

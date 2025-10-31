@@ -27,8 +27,8 @@ class DatabaseSeeder extends Seeder
             //CatInhabilSeeder::class,
         ]);
 
-        \App\Models\User::factory(20)->create();
-        Address::factory(20)->create();
+        //\App\Models\User::factory(20)->create();
+        Address::factory(4)->create();
 
         // \App\Models\User::factory()->create([
         //     'name' => 'Test User',

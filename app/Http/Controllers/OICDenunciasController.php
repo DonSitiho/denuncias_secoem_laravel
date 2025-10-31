@@ -4,12 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Helpers\ArchivoHelper;
 use App\Models\ArchivoAdjunto;
+use App\Models\Area;
 use App\Models\Denuncia;
 use App\Models\SolventarInfo;
 use App\Repositories\DenunciasRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use PhpParser\Node\Stmt\TryCatch;
 
 class OICDenunciasController extends Controller
 {
@@ -51,7 +53,9 @@ class OICDenunciasController extends Controller
         ])
         ->findOrFail($id_denuncia);
 
-        //return json_encode($denuncia);
+        $areaResponsable = Area::where('id_area', $denuncia->id_area_responsable)->where('is_active', true)->first();
+
+        //return json_encode($areaResponsable);
 
         // Aplicar politica para la denuncia sea visualizada unicamente por el responsable al que se le turno la denuncia.
         $this->authorize('view', $denuncia);
@@ -66,7 +70,7 @@ class OICDenunciasController extends Controller
          * * El acceso a esta función está previamente protegido por el middleware 'can:oic-denuncia-detalles'.
          */
         
-        return view('oic-denuncias.detalles-denuncia', compact('denuncia', 'tipoCampos'));
+        return view('oic-denuncias.detalles-denuncia', compact('denuncia', 'tipoCampos', 'areaResponsable'));
 
             
     }
@@ -91,6 +95,52 @@ class OICDenunciasController extends Controller
         $descargar = true; 
 
         return ArchivoHelper::descargarArchivoEncriptado($ruta, $nombreArchivo, $tipoMime, $descargar);
+
+    }
+
+
+    public function solvetarInformacionDenuncia(Request $request, $id_denuncia){
+
+        // El middleware 'can:oic-denuncia-solventar-info' ya protegió el acceso.
+
+        // 1. VALIDACIÓN ACTUALIZADA
+        $request->validate([
+            'observacion_responsable' => 'required|string', // Observacion es OBLIGATORIA
+            'tipo_campo' => 'required', // Tipo de campo específico es OBLIGATORIA
+        ]);
+
+        try {
+            DB::beginTransaction();
+            $denuncia = Denuncia::findOrFail($id_denuncia);
+            $user = $user = Auth::user();
+
+            $solventarInfo = SolventarInfo::create([
+                'id_denuncia' => $denuncia->id_denuncia,
+                'id_usuario_solicito' => $user->id, 
+                'id_area_responsable' => $user->id_area,
+                'observacion_responsable' => $request->observacion_responsable,
+                'tipo_campo' => $request->tipo_campo,
+                'info_solicitada' => null,
+                'fecha_solicitud_info' => now(),
+                ''
+            ]);
+
+            $solventarInfo->save();
+
+            DB::commit();
+
+            //return json_encode($denuncia);
+
+            return redirect()->route('oic.ver-denuncia', $id_denuncia)
+                            ->with('success', 'Solicitud de mas informacion de la denuncia exitosamente al denunciante.');
+
+        } catch (\Exception $e){
+            DB::rollBack();
+            \Log::error("Error al solicitara mas informacion de la denuncia: " . $e->getMessage());
+            return redirect()->back()->with('error', 'Fallo al realizar la solicitud de mas informacion. Intente de nuevo.');
+        }
+
+        
 
     }
 
