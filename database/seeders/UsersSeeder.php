@@ -29,7 +29,7 @@ class UsersSeeder extends Seeder
             'email_verified_at' => now(),
             'id_area'           => 1, // Asume la existencia de un área con ID 1
         ]);
-        //$adminUser->assignRole('Administrador');
+        //$adminUser->assignRole('Administrador'); Se asignan roles en RoleSeeder
 
         // 2. Administrador de Denuncias
         $denunciasUser = User::create([
