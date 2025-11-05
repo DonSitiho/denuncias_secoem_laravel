@@ -4,87 +4,113 @@
         {{ __('Dashboard de Gestión de Denuncias') }}
     @endsection
 
-    @section('breadcrumbs')
-        {{-- Aquí irían las migas de pan --}}
-    @endsection
+    <h3 class="fw-bold fs-4 mb-5">{{ __('Métricas Operativas y de Seguimiento') }}</h3>
 
-    {{-- Área para los Contadores Clave --}}
-    <div class="row g-5 g-xl-10 mb-5 mb-xl-10">
+    {{-- 🛑 1. ESTRUCTURA HTML ARRASTRABLE 🛑 --}}
+    <div class="row g-5 g-xl-10 mb-5 mb-xl-10 draggable-zone" id="dashboard_widgets_container">
         
-        {{-- Widget 1: Denuncias Recibidas (Estado 1) --}}
-        <div class="col-md-6 col-lg-6 col-xl-6 col-xxl-3 mb-md-5 mb-xl-10">
-            @include('partials.widgets.admin_denuncias._widget-stat-card', [
-                'count' => $recibidas_count,
-                'title' => __('Denuncias Recibidas'),
-                'color' => '#F1416C', // Rojo/Naranja para alerta inicial
-                'link' => route('admin.denuncias.index', ['estado' => 1]), 
-                'subtitle' => __('Pendientes de asignación inicial.')
-            ])
-        </div>
-        
-        {{-- Widget 2: Denuncias Turnadas (Estado 2) --}}
-        <div class="col-md-6 col-lg-6 col-xl-6 col-xxl-3 mb-md-5 mb-xl-10">
-            @include('partials.widgets.admin_denuncias._widget-stat-card', [
-                'count' => $turnadas_count,
-                'title' => __('Expedientes Turnados'),
-                'color' => '#009EF7', // Azul para el flujo iniciado
-                'link' => route('admin.denuncias.index', ['estado' => 2]), 
-                'subtitle' => __('En espera de inicio de trámite por el OIC.')
-            ])
-        </div>
-
-        {{-- Widget 3: Denuncias Activas/En Trámite (Estados 2 y 3) --}}
-        <div class="col-md-6 col-lg-6 col-xl-6 col-xxl-3 mb-md-5 mb-xl-10">
-            @include('partials.widgets.admin_denuncias._widget-stat-card', [
-                'count' => $activas_count,
-                'title' => __('Total de Casos Activos'),
-                'color' => '#50CD89', // Verde para activos
-                'link' => route('admin.denuncias.index', ['estado' => 'activos']), // Filtrar por estados 2 y 3
-                'subtitle' => __('Denuncias en investigación o trámite.')
-            ])
-        </div>
-        
-        {{-- Widget 4: Denuncias Cerradas (Estado 4) --}}
-        <div class="col-md-6 col-lg-6 col-xl-6 col-xxl-3 mb-md-5 mb-xl-10">
-            @include('partials.widgets.admin_denuncias._widget-stat-card', [
-                'count' => $cerradas_count,
-                'title' => __('Denuncias Concluidas'),
-                'color' => '#7239EA', // Púrpura para conclusión
-                'link' => route('admin.denuncias.index', ['estado' => 4]), 
-                'subtitle' => __('Expedientes cerrados y archivados.')
-            ])
-        </div>
-
-        {{-- Widget 5: Áreas de Responsabilidad (Catálogo de apoyo) --}}
-        <div class="col-md-6 col-lg-6 col-xl-6 col-xxl-3 mb-md-5 mb-xl-10">
-            @include('partials.widgets.admin_denuncias._widget-stat-card', [
-                'count' => $areas_activas_count,
-                'title' => __('Áreas de Adscripción'),
-                'color' => '#FFC700', // Amarillo para administración
-                'link' => route('areas.index'), 
-                'subtitle' => __('Catálogo total de OIC/Áreas activas.')
-            ])
-        </div>
+        @foreach ($orderedWidgets as $key => $widgetData)
+            
+            <div class="col-md-6 col-lg-6 col-xl-6 col-xxl-3 draggable" data-widget-id="{{ $key }}">
+                
+                <div class="draggable-handle">
+                    @include('partials.widgets.admin_denuncias._widget-stat-card', [
+                        'count' => $widgetData['count'],
+                        'title' => $widgetData['title'],
+                        'color' => $widgetData['color'],
+                        'link' => $widgetData['link'],
+                        'subtitle' => 'Prioridad: ' . ($loop->index + 1)
+                    ])
+                </div>
+            </div>
+            
+        @endforeach
         
     </div>
     
-    {{-- ---------------------------------------------------------------------------------- --}}
-    {{-- Sección de Visualización y Gráficas (Ejemplos Relevantes) --}}
-    {{-- ---------------------------------------------------------------------------------- --}}
+    {{-- Contenedor de las gráficas estáticas --}}
+    <div class="row gx-5 gx-xl-10">
+        <div class="col-xxl-6 mb-5 mb-xl-10">
+             @include('partials/widgets/admin_denuncias/_widget-16') 
+        </div>
+        <div class="col-xl-6 mb-5 mb-xl-10">
+            @include('partials/widgets/admin_denuncias/_widget-20')
+        </div>
+    </div>
+
+    {{-- <div class="row gx-5 gx-xl-10">
+        <div class="col-xxl-6 mb-5 mb-xl-10">
+             @include('partials/widgets/charts/_widget-20') 
+        </div>
+        <div class="col-xl-6 mb-5 mb-xl-10">
+            @include('partials/widgets/charts/_widget-24')
+        </div>
+    </div>
 
     <div class="row gx-5 gx-xl-10">
-        {{-- Widget de Tabla: Denuncias Abiertas por Área (Importante para el Admin Denuncias) --}}
         <div class="col-xxl-6 mb-5 mb-xl-10">
-             {{-- Este widget debería ser una tabla con las 5 áreas con más casos activos --}}
-             @include('partials/widgets/tables/_widget-16') 
+             @include('partials/widgets/charts/_widget-27') 
         </div>
-        
-        {{-- Gráfica de Línea/Barra: Tendencia de Denuncias por Mes --}}
         <div class="col-xl-6 mb-5 mb-xl-10">
-            @include('partials/widgets/charts/_widget-8')
+            @include('partials/widgets/charts/_widget-28')
         </div>
-    </div>
-    
-    {{-- Omitimos el resto de includes genéricos para mantener el foco en la data relevante --}}
+    </div> --}}
+
+    @push('scripts')
+        <script src="{{ asset('assets/plugins/custom/draggable/draggable.bundle.js') }}"></script>
+        <script src="{{ asset('assets/plugins/global/plugins.bundle.js') }}"></script>
+
+        
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                // Objeto de inicialización de Metronic (Sortable/Draggable)
+                var containers = document.querySelectorAll(".draggable-zone");
+                
+                if (containers.length === 0) {
+                    return false;
+                }
+                
+                // ⭐ 1. Inicialización de Draggable.Sortable
+                // La librería expone el objeto Sortable dentro del namespace Draggable (Metronic)
+                if (typeof Draggable === 'undefined' || !Draggable.Sortable) {
+                     console.error("Error: Draggable.Sortable no está disponible. El arrastre no funcionará.");
+                     return;
+                }
+                
+                var swappable = new Draggable.Sortable(containers, {
+                    draggable: ".draggable",
+                    handle: ".draggable-handle",
+                    mirror: {
+                        appendTo: "body",
+                        constrainDimensions: true
+                    }
+                });
+                
+                // 2. Event Listener para PERSISTENCIA al soltar el elemento
+                swappable.on('sortable:stop', function (e) {
+
+                // Metronic: obtener contenedor desde e.data
+                const container = e.data ? e.data.newContainer || e.data.oldContainer : null;
+
+                if (!container) {
+                    console.warn("No container found on sortable:stop event");
+                    return;
+                }
+
+                // Leer nuevo orden
+                const newOrder = [...container.querySelectorAll('.draggable')]
+                    .map(item => item.getAttribute('data-widget-id'));
+
+                // Guardar con AJAX
+                $.post("{{ route('admin.dashboard.saveOrder') }}", {
+                    _token: '{{ csrf_token() }}',
+                    order: newOrder
+                })
+                .done(() => toastr.success("Orden guardado"))
+                .fail(() => toastr.error("Error al guardar"));
+            });
+            });
+        </script>
+    @endpush
     
 </x-default-layout>

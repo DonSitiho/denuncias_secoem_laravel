@@ -14,6 +14,7 @@ use App\Http\Controllers\DenunciaController;
 use App\Http\Controllers\AdminDenuncias\AreaController;
 use App\Http\Controllers\CatAreaGobController;
 use App\Http\Controllers\AdminDenuncias\AdminUserController;
+use App\Http\Controllers\AdminDenuncias\AdminDashboardController;
 
 
 
@@ -27,6 +28,7 @@ use App\Http\Controllers\AdminDenuncias\AdminUserController;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
 
 Route::middleware(['auth', 'verified'])->group(function () {
 
@@ -144,21 +146,41 @@ Route::middleware(['auth', 'can:admin-usuarios-crud'])->prefix('admin/usuarios')
 
 });
 
-
-Route::get('admin/areas/{id_area}/users', [AdminDenunciasController::class, 'getUsersForArea'])
-    ->name('admin.areas.getUsersForArea');
-
-// RUTAS PARA LA GESTIÓN DE ÁREAS (Trabajo del D4)
-Route::middleware(['can:admin-areas-crud'])->prefix('areas')->name('areas.')->group(function () {
-    // Vista principal del gestor de áreas
-    Route::get('/', [AreaController::class, 'index'])->name('index');
+    Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () {
     
-    // API Endpoint para obtener la estructura del árbol
-    Route::get('/tree', [AreaController::class, 'getTreeData'])->name('tree_data');
-    
-    // API Endpoint para operaciones CRUD de jsTree
-    Route::post('/crud', [AreaController::class, 'crud'])->name('crud');
-});
+    // Rutas del Dashboard de Denuncias
+    // El prefijo es 'dashboard' y el nombre es 'dashboard.'
+    Route::middleware(['can:admin-denuncia-ver'])->prefix('dashboard')->name('dashboard.')->group(function () {
+        
+        // 1. Ruta principal: admin.dashboard.index
+            Route::get('/', [DashboardController::class, 'index'])->name('index');
+            
+            // 2. Ruta AJAX de Persistencia: admin.dashboard.saveOrder
+            Route::post('/save-order', [DashboardController::class, 'saveOrder'])
+                ->name('saveOrder');
+
+            Route::get('/data', [DashboardController::class, 'getDashboardData'])
+                ->name('data');
+        });
+        
+        // Route::get('/data', [DashboardController::class, 'getDashboardData'])
+        // ->name('data');
+    });
+
+    Route::get('admin/areas/{id_area}/users', [AdminDenunciasController::class, 'getUsersForArea'])
+        ->name('admin.areas.getUsersForArea');
+
+    // RUTAS PARA LA GESTIÓN DE ÁREAS (Trabajo del D4)
+    Route::middleware(['can:admin-areas-crud'])->prefix('areas')->name('areas.')->group(function () {
+        // Vista principal del gestor de áreas
+        Route::get('/', [AreaController::class, 'index'])->name('index');
+        
+        // API Endpoint para obtener la estructura del árbol
+        Route::get('/tree', [AreaController::class, 'getTreeData'])->name('tree_data');
+        
+        // API Endpoint para operaciones CRUD de jsTree
+        Route::post('/crud', [AreaController::class, 'crud'])->name('crud');
+    });
 
 
 Route::get('/error', function () {
