@@ -7,6 +7,7 @@ use App\Services\DashboardMetricsService;
 use App\Models\Denuncia;
 use App\Models\Area;
 use App\Models\UserDashboardConfig;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
@@ -92,6 +93,8 @@ class DashboardController extends Controller
         $totalDenunciasArea = $this->denunciasOICRepo->totalDenunciaAreaResponsable();
         $totalDenunciasTurnadaResponsable = $this->denunciasOICRepo->totalDenunciasTurnadasResponsable();
 
+        //return json_encode($chartData);
+
         return view('pages/dashboards.indexOIC', compact('totalDenunciasArea', 'totalDenunciasTurnadaResponsable'));
     }
     
@@ -171,5 +174,20 @@ class DashboardController extends Controller
         // 3. Devolver los datos en formato JSON para el frontend
         // Esto será consumido por el script del widget para actualizar el gráfico ApexCharts
         return response()->json($data);
+    }
+
+    public function getDashboardOicData(){
+
+        // 1. Obtener el año actual y el usuario logueado
+        $year = Carbon::now()->year;
+        $user = Auth::user();
+
+        // 2. Llamar al servicio de métricas para obtener los datos agrupados
+        $data = $this->metricsService->getMonthDenunciasData($year, $user->id);
+
+        // 3. Devolver los datos en formato JSON para el frontend
+        // Esto será consumido por el script del widget para actualizar el gráfico ApexCharts
+        return response()->json($data);
+
     }
 }

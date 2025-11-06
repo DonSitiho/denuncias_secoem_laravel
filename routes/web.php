@@ -1,5 +1,5 @@
 <?php
- use App\Http\Controllers\CatMunicipioController;
+use App\Http\Controllers\CatMunicipioController;
 use App\Http\Controllers\Apps\PermissionManagementController;
 use App\Http\Controllers\Apps\RoleManagementController;
 use App\Http\Controllers\Apps\UserManagementController;
@@ -83,6 +83,17 @@ Route::middleware(['auth', 'verified'])->group(function () {
 // Grupo de rutas para el Usuario OIC
 Route::middleware(['auth'])->prefix('oic')->name('oic.')->group(function (){
 
+    //Ruta del Dashboard OIC de Denuncias
+
+    Route::middleware(['can:oic-denuncia-ver'])->name('dashboard.')->group(function() {
+
+        // 1. Ruta principal: oic.dashboard.index
+        Route::get('/', [DashboardController::class, 'index'])->name('index');
+
+        Route::get('/data', [DashboardController::class, 'getDashboardOicData'])
+                ->name('data');
+    });
+    
     // Listado de mis denuncias para un OIC
     Route::get('/mis-denuncias', [OICDenunciasController::class, 'getMisDenuncias'])
         ->name('mis-denuncias')
@@ -100,8 +111,12 @@ Route::middleware(['auth'])->prefix('oic')->name('oic.')->group(function (){
         ->name('solicitar-informacion')
         ->middleware('can:oic-denuncia-solventar-info');
 
+    /*
+    Route::get('/tramite/{id_denuncia}', [OICDenunciasController::class, 'denunciaEnTramite'])
+        ->name('tramite')
+        ->middleware('can:oic-denuncia-tramite');
+    */
 });
-
 
 // Grupo de rutas para el Administrador de Denuncias
 Route::middleware(['auth'])->prefix('admin/denuncias')->name('admin.denuncias.')->group(function () {

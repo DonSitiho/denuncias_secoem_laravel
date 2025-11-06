@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Models\Denuncia;
 use App\Models\Area;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Route;
 
 class DashboardMetricsService
@@ -164,6 +165,42 @@ class DashboardMetricsService
             'series' => $counts,
             'total' => $total,
             'periodo' => date('d M', strtotime($startDate)) . ' - ' . date('d M', strtotime($endDate)),
+        ];
+    }
+
+    public function getMonthDenunciasData(int $year, int $userId): array
+    {
+
+        $denuncias = Denuncia::whereYear('fecha_recepcion', $year)
+            ->where('id_responsable', $userId)
+            ->selectRaw('MONTH(fecha_recepcion) as date')
+            ->selectRaw('COUNT(id_denuncia) AS count')
+            ->groupBy('date')
+            ->orderBy('date', 'asc')
+            ->get();
+        
+        // Mapear los resultados y rellenar los meses sin denuncias
+        $dataMap = $denuncias->pluck('count', 'date')->toArray();
+
+        $labels = [];
+        $series = [];
+        $total = 0;
+
+        // Recorrer los 12 meses del año
+        for ($m = 1; $m <= 12; $m++) {
+            $monthLabel = ucfirst(Carbon::createFromDate($year, $m, 1)->translatedFormat('M'));
+            $count = $dataMap[$m] ?? 0;
+
+            $labels[] = $monthLabel; // Ej: Ene, Feb, Mar...
+            $series[] = $count;
+            $total += $count;
+        }
+
+        return [
+            'labels' => $labels,
+            'series' => $series,
+            'total' => $total,
+            'periodo' => $year,
         ];
     }
 }
