@@ -2,12 +2,15 @@
 
 namespace App\Livewire\OicDenuncias;
 
+use App\Models\Denuncia;
 use App\Repositories\DenunciasRepository;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Livewire\Component;
 use Livewire\WithPagination;
 
 class MisDenunciasTable extends Component
 {
+    use AuthorizesRequests;
 
     use WithPagination;
 
@@ -18,6 +21,8 @@ class MisDenunciasTable extends Component
     public string $sortBy = 'fecha_recepcion';
     public bool $sortAsc = false; // Ordenar de forma descendente por defecto
     public bool $responsable = false; //
+    public int $id_denuncia;
+    public int $status;
 
 
     protected $denunciaRepository;
@@ -50,5 +55,24 @@ class MisDenunciasTable extends Component
             $this->sortAsc = true;
         }
         $this->sortBy = $field;
+    }
+
+    // Funcion que cambia el estatus a en tramite.
+    public function pasarATramite($id)
+    {
+
+        $this->authorize('oic-denuncia-tramite'); // igual que en un controlador
+        $this->id_denuncia = $id;
+        $this->status = 3;
+
+        try {
+
+            $this->denunciaRepository->cambiarDenunciaATramite($this->id_denuncia,  $this->status);
+            $this->dispatch('success', 'Denuncia en proceso de trámite correctamente.');
+
+        } catch (\Exception $e){
+            $this->dispatch('danger', 'Error al pasar la denuncia a trámite.');
+        }
+
     }
 }

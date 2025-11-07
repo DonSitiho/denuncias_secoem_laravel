@@ -1,4 +1,9 @@
 <div>
+
+    @if (session()->has('message'))
+        <div class="alert alert-success">{{ session('message') }}</div>
+    @endif
+
     {{-- Caja de Búsqueda --}}
     <div class="d-flex justify-content-end align-items-center mb-5">
         <div class="d-flex align-items-center position-relative my-1">
@@ -53,9 +58,16 @@
                             <a href="{{ route('oic.ver-denuncia', $denuncia->id_denuncia) }}" class="btn btn-icon btn-light-primary btn-sm me-1" title="{{ __('Revisar Detalle') }}">
                                 <i class="fas fa-eye"></i>
                             </a>
+                            @if ($denuncia->id_estado != 3)
                             <a href="{{ route('oic.descargar', $denuncia->id_denuncia) }}" class="btn btn-icon btn-light-primary btn-sm me-1" title="{{ __('Descargar Evidencia') }}">
                                 <i class="fas fa-download"></i>
                             </a>
+                            
+                            <a wire:click="pasarATramite({{ $denuncia->id_denuncia }})"
+                                class="btn btn-icon btn-light-primary btn-sm me-1" title="{{ __('Pasar a Tramite') }}">
+                                <i class="fas fa-check"></i>
+                            </a>
+                            @endif
                         </td>
                     </tr>
                 @empty

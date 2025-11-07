@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\Models\Denuncia;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\DB;
 
 class DenunciasRepository {
 
@@ -47,6 +48,29 @@ class DenunciasRepository {
 
         return $totalDenuncias;
     }
+
+    public function cambiarDenunciaATramite(int $id_denuncia, int $status){
+
+        try {
+            DB::beginTransaction();
+
+            // Buscar el registro
+            $denuncia = Denuncia::findOrFail($id_denuncia);
+
+            // Cambiar el estatus (ajusta el nombre del campo según tu tabla)
+            $denuncia->id_estado = $status;
+            $denuncia->save();
+
+            DB::commit();
+            return $denuncia;
+        } catch (\Exception $e){
+            DB::rollBack();
+            \Log::error("Error al cambiar el estatus de la denuncia: " . $e->getMessage());
+        }
+
+    }
+
+
 
 }
 

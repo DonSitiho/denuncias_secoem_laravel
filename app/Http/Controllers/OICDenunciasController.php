@@ -50,19 +50,16 @@ class OICDenunciasController extends Controller
             'testigos',      // Carga los datos de los testigos
             'archivos',      // Carga los metadatos de las evidencias adjuntas
             'contacto',      // Carga el nombre, teléfono y correo del denunciante (si no es anónima)
+            'solventarInfo'  // Cargar los detalles de la infomarcion solicita al denunciante 
         ])
         ->findOrFail($id_denuncia);
 
-        $areaResponsable = Area::where('id_area', $denuncia->id_area_responsable)->where('is_active', true)->first();
-
-        //return json_encode($areaResponsable);
+        //return json_encode($denuncia);
 
         // Aplicar politica para la denuncia sea visualizada unicamente por el responsable al que se le turno la denuncia.
         $this->authorize('view', $denuncia);
 
         $tipoCampos = SolventarInfo::TIPOCAMPO;
-
-        ///return json_encode($tipoCampos);
 
         /**
          * Muestra la vista detallada de una denuncia específica para su revisión administrativa.
@@ -70,7 +67,7 @@ class OICDenunciasController extends Controller
          * * El acceso a esta función está previamente protegido por el middleware 'can:oic-denuncia-detalles'.
          */
         
-        return view('oic-denuncias.detalles-denuncia', compact('denuncia', 'tipoCampos', 'areaResponsable'));
+        return view('oic-denuncias.detalles-denuncia', compact('denuncia', 'tipoCampos'));
 
             
     }
@@ -139,9 +136,29 @@ class OICDenunciasController extends Controller
             \Log::error("Error al solicitara mas informacion de la denuncia: " . $e->getMessage());
             return redirect()->back()->with('error', 'Fallo al realizar la solicitud de mas informacion. Intente de nuevo.');
         }
-
-        
-
     }
 
+    /*
+    public function denunciaEnTramite($id_denuncia){
+
+        // El middleware 'can:oic-denuncia-tramite' ya protegió el acceso.
+
+        try {
+
+            DB::beginTransaction();
+
+            // Buscar el registro
+            $denuncia = Denuncia::findOrFail($id_denuncia);
+
+            // Cambiar el estatus (ajusta el nombre del campo según tu tabla)
+            $denuncia->id_estado = 3;
+            $denuncia->save();
+
+            DB::commit();
+
+        } catch (\Exception $e){
+
+        }
+    }
+    */
 }

@@ -19,7 +19,7 @@ MODAL DE SOLICITAR INFORMACION FALTANTE DE DENUNCIA
                         {{ __('Ingrese la observación del responsable y el tipo de campo del que desea solicitar mas información de la denuncia.') }}
                         <br><br>
                         <span class="fw-bold">{{ __('Folio:') }} {{ $denuncia->folio_seguimiento }}.</span>
-                        <span class="fw-bold">{{ __('Area Responsable:') }} {{ $areaResponsable->siglas }}.</span>
+                        <span class="fw-bold">{{ __('Area Responsable:') }} {{ $denuncia->areaResponsable->siglas }}.</span>
                     </p>
 
                     <div class="mb-3">
