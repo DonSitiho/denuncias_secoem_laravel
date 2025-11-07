@@ -31,53 +31,7 @@
 				<!--end:Menu sub-->
 			</div>
 			<!--end:Menu item-->
-			@can('admin-usuarios-crud')
-			<div data-kt-menu-trigger="click" class="menu-item menu-accordion {{ request()->routeIs('dashboard') ? 'here show' : '' }}">
-				<!--begin:Menu link-->
-				<span class="menu-link">
-					<span class="menu-icon">{!! getIcon('element-11', 'fs-2') !!}</span>
-					<span class="menu-title">Configuración</span>
-					<span class="menu-arrow"></span>
-				</span>
-				<!--end:Menu link-->
-				<!--begin:Menu sub-->
-				<div class="menu-sub menu-sub-accordion">
-					<!--begin:Menu item-->
-					<div class="menu-item">
-						<!--begin:Menu link-->
-						<a class="menu-link {{ request()->routeIs('catalogos') ? 'active' : '' }}" href="{{ route('catalogos.index') }}">
-							<span class="menu-bullet">
-								<span class="bullet bullet-dot"></span>
-							</span>
-							<span class="menu-title">Catálogos</span>
-						</a>
-						<!--end:Menu link-->
-					</div>
-					<!--end:Menu item-->
-					
-					<div class="menu-item">
-						<a class="menu-link {{ request()->routeIs('admin.usuarios.index') ? 'active' : '' }}" 
-						href="{{ route('admin.usuarios.index') }}">
-							<span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
-							<span class="menu-title">Usuarios y Cuentas</span>
-						</a>
-					</div>
-					
-					
-					
-					<div class="menu-item">
-						<a class="menu-link {{ request()->routeIs('areas.index') ? 'active' : '' }}" 
-						href="{{ route('areas.index') }}">
-							<span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
-							<span class="menu-title">Estructura de Áreas</span>
-						</a>
-					</div>
-					
-				</div>
-				<!--end:Menu sub-->
-			</div>
-			<!--end:Menu item-->
-			@endcan
+			
 			@can('admin-denuncia-ver')
 			<!--begin:Menu item-->
 			<div data-kt-menu-trigger="click" class="menu-item menu-accordion {{ request()->routeIs('dashboard') ? 'here show' : '' }}">
@@ -108,6 +62,57 @@
 			</div>
 			<!--end:Menu item-->
 			@endcan
+
+			<!--begin:Menu item-->
+			<div class="menu-item pt-5">
+				<!--begin:Menu content-->
+				<div class="menu-content">
+					<span class="menu-heading fw-bold text-uppercase fs-7">OIC</span>
+				</div>
+				<!--end:Menu content-->
+			</div>
+			<!--end:Menu item-->
+			<!--begin:Menu item-->
+			<div data-kt-menu-trigger="click" class="menu-item menu-accordion {{ request()->routeIs('dashboard') ? 'here show' : '' }}">
+				<!--begin:Menu link-->
+				<span class="menu-link">
+					<span class="menu-icon">{!! getIcon('element-11', 'fs-2') !!}</span>
+					<span class="menu-title">Mis Denuncias</span>
+					<span class="menu-arrow"></span>
+				</span>
+				<!--end:Menu link-->
+				<!--begin:Menu sub-->
+				<div class="menu-sub menu-sub-accordion">
+					<!--begin:Menu item-->
+					<div class="menu-item">
+						<!--begin:Menu link-->
+						<a class="menu-link {{ request()->routeIs('oic.mis-denuncias') ? 'active' : '' }}" href="{{ route('oic.mis-denuncias') }}">
+							<span class="menu-bullet">
+								<span class="bullet bullet-dot"></span>
+							</span>
+							<span class="menu-title">Ver denuncias</span>
+						</a>
+						<!--end:Menu link-->
+					</div>
+					<!--end:Menu item-->
+					<!--begin:Menu item-->
+					@can('view qr codes')
+					<div class="menu-item">
+						<!--begin:Menu link-->
+						<a class="menu-link {{ request()->routeIs('dashboard') ? 'active' : '' }}" href="{{ route('dashboard') }}">
+							<span class="menu-bullet">
+								<span class="bullet bullet-dot"></span>
+							</span>
+							<span class="menu-title">Administrar</span>
+						</a>
+						<!--end:Menu link-->
+					</div>
+					@endcan
+					<!--end:Menu item-->
+				</div>
+				<!--end:Menu sub-->
+			</div>
+			<!--end:Menu item-->
 			<!--begin:Menu item-->
 			<div class="menu-item pt-5">
 				<!--begin:Menu content-->
@@ -170,21 +175,13 @@
 			</div>
 			<!--end:Menu item-->
 			@endcan
-			<!--begin:Menu item-->
-			<div class="menu-item pt-5">
-				<!--begin:Menu content-->
-				<div class="menu-content">
-					<span class="menu-heading fw-bold text-uppercase fs-7">OIC</span>
-				</div>
-				<!--end:Menu content-->
-			</div>
-			<!--end:Menu item-->
-			<!--begin:Menu item-->
+
+			@can('admin-usuarios-crud')
 			<div data-kt-menu-trigger="click" class="menu-item menu-accordion {{ request()->routeIs('dashboard') ? 'here show' : '' }}">
 				<!--begin:Menu link-->
 				<span class="menu-link">
 					<span class="menu-icon">{!! getIcon('element-11', 'fs-2') !!}</span>
-					<span class="menu-title">Mis Denuncias</span>
+					<span class="menu-title">Configuración</span>
 					<span class="menu-arrow"></span>
 				</span>
 				<!--end:Menu link-->
@@ -193,33 +190,40 @@
 					<!--begin:Menu item-->
 					<div class="menu-item">
 						<!--begin:Menu link-->
-						<a class="menu-link {{ request()->routeIs('oic.mis-denuncias') ? 'active' : '' }}" href="{{ route('oic.mis-denuncias') }}">
+						<a class="menu-link {{ request()->routeIs('catalogos') ? 'active' : '' }}" href="{{ route('catalogos.index') }}">
 							<span class="menu-bullet">
 								<span class="bullet bullet-dot"></span>
 							</span>
-							<span class="menu-title">Ver denuncias</span>
+							<span class="menu-title">Catálogos</span>
 						</a>
 						<!--end:Menu link-->
 					</div>
 					<!--end:Menu item-->
-					<!--begin:Menu item-->
-					@can('view qr codes')
+					
 					<div class="menu-item">
-						<!--begin:Menu link-->
-						<a class="menu-link {{ request()->routeIs('dashboard') ? 'active' : '' }}" href="{{ route('dashboard') }}">
-							<span class="menu-bullet">
-								<span class="bullet bullet-dot"></span>
-							</span>
-							<span class="menu-title">Administrar</span>
+						<a class="menu-link {{ request()->routeIs('admin.usuarios.index') ? 'active' : '' }}" 
+						href="{{ route('admin.usuarios.index') }}">
+							<span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
+							<span class="menu-title">Usuarios y Cuentas</span>
 						</a>
-						<!--end:Menu link-->
 					</div>
-					@endcan
-					<!--end:Menu item-->
+					
+					
+					
+					<div class="menu-item">
+						<a class="menu-link {{ request()->routeIs('areas.index') ? 'active' : '' }}" 
+						href="{{ route('areas.index') }}">
+							<span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
+							<span class="menu-title">Estructura de Áreas</span>
+						</a>
+					</div>
+					
 				</div>
 				<!--end:Menu sub-->
 			</div>
 			<!--end:Menu item-->
+			@endcan
+			
 
 			@can('system-configuracion-crud')
 			<!--begin:Menu item-->
