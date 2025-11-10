@@ -86,7 +86,6 @@ class AdminDenunciasController extends Controller
         try {
             $archivo = ArchivoAdjunto::with('denuncia')->findOrFail($id_archivo);
             
-            // ⭐ 1. VERIFICACIÓN DE PERMISOS (Trabajo del D3/Gate)
             // Aseguramos que el usuario logueado tenga derecho a ver esta denuncia específica.
             if (Gate::denies('admin-denuncia-descarga')) {
                  // Si falla el permiso general de descarga
@@ -98,7 +97,6 @@ class AdminDenunciasController extends Controller
             //     return redirect()->back()->with('error', 'No tiene permisos sobre esta denuncia.');
             // }
 
-            // ⭐ 2. LLAMADA AL HELPER PARA DESENCRIPTAR Y SERVIR
             return ArchivoHelper::descargarArchivoEncriptado(
                 $archivo->ruta_cifrada, 
                 $archivo->nombre_original, 

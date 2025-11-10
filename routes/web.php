@@ -137,7 +137,7 @@ Route::middleware(['auth'])->prefix('admin/denuncias')->name('admin.denuncias.')
         ->middleware('can:admin-denuncia-turnar'); // Permiso para asignar un OIC
 
     // 4. Descarga Segura de Evidencia (GET)
-    Route::get('/evidencia/{id_archivo}', [AdminDenunciasController::class, 'descargarEvidencia'])
+    Route::get('/evidencia/{id_archivo}', [AdminDenunciasController::class, 'descargarArchivoEncriptado'])
         ->name('descargar.evidencia')
         ->middleware('can:admin-denuncia-descarga'); // Permiso para la descarga
 
