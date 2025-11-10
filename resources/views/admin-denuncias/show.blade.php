@@ -204,9 +204,11 @@
                                     <span class="text-muted fw-semibold d-block">Tipo: {{ strtoupper($archivo->tipo_archivo) }} | Carga: {{ $archivo->fecha_carga->format('d/m/Y') }}</span>
                                 </div>
                                 <span class="ms-2">
-                                    
+                                    {{-- ⭐ ENLACE ACTUALIZADO AL MÉTODO DE DESCARGA SEGURA --}}
                                     @can('admin-denuncia-descarga')
-                                        <a href="{{ route('admin.denuncias.descargar.evidencia', $archivo->id_archivo) }}" class="btn btn-icon btn-sm btn-info" title="Descargar">
+                                        <a href="{{ route('admin.denuncias.descargar.evidencia', ['id_archivo' => $archivo->id_archivo]) }}" 
+                                        class="btn btn-icon btn-sm btn-info" 
+                                        title="Descargar Evidencia">
                                             <i class="fas fa-download"></i>
                                         </a>
                                     @endcan

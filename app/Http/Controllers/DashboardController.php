@@ -39,7 +39,7 @@ class DashboardController extends Controller
                 switch ($role->id) {
                     case 1: // Administrador (Super Admin)
                         // Vista: Dashboard de Administración Global (Placeholder)
-                        return $this->indexAdminGlobal();
+                        return $this->indexAdminDenuncias();
                         
                     case 2: // Admin Denuncias (Recepción y Turno)
                         // Vista: Dashboard Operativo de Recepción
