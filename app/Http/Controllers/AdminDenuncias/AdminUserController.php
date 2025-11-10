@@ -19,7 +19,12 @@ class AdminUserController extends Controller
      */
     public function index()
     {
-        $usuarios = User::with('area')->whereNotNull('id_area')->orderBy('name')->paginate(15);
+        //Usuarios con área asignada pero que no tengan rol de administrador
+        $usuarios = User::with('area')->whereNotNull('id_area')->whereDoesntHave('roles', function($query) {
+            $query->where('name', 'Administrador');
+        })->orderBy('name')->paginate(15);
+
+        //dd($usuarios);
         $areas = Area::where('is_active', true)->orderBy('nombre_area')->get(); // Carga de todas las áreas activas
         
         // La vista debe ser index.blade.php que incluye el modal

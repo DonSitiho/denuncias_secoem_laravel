@@ -11,7 +11,8 @@ use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 use App\Models\ArchivoAdjunto;
-use Illuminate\Support\Facades\Storage; // Necesario para gestionar archivos
+use Illuminate\Support\Facades\Storage;
+use App\Helpers\ArchivoHelper;
 use Illuminate\Support\Facades\Log;
 
 class AdminDenunciasController extends Controller
@@ -72,6 +73,43 @@ class AdminDenunciasController extends Controller
                             ->get();
 
         return view('admin-denuncias.show', compact('denuncia', 'areaResponsable', 'usuariosOIC'));
+    }
+
+    /**
+     * Descarga y desencripta el archivo adjunto para el administrador.
+     * La ruta está protegida por el middleware 'can:admin-denuncia-descarga'.
+     * * @param int $id_archivo ID del ArchivoAdjunto.
+     * @return \Illuminate\Http\Response|\Symfony\Component\HttpFoundation\StreamedResponse
+     */
+    public function descargarArchivoEncriptado($id_archivo)
+    {
+        try {
+            $archivo = ArchivoAdjunto::with('denuncia')->findOrFail($id_archivo);
+            
+            // Aseguramos que el usuario logueado tenga derecho a ver esta denuncia específica.
+            if (Gate::denies('admin-denuncia-descarga')) {
+                 // Si falla el permiso general de descarga
+                 return redirect()->back()->with('error', 'Permisos insuficientes para esta acción.');
+            }
+            
+            // Opcional: Si necesitas chequear que la denuncia le pertenece (Policy por objeto)
+            // if (Gate::denies('view', $archivo->denuncia)) { 
+            //     return redirect()->back()->with('error', 'No tiene permisos sobre esta denuncia.');
+            // }
+
+            return ArchivoHelper::descargarArchivoEncriptado(
+                $archivo->ruta_cifrada, 
+                $archivo->nombre_original, 
+                $archivo->tipo_archivo, // Se puede usar el campo 'tipo_archivo' del modelo para el MIME type
+                true // Forzar descarga (descargar=true)
+            );
+
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+            return redirect()->back()->with('error', 'El archivo solicitado no existe.');
+        } catch (\Exception $e) {
+            Log::error("Error al servir archivo encriptado (Admin): " . $e->getMessage());
+            return redirect()->back()->with('error', 'Error al acceder o desencriptar el archivo de prueba.');
+        }
     }
 
     /**

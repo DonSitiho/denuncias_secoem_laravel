@@ -75,10 +75,13 @@ class UserTable extends Component
 
     public function render()
     {
-        // 1. Consulta base: Solo usuarios con área asignada
+        // 1. Consulta base: Solo usuarios con área asignada que no sean administradores 
         $usuarios = User::query()
             ->with(['area'])
             ->whereNotNull('id_area') // ⬅️ FILTRO CRUCIAL: Solo usuarios con área
+            ->whereDoesntHave('roles', function($query) {
+                $query->where('name', 'Administrador');
+            })
 
             // 2. Lógica de Búsqueda
             ->when($this->search, function (Builder $query, $search) {
