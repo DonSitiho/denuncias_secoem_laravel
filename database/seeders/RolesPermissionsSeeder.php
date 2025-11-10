@@ -19,7 +19,7 @@ class RolesPermissionsSeeder extends Seeder
             // PERMISOS OIC (Usuario OIC y Capturista)
             'oic-denuncia-ver',
             'oic-denuncia-detalles',
-            'oic-denuncia-descarga',
+            'oic-denuncia-descargar',
             'oic-denuncia-solventar-info',
             'oic-denuncia-crear',
             'oic-denuncia-tramite', 
@@ -64,8 +64,9 @@ class RolesPermissionsSeeder extends Seeder
             'Usuario OIC' => [
                 'oic-denuncia-ver',
                 'oic-denuncia-detalles',
-                'oic-denuncia-descarga',
+                'oic-denuncia-descargar',
                 'oic-denuncia-solventar-info',
+                'oic-denuncia-tramite',
             ],
             
             'Capturista' => [
