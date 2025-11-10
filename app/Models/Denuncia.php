@@ -111,6 +111,12 @@ class Denuncia extends Model
         // Une denuncia.id_responsable con users.id
         return $this->belongsTo(User::class, 'id_responsable', 'id');
     }
+
+    // Relacion 1:N con solventar informacion de la denuncia
+    public function solventarInfo(): HasMany
+    {
+        return $this->hasMany(SolventarInfo::class, 'id_denuncia', 'id_denuncia');
+    }
     
     public function municipio()
     {

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class SolventarInfo extends Model
 {
@@ -26,8 +27,32 @@ class SolventarInfo extends Model
         'fecha_respuesta_info',
         'is_complete',
         'is_active'
+    ];
 
+    protected $casts = [
+        'fecha_solicitud_info' => 'date',
+        'fecha_respuesta_info' => 'datetime',
     ];
 
     public const TIPOCAMPO = ['date', 'text', 'archivo', 'entero'];
+
+    /**
+     * Accessor para info_solicitada
+     * Si tipo_campo es "archivo", decodifica el JSON.
+     * 
+     */
+    public function getInfoSolicitadaAttribute($value)
+    {
+        if ($this->tipo_campo === 'archivo' && $value) {
+            return json_decode($value);
+        }
+
+        return $value;
+    }
+
+    // Relacion 1:N  Inversa con Denuncia
+    public function denuncia(): BelongsTo
+    {
+        return $this->belongsTo(Denuncia::class, 'id_denuncia', 'id_denuncia');
+    }
 }
