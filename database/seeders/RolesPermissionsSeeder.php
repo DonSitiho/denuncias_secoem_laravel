@@ -27,6 +27,7 @@ class RolesPermissionsSeeder extends Seeder
             // PERMISOS ADMIN GENERAL (Gestión de Catálogos/Usuarios Internos)
             'admin-areas-crud',
             'admin-usuarios-crud',
+            'admin-catalogos-crud',
             
             // PERMISOS ADMIN DENUNCIAS (Operación y Asignación)
             'admin-denuncia-ver',
@@ -59,6 +60,7 @@ class RolesPermissionsSeeder extends Seeder
                 'admin-denuncia-descarga',
                 'admin-usuarios-crud',
                 'admin-areas-crud',
+                'admin-catalogos-crud',
             ],
             
             'Usuario OIC' => [
