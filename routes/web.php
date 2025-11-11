@@ -209,8 +209,8 @@ Route::get('/denunciar', [DenunciaController::class, 'create'])->name('denunciar
 Route::get('/buscar-denuncia', [DenunciaController::class, 'buscar'])->name('buscar.denuncia');
 Route::post('/api/denuncias', [DenunciaController::class, 'store'])->name('denuncias.store');
 //qr
-Route::get('/denuncias/seguimiento/{folio}', [DenunciaController::class, 'seguimiento'])
-    ->name('denuncias.seguimiento');
+// Route::get('/denuncias/seguimiento/{folio}', [DenunciaController::class, 'seguimiento'])
+//     ->name('denuncias.seguimiento');
 //PDF
 Route::get('/denuncias/{folio}/pdf', [App\Http\Controllers\DenunciaController::class, 'generarPDF'])->name('denuncias.pdf');
 //********************** FIN DENUNCIAS ********************************* */
