@@ -113,7 +113,7 @@
                         const data = result.value;
                         const tree = $('#area_jstree').jstree(true);
 
-                        // Llamada a la API (admin.areas.crud)
+                        // Llamada a la API (areas.crud)
                         $.post("{{ route('areas.crud') }}", {
                             operation: 'create_node',
                             parent: '#',

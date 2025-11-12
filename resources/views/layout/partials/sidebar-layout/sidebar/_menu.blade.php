@@ -72,6 +72,7 @@
 				<!--end:Menu content-->
 			</div>
 			<!--end:Menu item-->
+			@can('oic-denuncia-ver')
 			<!--begin:Menu item-->
 			<div data-kt-menu-trigger="click" class="menu-item menu-accordion {{ request()->routeIs('dashboard') ? 'here show' : '' }}">
 				<!--begin:Menu link-->
@@ -122,6 +123,7 @@
 				<!--end:Menu content-->
 			</div>
 			<!--end:Menu item-->
+		@endcan
 			<!--begin:Menu item-->
 			@can('system-configuracion-crud')
 			<div data-kt-menu-trigger="click" class="menu-item menu-accordion {{ request()->routeIs('user-management.*') ? 'here show' : '' }}">

@@ -40,7 +40,7 @@ class DashboardMetricsService
             'areas' => [
                 'count' => Area::where('is_active', true)->count(),
                 'title' => 'Áreas Asignables', 'color' => '#FFC700',
-                'link' => Route::has('admin.areas.index') ? route('admin.areas.index') : '#',
+                'link' => Route::has('areas.index') ? route('areas.index') : '#',
             ],
         ];
     }

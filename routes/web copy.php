@@ -33,11 +33,11 @@ use App\Http\Controllers\AdminDenuncias\AdminDashboardController;
 Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::get('/', [DashboardController::class, 'index']);
-
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     
     
     Route::get('/catalogos', function () {return view('catalogos.index');})->name('catalogos.index');
+    
     Route::patch('cat_municipios/{id}/activate', [CatMunicipioController::class, 'activate'])->name('cat_municipios.activate');
     Route::resource('cat_municipios', CatMunicipioController::class);
     
@@ -46,27 +46,27 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
  Route::prefix('cat_areas_gob')->name('cat_areas_gob.')->group(function () {
     // Listado de áreas
-    Route::get('/', [CatAreaGobController::class, 'index'])->name('index')->middleware('can:admin-areas-crud');
+    Route::get('/', [CatAreaGobController::class, 'index'])->name('index');
 
     // Crear área
-    Route::get('/create', [CatAreaGobController::class, 'create'])->name('create')->middleware('can:admin-areas-crud');
-    Route::post('/', [CatAreaGobController::class, 'store'])->name('store')->middleware('can:admin-areas-crud');
+    Route::get('/create', [CatAreaGobController::class, 'create'])->name('create');
+    Route::post('/', [CatAreaGobController::class, 'store'])->name('store');
 
     // Editar área
-    Route::get('/{id}/edit', [CatAreaGobController::class, 'edit'])->name('edit')->middleware('can:admin-areas-crud');
-    Route::put('/{id}', [CatAreaGobController::class, 'update'])->name('update')->middleware('can:admin-areas-crud');
+    Route::get('/{id}/edit', [CatAreaGobController::class, 'edit'])->name('edit');
+    Route::put('/{id}', [CatAreaGobController::class, 'update'])->name('update');
 
     // Activar / Desactivar
-    Route::delete('/{id}', [CatAreaGobController::class, 'destroy'])->name('destroy')->middleware('can:admin-areas-crud');
-    Route::patch('/{id}/activate', [CatAreaGobController::class, 'activate'])->name('activate')->middleware('can:admin-areas-crud');
+    Route::delete('/{id}', [CatAreaGobController::class, 'destroy'])->name('destroy');
+    Route::patch('/{id}/activate', [CatAreaGobController::class, 'activate'])->name('activate');
 });
     Route::resource('cat_estados', CatEstadosController::class);
-    Route::patch('cat_estados/{id}/activate', [CatEstadosController::class, 'activate'])->name('cat_estados.activate')->middleware('can:admin-catalogos-crud');
+    Route::patch('cat_estados/{id}/activate', [CatEstadosController::class, 'activate'])->name('cat_estados.activate');
 
     Route::name('user-management.')->group(function () {
-        Route::resource('/user-management/users', UserManagementController::class)->middleware('can:admin-usuarios-crud');
-        Route::resource('/user-management/roles', RoleManagementController::class)->middleware('can:system-roles-crud');
-        Route::resource('/user-management/permissions', PermissionManagementController::class)->middleware('can:system-permissions-crud');
+        Route::resource('/user-management/users', UserManagementController::class);
+        Route::resource('/user-management/roles', RoleManagementController::class);
+        Route::resource('/user-management/permissions', PermissionManagementController::class);
     });
 
     /*
@@ -137,7 +137,7 @@ Route::middleware(['auth'])->prefix('admin/denuncias')->name('admin.denuncias.')
         ->middleware('can:admin-denuncia-turnar'); // Permiso para asignar un OIC
 
     // 4. Descarga Segura de Evidencia (GET)
-    Route::get('/evidencia/{id_archivo}', [AdminDenunciasController::class, 'descargarEvidencia'])
+    Route::get('/evidencia/{id_archivo}', [AdminDenunciasController::class, 'descargarArchivoEncriptado'])
         ->name('descargar.evidencia')
         ->middleware('can:admin-denuncia-descarga'); // Permiso para la descarga
 
@@ -183,10 +183,10 @@ Route::middleware(['auth', 'can:admin-usuarios-crud'])->prefix('admin/usuarios')
     });
 
     Route::get('admin/areas/{id_area}/users', [AdminDenunciasController::class, 'getUsersForArea'])
-        ->name('admin.areas.getUsersForArea')->middleware('auth', 'can:admin-usuarios-crud');
+        ->name('admin.areas.getUsersForArea');
 
     // RUTAS PARA LA GESTIÓN DE ÁREAS (Trabajo del D4)
-    Route::middleware(['auth', 'can:admin-areas-crud'])->prefix('areas')->name('areas.')->group(function () {
+    Route::middleware(['can:admin-areas-crud'])->prefix('areas')->name('areas.')->group(function () {
         // Vista principal del gestor de áreas
         Route::get('/', [AreaController::class, 'index'])->name('index');
         

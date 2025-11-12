@@ -153,30 +153,6 @@ class AdminDenunciasController extends Controller
             return redirect()->back()->with('error', 'Fallo al realizar el turno. Intente de nuevo.');
         }
     }
-    
-    /**
-     * Descarga de Evidencia Temporal (Sin Cifrado).
-     */
-    public function descargarEvidencia($id_archivo)
-    {
-        // El middleware 'can:admin-denuncia-descarga' ya protegió el acceso.
-        
-        $archivo = ArchivoAdjunto::with('denuncia')->findOrFail($id_archivo);
-
-        // 1. Verificación de Permisos Lógicos (D3): Si la denuncia es visible para el Admin.
-        // if (Gate::denies('view', $archivo->denuncia)) { ... } 
-        
-        // 2. Lógica TEMPORAL sin cifrado (Descarga directa del disco)
-        $rutaCompleta = $archivo->ruta_cifrada; // Usamos este campo temporalmente como la ruta no cifrada.
-
-        if (!Storage::disk('denuncias_storage')->exists($rutaCompleta)) {
-            return redirect()->back()->with('error', 'El archivo no fue encontrado en el servidor.');
-        }
-
-        // Devolvemos la descarga del archivo. 
-        // Nota: 'denuncias_storage' debe estar configurado en config/filesystems.php
-        return Storage::disk('denuncias_storage')->download($rutaCompleta, $archivo->nombre_original);
-    }
 
     /**
      * Obtiene los usuarios pertenecientes a un área específica.

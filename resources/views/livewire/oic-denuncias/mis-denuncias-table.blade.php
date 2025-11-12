@@ -58,11 +58,12 @@
                             <a href="{{ route('oic.ver-denuncia', $denuncia->id_denuncia) }}" class="btn btn-icon btn-light-primary btn-sm me-1" title="{{ __('Revisar Detalle') }}">
                                 <i class="fas fa-eye"></i>
                             </a>
-                            @if ($denuncia->id_estado != 3)
+
+                            @if ($denuncia->id_estado == 3)
                             <a href="{{ route('oic.descargar', $denuncia->id_denuncia) }}" class="btn btn-icon btn-light-primary btn-sm me-1" title="{{ __('Descargar Evidencia') }}">
                                 <i class="fas fa-download"></i>
                             </a>
-                            
+                            @elseif ($denuncia->id_estado == 2)
                             <a wire:click="pasarATramite({{ $denuncia->id_denuncia }})"
                                 class="btn btn-icon btn-light-primary btn-sm me-1" title="{{ __('Pasar a Tramite') }}">
                                 <i class="fas fa-check"></i>
