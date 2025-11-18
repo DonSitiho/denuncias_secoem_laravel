@@ -1007,7 +1007,7 @@
 
                                         <div>
                                             <button type="submit" class="btn btn-lg btn-guinda" id="submit-btn"
-                                                style="display: none;">
+                                                style="display: none;" disabled>
                                                 Enviar Denuncia
                                             </button>
 
@@ -1598,5 +1598,13 @@
                     }
                 });
             </script>
+            <script>
+            const chk = document.getElementById('confirmacion_datos');
+            const btn = document.getElementById('submit-btn');
+
+            chk.addEventListener('change', function () {
+                btn.disabled = !this.checked;
+            });
+        </script>
         @endsection
 </x-auth-layout>
