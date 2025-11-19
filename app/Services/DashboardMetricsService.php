@@ -188,7 +188,7 @@ class DashboardMetricsService
 
         // Recorrer los 12 meses del año
         for ($m = 1; $m <= 12; $m++) {
-            $monthLabel = ucfirst(Carbon::createFromDate($year, $m, 1)->translatedFormat('M'));
+            $monthLabel = ucfirst(Carbon::createFromDate($year, $m, 1)->locale('es')->translatedFormat('F'));
             $count = $dataMap[$m] ?? 0;
 
             $labels[] = $monthLabel; // Ej: Ene, Feb, Mar...
