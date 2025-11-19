@@ -38,6 +38,18 @@
     </div> --}}
     <!--end::My apps links-->
     <!--begin::User menu-->
+
+    <!--begin::Notifications-->
+	{{-- <div class="app-navbar-item ms-1 ms-md-4">
+        <!--begin::Menu- wrapper-->
+		<div class="btn btn-icon btn-custom btn-icon-muted btn-active-light btn-active-color-primary w-35px h-35px" data-kt-menu-trigger="{default: 'click', lg: 'hover'}" data-kt-menu-attach="parent" data-kt-menu-placement="bottom-end" id="kt_menu_item_wow">{!! getIcon('notification-status', 'fs-2') !!}
+            <span class="bullet bullet-dot bg-success h-6px w-6px position-absolute translate-middle top-0 start-50 animation-blink"></span>
+        </div>
+        @include('partials/menus/_notifications-menu')
+        <!--end::Menu wrapper-->
+    </div>--}}
+    
+    <!--end::Notifications-->
 	<div class="app-navbar-item ms-1 ms-md-4" id="kt_header_user_menu_toggle">
         <!--begin::Menu wrapper-->
 		<div class="cursor-pointer symbol symbol-35px" data-kt-menu-trigger="{default: 'click', lg: 'hover'}" data-kt-menu-attach="parent" data-kt-menu-placement="bottom-end">

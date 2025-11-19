@@ -35,18 +35,72 @@ class DenunciasRepository {
         return $denuncia;
     }
 
+    public function totalDenunciasArea(){
+
+        return Denuncia::denunciasArea()->count();
+    }
+
+    public function getDenunciasArea(){
+
+        return Denuncia::denunciasArea()->orderBy('folio_seguimiento', 'desc')->get();
+    }
+
     public function totalDenunciasTurnadasResponsable(){
 
-        $totalDenuncias = Denuncia::denunciasTurnadasResponsable()->count();
+        return Denuncia::denunciasEstatus(3)->count();
 
-        return $totalDenuncias;
+    }
+
+    public function getDenunciasEnTramite(){
+
+        return Denuncia::denunciasEstatus(3)->orderBy('folio_seguimiento', 'desc')->get();
+
+    }
+
+    public function totalDenunciasTerminadasResponsable(){
+
+        return Denuncia::denunciasEstatus(4)->count();
+    }
+
+    public function getDenunciasTerminadas(){
+
+        return Denuncia::denunciasEstatus(4)->orderBy('folio_seguimiento', 'desc')->get();
+
     }
 
     public function totalDenunciaAreaResponsable(){
 
-        $totalDenuncias = Denuncia::denunciasArea()->count();
+        return Denuncia::denunciasArea()->count();
+    }
 
-        return $totalDenuncias;
+    public function totalDenunciasAnonimas(){
+
+        return Denuncia::denunciasAnonimas(1)->count();
+    }
+
+    public function getDenunciasAnonimas(){
+
+        return Denuncia::denunciasAnonimas(1)->orderBy('folio_seguimiento', 'desc')->get();
+
+    }
+
+    public function totalDenunciasNoAnonimas(){
+
+        return Denuncia::denunciasAnonimas(0)->count();
+    }
+
+    public function getDenunciasNoAnonimas(){
+
+        return Denuncia::denunciasAnonimas(0)->orderBy('folio_seguimiento', 'desc')->get();
+
+    }
+
+    public function totalDenuncias(){
+        return Denuncia::count();
+    }
+
+    public function getDenuncias(){
+        return Denuncia::orderBy('folio_seguimiento', 'desc')->get();
     }
 
     public function cambiarDenunciaATramite(int $id_denuncia, int $status){
