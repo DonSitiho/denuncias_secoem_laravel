@@ -23,7 +23,7 @@ class RegisteredUserController extends Controller
     {
         addJavascriptFile('assets/js/custom/authentication/sign-up/general.js');
 
-        return view('pages/auth.register');
+        return view('pages/auth.login');
     }
 
     /**

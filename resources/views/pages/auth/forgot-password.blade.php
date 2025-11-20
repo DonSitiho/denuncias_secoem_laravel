@@ -7,13 +7,13 @@
         <div class="text-center mb-10">
             <!--begin::Title-->
             <h1 class="text-gray-900 fw-bolder mb-3">
-                Forgot Password ?
+                Olvidaste tu contraseña ?
             </h1>
             <!--end::Title-->
 
             <!--begin::Link-->
             <div class="text-gray-500 fw-semibold fs-6">
-                Enter your email to reset your password.
+                Implementar función de recuperado o eliminar esta página
             </div>
             <!--end::Link-->
         </div>
@@ -22,7 +22,7 @@
         <!--begin::Input group--->
         <div class="fv-row mb-8">
             <!--begin::Email-->
-            <input type="text" placeholder="Email" name="email" autocomplete="off" class="form-control bg-transparent" value="demo@demo.com"/>
+            <input type="text" placeholder="Email" name="email" autocomplete="off" class="form-control bg-transparent" value=""/>
             <!--end::Email-->
         </div>
 
