@@ -142,7 +142,12 @@
 
                     <!--begin::Buttons-->
                     <div class="d-flex flex-center gap-3">
-                        <a href="{{ route('denuncias.pdf', $folio) }}" class="btn btn-guinda">
+                        @php
+                            $signedUrl = URL::temporarySignedRoute(
+                                'denuncias.pdf', now()->addMinutes(30), ['folio' => $folio]
+                            );
+                        @endphp
+                        <a href="{{ $signedUrl }}" class="btn btn-guinda">
                             <i class="ki-duotone ki-file-down fs-2 me-2">
                                 <span class="path1"></span>
                                 <span class="path2"></span>

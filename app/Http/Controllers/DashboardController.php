@@ -90,12 +90,34 @@ class DashboardController extends Controller
      */
     public function indexIOC()
     {
-        $totalDenunciasArea = $this->denunciasOICRepo->totalDenunciaAreaResponsable();
+        // Obtener el total de denuncias por area del responsable OIC.
+        $totalDenunciasArea = $this->denunciasOICRepo->totalDenunciasArea();
+        $denunciasArea = $this->denunciasOICRepo->getDenunciasArea();
+        
+        // Obtener el total de denunicas turnardas al responsable OIC.
         $totalDenunciasTurnadaResponsable = $this->denunciasOICRepo->totalDenunciasTurnadasResponsable();
+        // Obtener las denunicas turnardas al responsable OIC.
+        $denunciasTramite = $this->denunciasOICRepo->getDenunciasEnTramite();
 
-        //return json_encode($chartData);
+        // Obtener el total de denuncias terminadas por el responsble OIC.
+        $totalDTR = $this->denunciasOICRepo->totalDenunciasTerminadasResponsable();
+        // Obtener las denunicas terminadas por el responsable OIC.
+        $denunciasTerminadas = $this->denunciasOICRepo->getDenunciasTerminadas();
 
-        return view('pages/dashboards.indexOIC', compact('totalDenunciasArea', 'totalDenunciasTurnadaResponsable'));
+        //Obtener el total de denuncias anonimas.
+        $totalDenunciasAnonimas = $this->denunciasOICRepo->totalDenunciasAnonimas();
+        $denunciasAnonimas = $this->denunciasOICRepo->getDenunciasAnonimas();
+
+        //Obtener el total de denuncias no anonimas.
+        $totalDenunciasNoAnonimas = $this->denunciasOICRepo->totalDenunciasNoAnonimas(); 
+        $denunciasNoAnonimas = $this->denunciasOICRepo->getDenunciasNoAnonimas();
+
+        $totalDenuncias = $this->denunciasOICRepo->totalDenuncias();
+        $denuncias = $this->denunciasOICRepo->getDenuncias();  
+
+        //return json_encode($totalDenuncias);
+
+        return view('pages/dashboards.indexOIC', compact('totalDenunciasArea', 'denunciasArea', 'totalDenunciasTurnadaResponsable', 'denunciasTramite', 'totalDTR', 'denunciasTerminadas', 'totalDenunciasAnonimas', 'denunciasAnonimas', 'totalDenunciasNoAnonimas', 'denunciasNoAnonimas', 'totalDenuncias', 'denuncias'));
     }
     
     /**

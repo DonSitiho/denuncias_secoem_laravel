@@ -305,18 +305,7 @@
                                     <!--end::Separator-->
 
                                     <!--begin::Item-->
-                                    <div class="d-flex flex-stack">
-                                        <span class="text-gray-600 fw-semibold">Prioridad:</span>
-                                        <span
-                                            class="badge badge-lg {{ $denuncia->prioridad == 'alta'
-                                                ? 'badge-guinda-danger'
-                                                : ($denuncia->prioridad == 'media'
-                                                    ? 'badge-guinda-warning'
-                                                    : 'badge-guinda-success') }}">
-                                            {{-- {{ ucfirst($denuncia->prioridad) }} --}}
-                                            ver si se ocupa
-                                        </span>
-                                    </div>
+                                    
                                     <!--end::Item-->
 
                                     @if ($denuncia->circunstancia && $denuncia->circunstancia->municipio)
@@ -422,21 +411,7 @@
                                                     </span>
                                                 </div>
                                             </div>
-                                            <div class="col-md-6">
-                                                <label class="form-label fw-semibold text-gray-600">Nivel de
-                                                    prioridad</label>
-                                                <div>
-                                                    <span
-                                                        class="badge badge-lg {{ $denuncia->prioridad == 'alta'
-                                                            ? 'badge-guinda-danger'
-                                                            : ($denuncia->prioridad == 'media'
-                                                                ? 'badge-guinda-warning'
-                                                                : 'badge-guinda-success') }}">
-                                                        {{-- {{ ucfirst($denuncia->prioridad) }} --}}
-                                                        ver si se ocupa
-                                                    </span>
-                                                </div>
-                                            </div>
+                                            {{--  --}}
                                         </div>
 
                                         @if ($denuncia->circunstancia && $denuncia->circunstancia->municipio)
