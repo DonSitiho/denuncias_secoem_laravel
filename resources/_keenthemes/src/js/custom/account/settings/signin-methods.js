@@ -109,10 +109,10 @@ var KTAccountSettingsSigninMethods = function () {
                     });
                 } else {
                     swal.fire({
-                        text: "Sorry, looks like there are some errors detected, please try again.",
+                        text: "Lo sentimos, parece que se han detectado algunos errores. Por favor, inténtalo de nuevo.",
                         icon: "error",
                         buttonsStyling: false,
-                        confirmButtonText: "Ok, got it!",
+                        confirmButtonText: "Aceptar, entendido!",
                         customClass: {
                             confirmButton: "btn font-weight-bold btn-light-primary"
                         }
@@ -197,10 +197,10 @@ var KTAccountSettingsSigninMethods = function () {
                     });
                 } else {
                     swal.fire({
-                        text: "Sorry, looks like there are some errors detected, please try again.",
+                        text: "Lo sentimos, parece que se han detectado algunos errores. Por favor, inténtalo de nuevo.",
                         icon: "error",
                         buttonsStyling: false,
-                        confirmButtonText: "Ok, got it!",
+                        confirmButtonText: "Aceptar, entendido!",
                         customClass: {
                             confirmButton: "btn font-weight-bold btn-light-primary"
                         }

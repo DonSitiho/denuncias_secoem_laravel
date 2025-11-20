@@ -9,6 +9,7 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 
 class User extends Authenticatable implements MustVerifyEmail
@@ -75,5 +76,11 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         // Une users.id_area con areas.id_area
         return $this->belongsTo(Area::class, 'id_area', 'id_area');
+    }
+
+    public function denunciasAsignadas(): HasMany
+    {
+        // Une users.id con denuncia.id_responsable
+        return $this->hasMany(Denuncia::class, 'id_responsable', 'id');
     }
 }

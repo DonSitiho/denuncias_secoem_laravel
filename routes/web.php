@@ -32,6 +32,25 @@ use App\Http\Controllers\AdminDenuncias\AdminDashboardController;
 
 Route::middleware(['auth', 'verified'])->group(function () {
 
+    Route::prefix('profile')->name('profile.')->group(function () {
+        // Vista del formulario
+        Route::get('/change-password', [UserManagementController::class, 'showChangePasswordForm'])->name('change_password');
+        // Acción POST
+        Route::post('/update-password', [UserManagementController::class, 'updatePassword'])->name('update_password');
+    });
+
+    Route::middleware(['auth', 'can:admin-usuarios-crud'])->prefix('admin/usuarios')->name('admin.usuarios.')->group(function () {
+    
+
+        // RUTA RESTABLECIMIENTO FORZADO (Para el modal de usuario específico)
+        Route::put('usuarios/{user}/password', [UserManagementController::class, 'updatePasswordAdmin'])
+            ->name('password.update'); // Nombre de ruta: admin.usuarios.password.update
+
+        // RUTA DE CAMBIO DE ROL (Para el modal de usuario específico)
+        Route::put('usuarios/{user}/role', [UserManagementController::class, 'updateRole']) // ⬅️ AÑADIR ESTA RUTA
+            ->name('role.update'); 
+    });
+
     Route::get('/', [DashboardController::class, 'index']);
 
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');

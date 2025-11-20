@@ -168,7 +168,7 @@
     <!--end::Menu item-->
     <!--begin::Menu item-->
     <div class="menu-item px-5 my-1">
-        <a href="#" class="menu-link px-5">Configuración</a>
+        <a href="{{ route('profile.change_password') }}" class="menu-link px-5">Configuración</a>
     </div>
     <!--end::Menu item-->
     <!--begin::Menu item-->

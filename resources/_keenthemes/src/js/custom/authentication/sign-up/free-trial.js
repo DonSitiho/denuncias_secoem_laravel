@@ -12,27 +12,27 @@ var KTSignupFreeTrial = function() {
     var handleForm = function(e) {
         // Init form validation rules. For more info check the FormValidation plugin's official documentation:https://formvalidation.io/
         validator = FormValidation.formValidation(
-			form,
-			{
-				fields: {					 
-					'email': {
+            form,
+            {
+                fields: {					 
+                    'email': {
                         validators: {
                             regexp: {
                                 regexp: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-                                message: 'The value is not a valid email address',
+                                message: 'El valor no es una dirección de correo electrónico válida',
                             },
-							notEmpty: {
-								message: 'Email address is required'
-							}
-						}
-					},
+                            notEmpty: {
+                                message: 'La dirección de correo electrónico es obligatoria'
+                            }
+                        }
+                    },
                     'password': {
                         validators: {
                             notEmpty: {
-                                message: 'The password is required'
+                                message: 'La contraseña es obligatoria'
                             },
                             callback: {
-                                message: 'Please enter valid password',
+                                message: 'Por favor, introduce una contraseña válida',
                                 callback: function(input) {
                                     if (input.value.length > 0) {
                                         return validatePassword();
@@ -44,38 +44,38 @@ var KTSignupFreeTrial = function() {
                     'confirm-password': {
                         validators: {
                             notEmpty: {
-                                message: 'The password confirmation is required'
+                                message: 'La confirmación de la contraseña es obligatoria'
                             },
                             identical: {
                                 compare: function() {
                                     return form.querySelector('[name="password"]').value;
                                 },
-                                message: 'The password and its confirm are not the same'
+                                message: 'La contraseña y su confirmación no coinciden'
                             }
                         }
                     },
                     'toc': {
                         validators: {
                             notEmpty: {
-                                message: 'You must accept the terms and conditions'
+                                message: 'Debes aceptar los términos y condiciones'
                             }
                         }
                     }
                 },
                 plugins: {
-					trigger: new FormValidation.plugins.Trigger({
+                    trigger: new FormValidation.plugins.Trigger({
                         event: {
                             password: false
                         }  
                     }),
-					bootstrap: new FormValidation.plugins.Bootstrap5({
+                    bootstrap: new FormValidation.plugins.Bootstrap5({
                         rowSelector: '.fv-row',
                         eleInvalidClass: '',
                         eleValidClass: ''
                     })
                 }			 
-			}
-		);
+            }
+        );
 
         submitButton.addEventListener('click', function (e) {
             e.preventDefault();
@@ -83,7 +83,7 @@ var KTSignupFreeTrial = function() {
             validator.revalidateField('password');
 
             validator.validate().then(function(status) {
-		        if (status == 'Valid') {
+                if (status == 'Valid') {
                     // Show loading indication
                     submitButton.setAttribute('data-kt-indicator', 'on');
 
@@ -100,10 +100,10 @@ var KTSignupFreeTrial = function() {
 
                         // Show message popup. For more info check the plugin's official documentation: https://sweetalert2.github.io/
                         Swal.fire({
-                            text: "You have successfully registered!",
+                            text: "¡Te has registrado con éxito!",
                             icon: "success",
                             buttonsStyling: false,
-                            confirmButtonText: "Ok, got it!",
+                            confirmButtonText: "Aceptar",
                             customClass: {
                                 confirmButton: "btn btn-primary"
                             }
@@ -123,16 +123,16 @@ var KTSignupFreeTrial = function() {
                 } else {
                     // Show error popup. For more info check the plugin's official documentation: https://sweetalert2.github.io/
                     Swal.fire({
-                        text: "Sorry, looks like there are some errors detected, please try again.",
+                        text: "Lo sentimos, parece que se han detectado algunos errores. Por favor, inténtalo de nuevo.",
                         icon: "error",
                         buttonsStyling: false,
-                        confirmButtonText: "Ok, got it!",
+                        confirmButtonText: "Aceptar",
                         customClass: {
                             confirmButton: "btn btn-primary"
                         }
                     });
                 }
-		    });
+            });
         });
 
         form.querySelector('input[name="password"]').addEventListener('input', function() {
@@ -164,6 +164,3 @@ var KTSignupFreeTrial = function() {
 KTUtil.onDOMContentLoaded(function() {
     KTSignupFreeTrial.init();
 });
-
-
- 

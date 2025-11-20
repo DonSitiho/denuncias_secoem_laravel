@@ -18,14 +18,14 @@ var KTSignupGeneral = function () {
                     'first-name': {
                         validators: {
                             notEmpty: {
-                                message: 'First Name is required'
+                                message: 'El nombre es obligatorio'
                             }
                         }
                     },
                     'last-name': {
                         validators: {
                             notEmpty: {
-                                message: 'Last Name is required'
+                                message: 'El apellido es obligatorio'
                             }
                         }
                     },
@@ -33,20 +33,20 @@ var KTSignupGeneral = function () {
                         validators: {
                             regexp: {
                                 regexp: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-                                message: 'The value is not a valid email address',
+                                message: 'El valor no es una dirección de correo válida',
                             },
                             notEmpty: {
-                                message: 'Email address is required'
+                                message: 'La dirección de correo es obligatoria'
                             }
                         }
                     },
                     'password': {
                         validators: {
                             notEmpty: {
-                                message: 'The password is required'
+                                message: 'La contraseña es obligatoria'
                             },
                             callback: {
-                                message: 'Please enter valid password',
+                                message: 'Por favor ingrese una contraseña válida',
                                 callback: function (input) {
                                     if (input.value.length > 0) {
                                         return validatePassword();
@@ -58,20 +58,20 @@ var KTSignupGeneral = function () {
                     'confirm-password': {
                         validators: {
                             notEmpty: {
-                                message: 'The password confirmation is required'
+                                message: 'La confirmación de la contraseña es obligatoria'
                             },
                             identical: {
                                 compare: function () {
                                     return form.querySelector('[name="password"]').value;
                                 },
-                                message: 'The password and its confirm are not the same'
+                                message: 'La contraseña y su confirmación no coinciden'
                             }
                         }
                     },
                     'toc': {
                         validators: {
                             notEmpty: {
-                                message: 'You must accept the terms and conditions'
+                                message: 'Debe aceptar los términos y condiciones'
                             }
                         }
                     }
@@ -115,10 +115,10 @@ var KTSignupGeneral = function () {
 
                         // Show message popup. For more info check the plugin's official documentation: https://sweetalert2.github.io/
                         Swal.fire({
-                            text: "You have successfully reset your password!",
+                            text: "¡Has restablecido tu contraseña correctamente!",
                             icon: "success",
                             buttonsStyling: false,
-                            confirmButtonText: "Ok, got it!",
+                            confirmButtonText: "Aceptar",
                             customClass: {
                                 confirmButton: "btn btn-primary"
                             }
@@ -139,10 +139,10 @@ var KTSignupGeneral = function () {
                 } else {
                     // Show error popup. For more info check the plugin's official documentation: https://sweetalert2.github.io/
                     Swal.fire({
-                        text: "Sorry, looks like there are some errors detected, please try again.",
+                        text: "Lo sentimos, parece que se han detectado algunos errores, por favor inténtelo de nuevo.",
                         icon: "error",
                         buttonsStyling: false,
-                        confirmButtonText: "Ok, got it!",
+                        confirmButtonText: "Aceptar",
                         customClass: {
                             confirmButton: "btn btn-primary"
                         }
@@ -170,7 +170,7 @@ var KTSignupGeneral = function () {
                     'name': {
                         validators: {
                             notEmpty: {
-                                message: 'Name is required'
+                                message: 'El nombre es obligatorio'
                             }
                         }
                     },
@@ -178,20 +178,20 @@ var KTSignupGeneral = function () {
                         validators: {
                             regexp: {
                                 regexp: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-                                message: 'The value is not a valid email address',
+                                message: 'El valor no es una dirección de correo válida',
                             },
                             notEmpty: {
-                                message: 'Email address is required'
+                                message: 'La dirección de correo es obligatoria'
                             }
                         }
                     },
                     'password': {
                         validators: {
                             notEmpty: {
-                                message: 'The password is required'
+                                message: 'La contraseña es obligatoria'
                             },
                             callback: {
-                                message: 'Please enter valid password',
+                                message: 'Por favor ingrese una contraseña válida',
                                 callback: function (input) {
                                     if (input.value.length > 0) {
                                         return validatePassword();
@@ -203,20 +203,20 @@ var KTSignupGeneral = function () {
                     'password_confirmation': {
                         validators: {
                             notEmpty: {
-                                message: 'The password confirmation is required'
+                                message: 'La confirmación de la contraseña es obligatoria'
                             },
                             identical: {
                                 compare: function () {
                                     return form.querySelector('[name="password"]').value;
                                 },
-                                message: 'The password and its confirm are not the same'
+                                message: 'La contraseña y su confirmación no coinciden'
                             }
                         }
                     },
                     'toc': {
                         validators: {
                             notEmpty: {
-                                message: 'You must accept the terms and conditions'
+                                message: 'Debe aceptar los términos y condiciones'
                             }
                         }
                     }
@@ -264,10 +264,10 @@ var KTSignupGeneral = function () {
                         } else {
                             // Show error popup. For more info check the plugin's official documentation: https://sweetalert2.github.io/
                             Swal.fire({
-                                text: "Sorry, looks like there are some errors detected, please try again.",
+                                text: "Lo sentimos, parece que se han detectado algunos errores, por favor inténtelo de nuevo.",
                                 icon: "error",
                                 buttonsStyling: false,
-                                confirmButtonText: "Ok, got it!",
+                                confirmButtonText: "Aceptar",
                                 customClass: {
                                     confirmButton: "btn btn-primary"
                                 }
@@ -275,10 +275,10 @@ var KTSignupGeneral = function () {
                         }
                     }).catch(function (error) {
                         Swal.fire({
-                            text: "Sorry, looks like there are some errors detected, please try again.",
+                            text: "Lo sentimos, parece que se han detectado algunos errores, por favor inténtelo de nuevo.",
                             icon: "error",
                             buttonsStyling: false,
-                            confirmButtonText: "Ok, got it!",
+                            confirmButtonText: "Aceptar",
                             customClass: {
                                 confirmButton: "btn btn-primary"
                             }
@@ -294,10 +294,10 @@ var KTSignupGeneral = function () {
                 } else {
                     // Show error popup. For more info check the plugin's official documentation: https://sweetalert2.github.io/
                     Swal.fire({
-                        text: "Sorry, looks like there are some errors detected, please try again.",
+                        text: "Lo sentimos, parece que se han detectado algunos errores, por favor inténtelo de nuevo.",
                         icon: "error",
                         buttonsStyling: false,
-                        confirmButtonText: "Ok, got it!",
+                        confirmButtonText: "Aceptar",
                         customClass: {
                             confirmButton: "btn btn-primary"
                         }
