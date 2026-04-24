@@ -32,7 +32,7 @@ class AreaController extends Controller
                 'id' => $area->id_area,
                 // Si el id_area_padre es nulo, es nodo raíz ('#')
                 'parent' => $area->id_area_padre ?? '#',
-                'text' => "{$area->nombre_area} ({$area->siglas})",
+                'text' => "{$area->nombre_area}",
                 'state' => [
                     'opened' => false, // Cerrado por defecto
                     'disabled' => !$area->is_active, // Deshabilitar si no está activa
