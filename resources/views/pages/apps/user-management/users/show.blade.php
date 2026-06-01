@@ -167,7 +167,7 @@
                             </div>
                             <div class="card-toolbar">
                                 {{-- Enlace a la bandeja filtrada del OIC --}}
-                                <a href="{{ route('oic.mis-denuncias') }}" class="btn btn-light-primary btn-sm">{{ __('Ver Bandeja OIC') }}</a>
+                                <a href="{{ route('oic.mis-denuncias') }}" class="btn btn-light-primary btn-sm">{{ __('Ver Bandeja de Denuncias') }}</a>
                             </div>
                         </div>
                         <div class="card-body p-9 pt-4">
