@@ -76,9 +76,9 @@
             <div></div>
 
             <!--begin::Link-->
-            <a href="{{ route('password.request') }}" class="link-primary">
+            {{-- <a href="{{ route('password.request') }}" class="link-primary">
                 Olvidaste tu contraseña ?
-            </a>
+            </a> --}}
             <!--end::Link-->
         </div>
         <!--end::Wrapper-->
