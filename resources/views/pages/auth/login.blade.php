@@ -59,14 +59,14 @@
         <!--begin::Input group--->
         <div class="fv-row mb-8">
             <!--begin::Email-->
-            <input type="text" placeholder="Email" name="email" autocomplete="off" class="form-control bg-transparent" value="admin@denuncias.secoem.gob.mx"/>
+            <input type="text" placeholder="Email" name="email" autocomplete="off" class="form-control bg-transparent" value=""/>
             <!--end::Email-->
         </div>
 
         <!--end::Input group--->
         <div class="fv-row mb-3">
             <!--begin::Password-->
-            <input type="password" placeholder="Password" name="password" autocomplete="off" class="form-control bg-transparent" value="demo"/>
+            <input type="password" placeholder="Password" name="password" autocomplete="off" class="form-control bg-transparent" value=""/>
             <!--end::Password-->
         </div>
         <!--end::Input group--->
