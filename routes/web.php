@@ -15,8 +15,7 @@ use App\Http\Controllers\AdminDenuncias\AreaController;
 use App\Http\Controllers\CatAreaGobController;
 use App\Http\Controllers\AdminDenuncias\AdminUserController;
 use App\Http\Controllers\AdminDenuncias\AdminDashboardController;
-
-
+use App\Http\Controllers\BuzonNarajaDenuncias\BuzonNaranjaDenunciasController;
 
 /*
 |--------------------------------------------------------------------------
@@ -165,6 +164,15 @@ Route::middleware(['auth'])->prefix('admin/denuncias')->name('admin.denuncias.')
         ->name('exportar.expediente')
         ->middleware('can:admin-denuncia-descarga'); // Permiso para exportar
     
+});
+
+// Grupo de rutas para el Usuario Buzon Naranja
+Route::middleware(['auth'])->prefix('buzon-naranja/denuncias')->name('buzon-naranja.denuncias.')->group(function () {
+
+        Route::get('/nuevas', [BuzonNaranjaDenunciasController::class, 'getDenunciasNuevas'])->name('nuevas');
+        
+        Route::get('/historial', [BuzonNaranjaDenunciasController::class, 'getDenunciasHistorial'])->name('historial');
+        Route::get('/denuncia/{id_denuncia}', [BuzonNaranjaDenunciasController::class, 'verDetallesDenunciaHistorial'])->name('ver-denuncia-historial');
 });
 
 Route::middleware(['auth', 'can:admin-usuarios-crud'])->prefix('admin/usuarios')->name('admin.usuarios.')->group(function () {

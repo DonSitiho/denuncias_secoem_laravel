@@ -1,11 +1,16 @@
 <!--begin::sidebar menu-->
 <div class="app-sidebar-menu overflow-hidden flex-column-fluid">
 	<!--begin::Menu wrapper-->
-	<div id="kt_app_sidebar_menu_wrapper" class="app-sidebar-wrapper hover-scroll-overlay-y my-5" data-kt-scroll="true" data-kt-scroll-activate="true" data-kt-scroll-height="auto" data-kt-scroll-dependencies="#kt_app_sidebar_logo, #kt_app_sidebar_footer" data-kt-scroll-wrappers="#kt_app_sidebar_menu" data-kt-scroll-offset="5px" data-kt-scroll-save-state="true">
+	<div id="kt_app_sidebar_menu_wrapper" class="app-sidebar-wrapper hover-scroll-overlay-y my-5" data-kt-scroll="true"
+		data-kt-scroll-activate="true" data-kt-scroll-height="auto"
+		data-kt-scroll-dependencies="#kt_app_sidebar_logo, #kt_app_sidebar_footer"
+		data-kt-scroll-wrappers="#kt_app_sidebar_menu" data-kt-scroll-offset="5px" data-kt-scroll-save-state="true">
 		<!--begin::Menu-->
-		<div class="menu menu-column menu-rounded menu-sub-indention px-3 fw-semibold fs-6" id="#kt_app_sidebar_menu" data-kt-menu="true" data-kt-menu-expand="false">
+		<div class="menu menu-column menu-rounded menu-sub-indention px-3 fw-semibold fs-6" id="#kt_app_sidebar_menu"
+			data-kt-menu="true" data-kt-menu-expand="false">
 			<!--begin:Menu item-->
-			<div data-kt-menu-trigger="click" class="menu-item menu-accordion {{ request()->routeIs('dashboard') ? 'here show' : '' }}">
+			<div data-kt-menu-trigger="click"
+				class="menu-item menu-accordion {{ request()->routeIs('dashboard') ? 'here show' : '' }}">
 				<!--begin:Menu link-->
 				<span class="menu-link">
 					<span class="menu-icon">{!! getIcon('element-11', 'fs-2') !!}</span>
@@ -18,7 +23,8 @@
 					<!--begin:Menu item-->
 					<div class="menu-item">
 						<!--begin:Menu link-->
-						<a class="menu-link {{ request()->routeIs('dashboard') ? 'active' : '' }}" href="{{ route('dashboard') }}">
+						<a class="menu-link {{ request()->routeIs('dashboard') ? 'active' : '' }}"
+							href="{{ route('dashboard') }}">
 							<span class="menu-bullet">
 								<span class="bullet bullet-dot"></span>
 							</span>
@@ -31,23 +37,25 @@
 				<!--end:Menu sub-->
 			</div>
 			<!--end:Menu item-->
-			
+
 			@can('admin-denuncia-ver')
 			<!--begin:Menu item-->
-			<div data-kt-menu-trigger="click" class="menu-item menu-accordion {{ request()->routeIs('dashboard') ? 'here show' : '' }}">
+			<div data-kt-menu-trigger="click"
+				class="menu-item menu-accordion {{ request()->routeIs('dashboard') ? 'here show' : '' }}">
 				<!--begin:Menu link-->
 				<span class="menu-link">
 					<span class="menu-icon">{!! getIcon('element-11', 'fs-2') !!}</span>
 					<span class="menu-title">Admin. Denuncias</span>
 					<span class="menu-arrow"></span>
-				   </span>
-				  <!--end:Menu link-->
-				  <!--begin:Menu sub-->
-				 <div class="menu-sub menu-sub-accordion">
+				</span>
+				<!--end:Menu link-->
+				<!--begin:Menu sub-->
+				<div class="menu-sub menu-sub-accordion">
 					<!--begin:Menu item-->
 					<div class="menu-item">
 						<!--begin:Menu link-->
-						<a class="menu-link {{ request()->routeIs('admin.denuncias.index') ? 'active' : '' }}" href="{{ route('admin.denuncias.index') }}">
+						<a class="menu-link {{ request()->routeIs('admin.denuncias.index') ? 'active' : '' }}"
+							href="{{ route('admin.denuncias.index') }}">
 							<span class="menu-bullet">
 								<span class="bullet bullet-dot"></span>
 							</span>
@@ -56,12 +64,62 @@
 						<!--end:Menu link-->
 					</div>
 					<!--end:Menu item-->
-					
+
 				</div>
 				<!--end:Menu sub-->
 			</div>
 			<!--end:Menu item-->
 			@endcan
+
+			<!--begin:Menu item-->
+			<div class="menu-item pt-5">
+				<!--begin:Menu content-->
+				<div class="menu-content">
+					<span class="menu-heading fw-bold text-uppercase fs-7">BUZON NARANJA</span>
+				</div>
+				<!--end:Menu content-->
+			</div>
+			<!--end:Menu item-->
+
+			<!--begin:Menu item-->
+			<div data-kt-menu-trigger="click"
+				class="menu-item menu-accordion {{ request()->routeIs('dashboard') ? 'here show' : '' }}">
+				<!--begin:Menu link-->
+				<span class="menu-link">
+					<span class="menu-icon">{!! getIcon('element-11', 'fs-2') !!}</span>
+					<span class="menu-title">Denuncias</span>
+					<span class="menu-arrow"></span>
+				</span>
+				<!--end:Menu link-->
+				<!--begin:Menu sub-->
+				<div class="menu-sub menu-sub-accordion">
+					<!--begin:Menu item-->
+					<div class="menu-item">
+						<!--begin:Menu link-->
+						<a class="menu-link {{ request()->routeIs('buzon-naranja.denuncias.nuevas') ? 'active' : '' }}"
+							href="{{ route('buzon-naranja.denuncias.nuevas') }}">
+							<span class="menu-bullet">
+								<span class="bullet bullet-dot"></span>
+							</span>
+							<span class="menu-title">Nuevas</span>
+						</a>
+						<!--end:Menu link-->
+						<!--begin:Menu link-->
+						<a class="menu-link {{ request()->routeIs('buzon-naranja.denuncias.historial') ? 'active' : '' }}"
+							href="{{ route('buzon-naranja.denuncias.historial') }}">
+							<span class="menu-bullet">
+								<span class="bullet bullet-dot"></span>
+							</span>
+							<span class="menu-title">Historial</span>
+						</a>
+						<!--end:Menu link-->
+					</div>
+					<!--end:Menu item-->
+
+				</div>
+				<!--end:Menu sub-->
+			</div>
+			<!--end:Menu item-->
 
 			<!--begin:Menu item-->
 			<div class="menu-item pt-5">
@@ -74,7 +132,8 @@
 			<!--end:Menu item-->
 			@can('oic-denuncia-ver')
 			<!--begin:Menu item-->
-			<div data-kt-menu-trigger="click" class="menu-item menu-accordion {{ request()->routeIs('dashboard') ? 'here show' : '' }}">
+			<div data-kt-menu-trigger="click"
+				class="menu-item menu-accordion {{ request()->routeIs('dashboard') ? 'here show' : '' }}">
 				<!--begin:Menu link-->
 				<span class="menu-link">
 					<span class="menu-icon">{!! getIcon('element-11', 'fs-2') !!}</span>
@@ -87,7 +146,8 @@
 					<!--begin:Menu item-->
 					<div class="menu-item">
 						<!--begin:Menu link-->
-						<a class="menu-link {{ request()->routeIs('oic.mis-denuncias') ? 'active' : '' }}" href="{{ route('oic.mis-denuncias') }}">
+						<a class="menu-link {{ request()->routeIs('oic.mis-denuncias') ? 'active' : '' }}"
+							href="{{ route('oic.mis-denuncias') }}">
 							<span class="menu-bullet">
 								<span class="bullet bullet-dot"></span>
 							</span>
@@ -100,7 +160,8 @@
 					@can('view qr codes')
 					<div class="menu-item">
 						<!--begin:Menu link-->
-						<a class="menu-link {{ request()->routeIs('dashboard') ? 'active' : '' }}" href="{{ route('dashboard') }}">
+						<a class="menu-link {{ request()->routeIs('dashboard') ? 'active' : '' }}"
+							href="{{ route('dashboard') }}">
 							<span class="menu-bullet">
 								<span class="bullet bullet-dot"></span>
 							</span>
@@ -123,10 +184,11 @@
 				<!--end:Menu content-->
 			</div>
 			<!--end:Menu item-->
-		@endcan
+			@endcan
 			<!--begin:Menu item-->
 			@can('system-configuracion-crud')
-			<div data-kt-menu-trigger="click" class="menu-item menu-accordion {{ request()->routeIs('user-management.*') ? 'here show' : '' }}">
+			<div data-kt-menu-trigger="click"
+				class="menu-item menu-accordion {{ request()->routeIs('user-management.*') ? 'here show' : '' }}">
 				<!--begin:Menu link-->
 				<span class="menu-link">
 					<span class="menu-icon">{!! getIcon('abstract-28', 'fs-2') !!}</span>
@@ -139,7 +201,8 @@
 					<!--begin:Menu item-->
 					<div class="menu-item">
 						<!--begin:Menu link-->
-						<a class="menu-link {{ request()->routeIs('user-management.users.*') ? 'active' : '' }}" href="{{ route('user-management.users.index') }}">
+						<a class="menu-link {{ request()->routeIs('user-management.users.*') ? 'active' : '' }}"
+							href="{{ route('user-management.users.index') }}">
 							<span class="menu-bullet">
 								<span class="bullet bullet-dot"></span>
 							</span>
@@ -151,7 +214,8 @@
 					<!--begin:Menu item-->
 					<div class="menu-item">
 						<!--begin:Menu link-->
-						<a class="menu-link {{ request()->routeIs('user-management.roles.*') ? 'active' : '' }}" href="{{ route('user-management.roles.index') }}">
+						<a class="menu-link {{ request()->routeIs('user-management.roles.*') ? 'active' : '' }}"
+							href="{{ route('user-management.roles.index') }}">
 							<span class="menu-bullet">
 								<span class="bullet bullet-dot"></span>
 							</span>
@@ -163,7 +227,8 @@
 					<!--begin:Menu item-->
 					<div class="menu-item">
 						<!--begin:Menu link-->
-						<a class="menu-link {{ request()->routeIs('user-management.permissions.*') ? 'active' : '' }}" href="{{ route('user-management.permissions.index') }}">
+						<a class="menu-link {{ request()->routeIs('user-management.permissions.*') ? 'active' : '' }}"
+							href="{{ route('user-management.permissions.index') }}">
 							<span class="menu-bullet">
 								<span class="bullet bullet-dot"></span>
 							</span>
@@ -179,7 +244,8 @@
 			@endcan
 
 			@can('admin-usuarios-crud')
-			<div data-kt-menu-trigger="click" class="menu-item menu-accordion {{ request()->routeIs('dashboard') ? 'here show' : '' }}">
+			<div data-kt-menu-trigger="click"
+				class="menu-item menu-accordion {{ request()->routeIs('dashboard') ? 'here show' : '' }}">
 				<!--begin:Menu link-->
 				<span class="menu-link">
 					<span class="menu-icon">{!! getIcon('element-11', 'fs-2') !!}</span>
@@ -192,7 +258,8 @@
 					<!--begin:Menu item-->
 					<div class="menu-item">
 						<!--begin:Menu link-->
-						<a class="menu-link {{ request()->routeIs('catalogos') ? 'active' : '' }}" href="{{ route('catalogos.index') }}">
+						<a class="menu-link {{ request()->routeIs('catalogos') ? 'active' : '' }}"
+							href="{{ route('catalogos.index') }}">
 							<span class="menu-bullet">
 								<span class="bullet bullet-dot"></span>
 							</span>
@@ -201,31 +268,31 @@
 						<!--end:Menu link-->
 					</div>
 					<!--end:Menu item-->
-					
+
 					<div class="menu-item">
-						<a class="menu-link {{ request()->routeIs('admin.usuarios.index') ? 'active' : '' }}" 
-						href="{{ route('admin.usuarios.index') }}">
+						<a class="menu-link {{ request()->routeIs('admin.usuarios.index') ? 'active' : '' }}"
+							href="{{ route('admin.usuarios.index') }}">
 							<span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
 							<span class="menu-title">Usuarios y Cuentas</span>
 						</a>
 					</div>
-					
-					
-					
+
+
+
 					<div class="menu-item">
-						<a class="menu-link {{ request()->routeIs('areas.index') ? 'active' : '' }}" 
-						href="{{ route('areas.index') }}">
+						<a class="menu-link {{ request()->routeIs('areas.index') ? 'active' : '' }}"
+							href="{{ route('areas.index') }}">
 							<span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
 							<span class="menu-title">Estructura de Áreas</span>
 						</a>
 					</div>
-					
+
 				</div>
 				<!--end:Menu sub-->
 			</div>
 			<!--end:Menu item-->
 			@endcan
-			
+
 
 			@can('system-configuracion-crud')
 			<!--begin:Menu item-->
@@ -240,7 +307,8 @@
 			<!--begin:Menu item-->
 			<div class="menu-item">
 				<!--begin:Menu link-->
-				<a class="menu-link" href="https://preview.keenthemes.com/html/metronic/docs/base/utilities" target="_blank">
+				<a class="menu-link" href="https://preview.keenthemes.com/html/metronic/docs/base/utilities"
+					target="_blank">
 					<span class="menu-icon">{!! getIcon('rocket', 'fs-2') !!}</span>
 					<span class="menu-title">Components</span>
 				</a>
@@ -260,7 +328,8 @@
 			<!--begin:Menu item-->
 			<div class="menu-item">
 				<!--begin:Menu link-->
-				<a class="menu-link" href="https://preview.keenthemes.com/laravel/metronic/docs/changelog" target="_blank">
+				<a class="menu-link" href="https://preview.keenthemes.com/laravel/metronic/docs/changelog"
+					target="_blank">
 					<span class="menu-icon">{!! getIcon('code', 'fs-2') !!}</span>
 					<span class="menu-title">Changelog v8.2.7</span>
 				</a>

@@ -249,132 +249,132 @@ class CatMunicipiosSeeder extends Seeder
             ],
             [
                 'id_municipio' => 46,
-                'nombre_municipio' => 'José Sixto Verduzco',
+                'nombre_municipio' => 'Juárez',
                 'clave_municipio' => '046'
             ],
             [
                 'id_municipio' => 47,
-                'nombre_municipio' => 'Juárez',
+                'nombre_municipio' => 'Jungapeo',
                 'clave_municipio' => '047'
             ],
             [
                 'id_municipio' => 48,
-                'nombre_municipio' => 'Jungapeo',
+                'nombre_municipio' => 'Lagunillas',
                 'clave_municipio' => '048'
             ],
             [
                 'id_municipio' => 49,
-                'nombre_municipio' => 'Lagunillas',
+                'nombre_municipio' => 'Madero',
                 'clave_municipio' => '049'
             ],
             [
                 'id_municipio' => 50,
-                'nombre_municipio' => 'Madero',
+                'nombre_municipio' => 'Maravatío',
                 'clave_municipio' => '050'
             ],
             [
                 'id_municipio' => 51,
-                'nombre_municipio' => 'Maravatío',
+                'nombre_municipio' => 'Marcos Castellanos',
                 'clave_municipio' => '051'
             ],
             [
                 'id_municipio' => 52,
-                'nombre_municipio' => 'Marcos Castellanos',
+                'nombre_municipio' => 'Lázaro Cárdenas',
                 'clave_municipio' => '052'
             ],
             [
                 'id_municipio' => 53,
-                'nombre_municipio' => 'Lázaro Cárdenas',
+                'nombre_municipio' => 'Morelia',
                 'clave_municipio' => '053'
             ],
             [
                 'id_municipio' => 54,
-                'nombre_municipio' => 'Morelia',
+                'nombre_municipio' => 'Morelos',
                 'clave_municipio' => '054'
             ],
             [
                 'id_municipio' => 55,
-                'nombre_municipio' => 'Morelos',
+                'nombre_municipio' => 'Múgica',
                 'clave_municipio' => '055'
             ],
             [
                 'id_municipio' => 56,
-                'nombre_municipio' => 'Múgica',
+                'nombre_municipio' => 'Nahuatzen',
                 'clave_municipio' => '056'
             ],
             [
                 'id_municipio' => 57,
-                'nombre_municipio' => 'Nahuatzen',
+                'nombre_municipio' => 'Nocupétaro',
                 'clave_municipio' => '057'
             ],
             [
                 'id_municipio' => 58,
-                'nombre_municipio' => 'Nocupétaro',
+                'nombre_municipio' => 'Nuevo Parangaricutiro',
                 'clave_municipio' => '058'
             ],
             [
                 'id_municipio' => 59,
-                'nombre_municipio' => 'Nuevo Parangaricutiro',
+                'nombre_municipio' => 'Nuevo Urecho',
                 'clave_municipio' => '059'
             ],
             [
                 'id_municipio' => 60,
-                'nombre_municipio' => 'Nuevo Urecho',
+                'nombre_municipio' => 'Numarán',
                 'clave_municipio' => '060'
             ],
             [
                 'id_municipio' => 61,
-                'nombre_municipio' => 'Numarán',
+                'nombre_municipio' => 'Ocampo',
                 'clave_municipio' => '061'
             ],
             [
                 'id_municipio' => 62,
-                'nombre_municipio' => 'Ocampo',
+                'nombre_municipio' => 'Pajacuarán',
                 'clave_municipio' => '062'
             ],
             [
                 'id_municipio' => 63,
-                'nombre_municipio' => 'Pajacuarán',
+                'nombre_municipio' => 'Panindícuaro',
                 'clave_municipio' => '063'
             ],
             [
                 'id_municipio' => 64,
-                'nombre_municipio' => 'Panindícuaro',
+                'nombre_municipio' => 'Parácuaro',
                 'clave_municipio' => '064'
             ],
             [
                 'id_municipio' => 65,
-                'nombre_municipio' => 'Parácuaro',
+                'nombre_municipio' => 'Paracho',
                 'clave_municipio' => '065'
             ],
             [
                 'id_municipio' => 66,
-                'nombre_municipio' => 'Paracho',
+                'nombre_municipio' => 'Pátzcuaro',
                 'clave_municipio' => '066'
             ],
             [
                 'id_municipio' => 67,
-                'nombre_municipio' => 'Pátzcuaro',
+                'nombre_municipio' => 'Penjamillo',
                 'clave_municipio' => '067'
             ],
             [
                 'id_municipio' => 68,
-                'nombre_municipio' => 'Penjamillo',
+                'nombre_municipio' => 'Peribán',
                 'clave_municipio' => '068'
             ],
             [
                 'id_municipio' => 69,
-                'nombre_municipio' => 'Peribán',
+                'nombre_municipio' => 'La Piedad',
                 'clave_municipio' => '069'
             ],
             [
                 'id_municipio' => 70,
-                'nombre_municipio' => 'La Piedad',
+                'nombre_municipio' => 'Purépero',
                 'clave_municipio' => '070'
             ],
             [
                 'id_municipio' => 71,
-                'nombre_municipio' => 'La Purúa',
+                'nombre_municipio' => 'Puruándiro',
                 'clave_municipio' => '071'
             ],
             [
@@ -581,6 +581,11 @@ class CatMunicipiosSeeder extends Seeder
                 'id_municipio' => 112,
                 'nombre_municipio' => 'Zitácuaro',
                 'clave_municipio' => '112'
+            ],
+            [
+                'id_municipio' => 113,
+                'nombre_municipio' => 'José Sixto Verduzco',
+                'clave_municipio' => '113'
             ],
         ]);
 

@@ -123,9 +123,6 @@ class DenunciasRepository {
         }
 
     }
-
-
-
 }
 
 ?>
