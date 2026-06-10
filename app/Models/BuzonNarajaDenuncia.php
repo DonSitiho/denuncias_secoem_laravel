@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class BuzonNarajaDenuncia extends Model
 {
@@ -14,6 +15,7 @@ class BuzonNarajaDenuncia extends Model
 
     // Laravel asume 'id', lo cambiamos a la PK real de la tabla
     protected $primaryKey = 'id';
+    public $timestamps = false; 
 
     protected $fillable = [
         'folio',
@@ -44,6 +46,13 @@ class BuzonNarajaDenuncia extends Model
         'email',
         'status',
     ];
+
+    // Relación 1:1 con el Catálogo de Municipios
+    public function municipio(): BelongsTo
+    {
+        // Une id_municipio (FK local) con id_municipio (PK externa) en la tabla 'cat_municipios
+        return $this->belongsTo(CatMunicipios::class, 'id_municipio', 'id_municipio');
+    }
 
 
 }

@@ -8,7 +8,7 @@ class DenunciasBNRepository {
 
     public function historialDenuncias(string $search, string $sortBy, bool $sortAsc){
 
-        $denuncias = BuzonNarajaDenuncia::query()
+        $denuncia = BuzonNarajaDenuncia::query()
             ->select('buzon_naranja.*')
 
             // Lógica de búsqueda
@@ -22,7 +22,7 @@ class DenunciasBNRepository {
             ->orderBy($sortBy, $sortAsc ? 'asc' : 'desc')
             ->paginate(10);
 
-        return $denuncias;
+        return $denuncia;
 
     }
 

@@ -23,9 +23,9 @@
                 <tr class="text-start text-muted fw-bold fs-7 text-uppercase gs-0">
                     <th class="min-w-100px cursor-pointer" wire:click="sortBy('folio')">{{ __('Folio') }}
                     </th>
-                    <th class="min-w-120px cursor-pointer" wire:click="sortBy('date')">{{ __('Fecha') }}
+                    <th class="min-w-150px cursor-pointer" wire:click="sortBy('date')">{{ __('Fecha') }}
                     </th>
-                    <th class="min-w-150px cursor-pointer" wire:click="sortBy('fecha_hechos')">{{ __('Dependencia') }}</th>
+                    <th class="min-w-140px cursor-pointer" wire:click="sortBy('fecha_hechos')">{{ __('Dependencia') }}</th>
                     <th class="min-w-150px">{{ __('Localidad') }}</th>
                     <th class="min-w-100px">{{ __('Estatus') }}</th>
                     <th class="min-w-80px">{{ __('Acciones') }}</th>
@@ -51,45 +51,6 @@
                             <i class="fas fa-eye"></i>
                         </a>
                     </td>
-                    {{--
-                    <td>
-                        {{ $denuncia->circunstancia->fecha_hechos?->format('d/m/Y') }}
-                        <span class="text-muted fs-7">({{ $denuncia->circunstancia->hora_hechos ?? 'N/A' }})</span>
-                    </td>
-                    <td>
-                        @if ($denuncia->es_anonima)
-                        <span class="badge badge-light-danger">{{ __('Anónima') }}</span>
-                        @else
-                        <span>{{ $denuncia->contacto->nombre_completo ?? 'N/D' }}</span>
-                        <span class="text-muted fs-7 d-block">{{ $denuncia->contacto->correo_electronico ?? 'N/D'
-                            }}</span>
-                        @endif
-                    </td>
-                    <td>
-                        <span class="text-gray-800">{{ $denuncia->circunstancia->dependencia_involucrada ?? 'Ciudadano
-                            General' }}</span>
-                        <span class="text-muted fs-7 d-block">{{ $denuncia->circunstancia->municipio->nombre_municipio
-                            ?? 'No Especificado' }}</span>
-                    </td>
-                    <td>
-                        <a href="{{ route('oic.ver-denuncia', $denuncia->id_denuncia) }}"
-                            class="btn btn-icon btn-light-primary btn-sm me-1" title="{{ __('Revisar Detalle') }}">
-                            <i class="fas fa-eye"></i>
-                        </a>
-
-                        @if ($denuncia->id_estado == 3)
-                        <a href="{{ route('oic.descargar', $denuncia->id_denuncia) }}"
-                            class="btn btn-icon btn-light-primary btn-sm me-1" title="{{ __('Descargar Evidencia') }}">
-                            <i class="fas fa-download"></i>
-                        </a>
-                        @elseif ($denuncia->id_estado == 2)
-                        <a wire:click="pasarATramite({{ $denuncia->id_denuncia }})"
-                            class="btn btn-icon btn-light-primary btn-sm me-1" title="{{ __('Pasar a Tramite') }}">
-                            <i class="fas fa-check"></i>
-                        </a>
-                        @endif
-                    </td>
-                    --}}
                 </tr>
                 @empty
                 <tr>

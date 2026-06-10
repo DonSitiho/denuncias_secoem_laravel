@@ -172,7 +172,7 @@ Route::middleware(['auth'])->prefix('buzon-naranja/denuncias')->name('buzon-nara
         Route::get('/nuevas', [BuzonNaranjaDenunciasController::class, 'getDenunciasNuevas'])->name('nuevas');
         
         Route::get('/historial', [BuzonNaranjaDenunciasController::class, 'getDenunciasHistorial'])->name('historial');
-        Route::get('/denuncia/{id_denuncia}', [BuzonNaranjaDenunciasController::class, 'verDetallesDenunciaHistorial'])->name('ver-denuncia-historial');
+        Route::get('/denuncia-historial/{id_denuncia}', [BuzonNaranjaDenunciasController::class, 'verDetallesDenunciaHistorial'])->name('ver-denuncia-historial');
 });
 
 Route::middleware(['auth', 'can:admin-usuarios-crud'])->prefix('admin/usuarios')->name('admin.usuarios.')->group(function () {

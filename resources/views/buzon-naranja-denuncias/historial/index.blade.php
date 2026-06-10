@@ -3,6 +3,10 @@
         {{ __('Buzon Naranja Denuncias Historial') }}
     @endsection
 
+    @section('breadcrumbs')
+        {{-- {{ Breadcrumbs::render('admin-denuncias.index') }} --}}
+    @endsection
+
     <div class="card">
         <div class="card-header border-0 pt-6">
             <h3 class="card-title align-items-start flex-column">
