@@ -71,13 +71,18 @@
                                     </h1>
                                     <!--end::Title-->
 
+                                    @php
+                                        $digitos = $codigo ? str_split($codigo) : [];
+                                        $delQr = !empty($folio) && !empty($codigo);
+                                    @endphp
                                     <!--begin::Folio Input-->
                                     <div class="mb-10">
                                         <label class="form-label fw-semibold text-gray-700 fs-6 mb-3">Folio de
                                             Denuncia</label>
                                         <input type="text" name="folio"
-                                            class="form-control form-control-lg text-center" placeholder="Ingresa el folio"
-                                            required oninput="this.value = this.value.toUpperCase();">
+                                            class="form-control form-control-lg text-center"
+                                            value="{{ old('folio', $folio) }}" {{ $delQr ? 'readonly' : '' }} placeholder="Ingresa el folio" required
+                                            oninput="this.value = this.value.toUpperCase();">
                                         <div class="text-muted mt-2 fs-7">Ingresa el folio que se te asignó al registrar tu
                                             denuncia</div>
                                     </div>
@@ -90,18 +95,23 @@
                                         <div class="d-flex justify-content-center gap-2 mb-3">
                                             <!-- solo conertir texto en mayusculas-->
                                             <input type="text" name="code_1" maxlength="1"
+                                                value="{{ $digitos[0] ?? '' }}" {{ $delQr ? 'readonly' : '' }}
                                                 class="form-control form-control-lg w-60px text-center code-input" required
                                                 autocomplete="off" oninput="this.value = this.value.toUpperCase();">
                                             <input type="text" name="code_2" maxlength="1"
+                                                value="{{ $digitos[1] ?? '' }}" {{ $delQr ? 'readonly' : '' }}
                                                 class="form-control form-control-lg w-60px text-center code-input" required
                                                 autocomplete="off" oninput="this.value = this.value.toUpperCase();">
                                             <input type="text" name="code_3" maxlength="1"
+                                                value="{{ $digitos[2] ?? '' }}" {{ $delQr ? 'readonly' : '' }}
                                                 class="form-control form-control-lg w-60px text-center code-input" required
                                                 autocomplete="off" oninput="this.value = this.value.toUpperCase();">
                                             <input type="text" name="code_4" maxlength="1"
+                                                value="{{ $digitos[3] ?? '' }}" {{ $delQr ? 'readonly' : '' }}
                                                 class="form-control form-control-lg w-60px text-center code-input" required
                                                 autocomplete="off" oninput="this.value = this.value.toUpperCase();">
                                             <input type="text" name="code_5" maxlength="1"
+                                                value="{{ $digitos[4] ?? '' }}" {{ $delQr ? 'readonly' : '' }}
                                                 class="form-control form-control-lg w-60px text-center code-input" required
                                                 autocomplete="off" oninput="this.value = this.value.toUpperCase();">
                                         </div>

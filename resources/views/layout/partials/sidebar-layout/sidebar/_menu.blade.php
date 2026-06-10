@@ -62,6 +62,15 @@
 							<span class="menu-title">Denuncias</span>
 						</a>
 						<!--end:Menu link-->
+						<!--begin:Menu link-->
+						<a class="menu-link {{ request()->routeIs('admin.denuncias.index') ? 'active' : '' }}"
+							href="{{ route('admin.denuncias.index') }}">
+							<span class="menu-bullet">
+								<span class="bullet bullet-dot"></span>
+							</span>
+							<span class="menu-title">Denuncias Anteriores</span>
+						</a>
+						<!--end:Menu link-->
 					</div>
 					<!--end:Menu item-->
 
@@ -87,7 +96,7 @@
 				<!--begin:Menu link-->
 				<span class="menu-link">
 					<span class="menu-icon">{!! getIcon('element-11', 'fs-2') !!}</span>
-					<span class="menu-title">Denuncias</span>
+					<span class="menu-title">Buzon Naranja</span>
 					<span class="menu-arrow"></span>
 				</span>
 				<!--end:Menu link-->
@@ -101,7 +110,7 @@
 							<span class="menu-bullet">
 								<span class="bullet bullet-dot"></span>
 							</span>
-							<span class="menu-title">Nuevas</span>
+							<span class="menu-title">Nuevas denuncias</span>
 						</a>
 						<!--end:Menu link-->
 						<!--begin:Menu link-->
@@ -110,7 +119,7 @@
 							<span class="menu-bullet">
 								<span class="bullet bullet-dot"></span>
 							</span>
-							<span class="menu-title">Historial</span>
+							<span class="menu-title">Historial denuncias</span>
 						</a>
 						<!--end:Menu link-->
 					</div>

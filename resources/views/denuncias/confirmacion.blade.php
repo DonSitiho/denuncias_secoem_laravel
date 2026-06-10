@@ -119,7 +119,7 @@
                                 {!! $qrCode !!}
                             </div>
                             <p class="text-gray-700 fw-semibold mb-1">Escanea para consultar el estatus</p>
-                            <p class="text-muted fs-7">o visita: {{ route('denuncias.seguimiento', $folio) }}</p>
+                            <p class="text-muted fs-7">o visita: {{ route('buscar.denuncia') }}</p>
                         </div>
                     </div>
                     <!--end::QR Section-->

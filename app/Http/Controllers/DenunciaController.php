@@ -218,7 +218,10 @@ class DenunciaController extends Controller
         //     'Cerrada' => 'danger',
         //     default => 'secondary'
         // };
-        $url = route('denuncias.seguimiento', $folio);
+        $url = route('buscar.denuncia', [
+            'folio' => $folio,
+            'codigo' => $codigo
+        ]);
         $qrCode = QrCode::format('svg')->size(100)->generate($url);
 
         /** 8️ Retornar vista de confirmación */
@@ -250,9 +253,13 @@ class DenunciaController extends Controller
 
 
     /** Buscar denuncia */
-    public function buscar()
-    {
-        return view('denuncias.buscar');
+    public function buscar(Request $request)
+    {   
+        // Viene del QR con parámetros, o entra manual sin nada
+        $folio  = $request->query('folio', '');
+        $codigo = $request->query('codigo', '');
+
+        return view('denuncias.buscar', compact('folio', 'codigo'));
     }
 
     public function buscarDenunciaFolio(Request $request)
@@ -462,7 +469,10 @@ class DenunciaController extends Controller
         $datosMunicipio = $datosCircunstancia->municipio ?? null;
 
         // Generar QR en SVG
-        $urlSeguimiento = route('denuncias.seguimiento', $folio);
+        $urlSeguimiento = route('buscar.denuncia',  [
+            'folio' => $folio,
+            'codigo' => $denuncia->token_validacion
+        ]);
         $qrCode = QrCode::format('svg')->size(200)->generate($urlSeguimiento);
 
         // Datos para la vista
