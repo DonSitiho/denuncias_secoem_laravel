@@ -2,7 +2,7 @@
     {{-- Título y Migas de Pan (Sección de metronic) --}}
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Expediente de Denuncia') }} #{{ $denuncia->folio }}
+            {{ __('Expediente de Denuncia') }} #{{ $interqueja->id }}
         </h2>
 
         <a href="{{ route('admin.denuncias.index') }}" class="btn btn-sm btn-secondary">
@@ -11,21 +11,12 @@
     </x-slot>
 
     <div class="container-fluid py-5">
-
+        
         <div class="card shadow-sm">
             <div class="card-header border-0 pt-6">
                 <div class="card-title">
-                    <span class="badge badge-lg badge-light-primary me-3 fs-6">
-                        Estado: {{ $denuncia->status ?? 'PENDIENTE DE ASIGNACIÓN' }}
-                    </span>
-                    @if ($denuncia->areaResponsable)
-                        <span class="badge badge-lg badge-light-success me-3 fs-6">
-                            Área Asignada: [{{ $denuncia->areaResponsable->siglas ?? 'N/D' }}]
-                            {{ $denuncia->areaResponsable->nombre_area ?? 'N/D' }}
-                        </span>
-                    @endif
                     <span class="text-muted fs-7">
-                        Recepción: {{ $denuncia->date }}
+                        Recepción: {{ $interqueja->created_at }}
                     </span>
                 </div>
             </div>
@@ -41,7 +32,6 @@
                                 class="fas fa-id-card me-2"></i> Denunciante</a></li>
                 </ul>
                 <div class="tab-content" id="denunciaTabsContent">
-
                     {{-- ========================================================================= --}}
                     {{-- PESTAÑA 1: CIRCUNSTANCIAS Y HECHOS --}}
                     {{-- ========================================================================= --}}
@@ -57,8 +47,7 @@
                                     <div class="card-body">
                                         <div class="fs-6 py-2">
                                             <strong>{{ __('Fecha / Hora de Hechos:') }}</strong>
-                                            <span class="ms-2">{{ $denuncia->date ?? 'N/A' }}
-                                                <small class="text-muted">({{ $denuncia->hora ?? 'Sin hora' }})</small>
+                                            <span class="ms-2">{{ $interqueja->fecha_hecho ?? 'N/A' }}
                                             </span>
                                         </div>
                                         <div class="fs-6 py-2">
@@ -68,19 +57,15 @@
                                         </div>
                                         <div class="fs-6 py-2">
                                             <strong>{{ __('Localidad / Colonia:') }}</strong>
-                                            <span class="ms-2">{{ $denuncia->localidad ?? 'N/A' }}</span>
+                                            <span class="ms-2">{{ $interqueja->localidad_hecho ?? 'N/A' }}</span>
                                         </div>
                                         <div class="fs-6 py-2">
                                             <strong>{{ __('Dirección Exacta:') }}</strong>
-                                            <span class="ms-2">{{ $denuncia->localidad ?? 'N/A' }}</span>
+                                            <span class="ms-2">{{ $interqueja->hechos_donde ?? 'N/A' }}</span>
                                         </div>
                                         <div class="fs-6 py-2">
                                             <strong>{{ __('Dependencia Señalada:') }}</strong>
-                                            <span class="ms-2">{{ $denuncia->dependencia ?? 'N/A' }}</span>
-                                        </div>
-                                        <div class="fs-6 py-2">
-                                            <strong>{{ __('Trámite / Solicitud:') }}</strong>
-                                            <span class="ms-2">{{ $denuncia->tramite ?? 'N/A' }}</span>
+                                            <span class="ms-2">{{ $interqueja->dependencia_hecho ?? 'N/A' }}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -93,7 +78,7 @@
                                         <h4 class="card-title">{{ __('Motivo de la Denuncia') }}</h4>
                                     </div>
                                     <div class="card-body">
-                                        <p class="text-gray-700">{{ $denuncia->narracion }}</p>
+                                        <p class="text-gray-700">{{ $interqueja->hechos_como }}</p>
                                     </div>
                                 </div>
 
@@ -102,11 +87,8 @@
                                         <h4 class="card-title">{{ __('Contexto Adicional') }}</h4>
                                     </div>
                                     <div class="card-body">
-                                        
-                                        <p><strong>{{ __('Programa Público:') }}</strong>
-                                            {{ $denuncia->programa ?? 'No relacionado a programa' }}</p>
                                         <p><strong>{{ __('Daño Económico:') }}</strong> <span
-                                                class="badge badge-light-danger fs-5">${{ number_format($denuncia->cantidad, 2) }}</span>
+                                                class="badge badge-light-danger fs-5">${{ number_format($interqueja->cantidad, 2) }}</span>
                                         </p>
                                     </div>
                                 </div>
@@ -119,29 +101,48 @@
                     {{-- PESTAÑA 2: INVOLUCRADOS --}}
                     {{-- ========================================================================= --}}
                     <div class="tab-pane fade" id="tab_involucrados" role="tabpanel">
-
+                        
                         <h3 class="fs-4 fw-bold mb-5">{{ __('Personas Denunciadas') }}</h3>
 
-                        @forelse ($denuncia->denunciados ?? [] as $index => $involucrado)
                             <div class="card card-dashed mb-5 bg-light-primary">
                                 <div class="card-header">
                                     <h5 class="card-title">
-                                        {{ $involucrado ?? 'Involucrado Desconocido' }}
-
+                                        {{ $interqueja->nombre_serv ?? 'Involucrado Desconocido' }}
+                                        @if($interqueja->es_servidor_publico)
+                                            <span class="badge badge-light-danger ms-2">Servidor Público</span>
+                                        @endif
                                     </h5>
                                 </div>
                                 <div class="card-body py-3">
                                     <div class="row fs-6">
-                                        <div class="col-md-12 mt-3"><strong>Descripción Física / Puesto:</strong> {{ $denuncia->cargos[$index] ?? 'Sin descripción adicional.' }}</div>
+                                        <div class="col-md-4"><strong>Puesto:</strong> {{ $interqueja->cargo_serv ?? 'N/A' }}</div>
+                                        <div class="col-md-4"><strong>Sexo:</strong> {{ $interqueja->carac_sexo ?? 'N/A' }}</div>
+                                        <div class="col-md-4"><strong>Edad Aprox:</strong> {{ $interqueja->carac_edad ?? 'N/A' }}</div>
+                                        <div class="col-md-4"><strong>Tez:</strong> {{ $interqueja->carac_tez ?? 'N/A' }}</div>
+                                        <div class="col-md-4"><strong>Ojos:</strong> {{ $interqueja->carac_ojos ?? 'N/A' }}</div>
+                                        <div class="col-md-4"><strong>Pelo:</strong> {{ $interqueja->carac_pelo ?? 'N/A' }}</div>
+                                        <div class="col-md-12 mt-3"><strong>Descripción Física:</strong> {{ $interqueja->carac_part ?? 'Sin descripción adicional.' }}</div>
                                     </div>
                                 </div>
                             </div>
-                        @empty
-                            <div class="alert alert-info">
-                                {{ __('No se proporcionó información detallada sobre personas involucradas o denunciadas.') }}
+
+
+                        <h3 class="fs-4 fw-bold mt-10 mb-5">{{ __('Testigos') }}</h3>
+                        
+                        @if ($interqueja->hechos_testigos != 'No')
+                            <div class="card card-dashed mb-5 bg-light-success">
+                                <div class="card-header"><h5 class="card-title">{{ $interqueja->nombre_testigo ?? 'Testigo Anónimo/Sin Nombre' }}</h5></div>
+                                <div class="card-body py-3">
+                                    <p><strong>Contacto:</strong> {{ $interqueja->datos_contacto ?? 'N/A' }}</p>
+                                    <p><strong>Observaciones:</strong> {{ $interqueja->observaciones ?? 'Sin observaciones.' }}</p>
+                                </div>
                             </div>
-                        @endforelse
+                        @else
+                            <div class="alert alert-warning">{{ __('El denunciante no proporcionó información sobre testigos.') }}</div>
+                        @endif
+
                     </div>
+
 
                     {{-- ========================================================================= --}}
                     {{-- PESTAÑA 4: CONTACTO DEL DENUNCIANTE --}}
@@ -150,31 +151,29 @@
                         <div class="card card-dashed shadow-sm">
                             <div class="card-header"><h4 class="card-title">{{ __('Datos de Contacto del Ciudadano') }}</h4></div>
                             <div class="card-body">
-                                @if (empty($denuncia->name))
+                                @if ($interqueja->qjs_mombre == 'Anonimo')
                                     <div class="alert alert-danger text-center fs-4">
                                         <i class="fas fa-mask me-2"></i>
                                         {{ __('DENUNCIA ANÓNIMA: La identidad y los datos de contacto están protegidos.') }}
                                     </div>
+                                @elseif ($interqueja->qjs_nombre != 'xxx')
+                                    <div class="fs-5 py-2"><strong>{{ __('Nombre Completo:') }}</strong> {{ $interqueja->qjs_nombre }}</div>
+                                    <div class="fs-5 py-2"><strong>{{ __('Correo Electrónico:') }}</strong> {{ $interqueja->qjs_email }}</div>
+                                    <div class="fs-5 py-2"><strong>{{ __('Teléfono:') }}</strong> {{ $interqueja->qjs_tel }}</div>
+                                    <div class="fs-5 py-2"><strong>{{ __('Calle y número:') }}</strong> {{ $interqueja->qjs_dom }}</div>
+                                    <div class="fs-5 py-2"><strong>{{ __('Colonia:') }}</strong> {{ $interqueja->qjs_col }}</div>
+                                    <div class="fs-5 py-2"><strong>{{ __('Código postal:') }}</strong> {{ $interqueja->qjs_cp }}</div>
                                 @else
-                                    <div class="fs-5 py-2"><strong>{{ __('Nombre Completo:') }}</strong> {{ $denuncia->name . ' ' . $denuncia->lastname_p . ' ' . $denuncia->lastname_m }}</div>
-                                    <div class="fs-5 py-2"><strong>{{ __('Correo Electrónico:') }}</strong> {{ $denuncia->email }}</div>
-                                    <div class="fs-5 py-2"><strong>{{ __('Teléfono:') }}</strong> {{ $denuncia->phone }}</div>
-                                    <div class="fs-5 py-2"><strong>{{ __('Sexo:') }}</strong> {{ $denuncia->sexo }}</div>
-                                    <div class="fs-5 py-2"><strong>{{ __('Edad:') }}</strong> {{ $denuncia->edad }}</div>
-                                    <div class="fs-5 py-2"><strong>{{ __('Calle:') }}</strong> {{ $denuncia->street  }}</div>
-                                    <div class="fs-5 py-2"><strong>{{ __('Numero:') }}</strong> {{ $denuncia->number }}</div>
-                                    <div class="fs-5 py-2"><strong>{{ __('Colonia:') }}</strong> {{ $denuncia->colonia }}</div>
-                                    <div class="fs-5 py-2"><strong>{{ __('Codigo Postal:') }}</strong> {{ $denuncia->code  }}</div>
-                                    <div class="fs-5 py-2"><strong>{{ __('Escolaridad:') }}</strong> {{ $denuncia->escolaridad }}</div>
-                                    <div class="fs-5 py-2"><strong>{{ __('Ocupacion:') }}</strong> {{ $denuncia->ocupacion }}</div>
-                                </div>
+                                    <div class="alert alert-warning">{{ __('Denuncia identificada, pero los datos de contacto no fueron guardados o son nulos.') }}</div>
                                 @endif
                             </div>
                         </div>
                     </div>
+
                 </div>
             </div>
         </div>
-    </div>
 
+
+    </div>
 </x-default-layout>

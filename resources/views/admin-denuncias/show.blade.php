@@ -10,6 +10,7 @@
         </a>
     </x-slot>
 
+    
     <div class="container-fluid py-5">
         {{-- Mensajes de Éxito o Error --}}
         @if (session('success'))

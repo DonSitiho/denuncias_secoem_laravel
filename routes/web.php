@@ -1,4 +1,5 @@
 <?php
+
 use App\Http\Controllers\CatMunicipioController;
 use App\Http\Controllers\Apps\PermissionManagementController;
 use App\Http\Controllers\Apps\RoleManagementController;
@@ -15,6 +16,7 @@ use App\Http\Controllers\AdminDenuncias\AreaController;
 use App\Http\Controllers\CatAreaGobController;
 use App\Http\Controllers\AdminDenuncias\AdminUserController;
 use App\Http\Controllers\AdminDenuncias\AdminDashboardController;
+use App\Http\Controllers\AdminDenuncias\InterquejasController;
 use App\Http\Controllers\BuzonNarajaDenuncias\BuzonNaranjaDenunciasController;
 
 /*
@@ -39,7 +41,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     });
 
     Route::middleware(['auth', 'can:admin-usuarios-crud'])->prefix('admin/usuarios')->name('admin.usuarios.')->group(function () {
-    
+
 
         // RUTA RESTABLECIMIENTO FORZADO (Para el modal de usuario específico)
         Route::put('usuarios/{user}/password', [UserManagementController::class, 'updatePasswordAdmin'])
@@ -47,37 +49,39 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
         // RUTA DE CAMBIO DE ROL (Para el modal de usuario específico)
         Route::put('usuarios/{user}/role', [UserManagementController::class, 'updateRole']) // ⬅️ AÑADIR ESTA RUTA
-            ->name('role.update'); 
+            ->name('role.update');
     });
 
     Route::get('/', [DashboardController::class, 'index']);
 
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-    
-    
-    Route::get('/catalogos', function () {return view('catalogos.index');})->name('catalogos.index');
+
+
+    Route::get('/catalogos', function () {
+        return view('catalogos.index');
+    })->name('catalogos.index');
     Route::patch('cat_municipios/{id}/activate', [CatMunicipioController::class, 'activate'])->name('cat_municipios.activate');
     Route::resource('cat_municipios', CatMunicipioController::class);
-    
+
     Route::patch('cat_areas_gob/{id}/activate', [CatAreaGobController::class, 'activate'])->name('cat_municipios.activate');
     Route::resource('cat_municipios', CatMunicipioController::class);
 
- Route::prefix('cat_areas_gob')->name('cat_areas_gob.')->group(function () {
-    // Listado de áreas
-    Route::get('/', [CatAreaGobController::class, 'index'])->name('index')->middleware('can:admin-areas-crud');
+    Route::prefix('cat_areas_gob')->name('cat_areas_gob.')->group(function () {
+        // Listado de áreas
+        Route::get('/', [CatAreaGobController::class, 'index'])->name('index')->middleware('can:admin-areas-crud');
 
-    // Crear área
-    Route::get('/create', [CatAreaGobController::class, 'create'])->name('create')->middleware('can:admin-areas-crud');
-    Route::post('/', [CatAreaGobController::class, 'store'])->name('store')->middleware('can:admin-areas-crud');
+        // Crear área
+        Route::get('/create', [CatAreaGobController::class, 'create'])->name('create')->middleware('can:admin-areas-crud');
+        Route::post('/', [CatAreaGobController::class, 'store'])->name('store')->middleware('can:admin-areas-crud');
 
-    // Editar área
-    Route::get('/{id}/edit', [CatAreaGobController::class, 'edit'])->name('edit')->middleware('can:admin-areas-crud');
-    Route::put('/{id}', [CatAreaGobController::class, 'update'])->name('update')->middleware('can:admin-areas-crud');
+        // Editar área
+        Route::get('/{id}/edit', [CatAreaGobController::class, 'edit'])->name('edit')->middleware('can:admin-areas-crud');
+        Route::put('/{id}', [CatAreaGobController::class, 'update'])->name('update')->middleware('can:admin-areas-crud');
 
-    // Activar / Desactivar
-    Route::delete('/{id}', [CatAreaGobController::class, 'destroy'])->name('destroy')->middleware('can:admin-areas-crud');
-    Route::patch('/{id}/activate', [CatAreaGobController::class, 'activate'])->name('activate')->middleware('can:admin-areas-crud');
-});
+        // Activar / Desactivar
+        Route::delete('/{id}', [CatAreaGobController::class, 'destroy'])->name('destroy')->middleware('can:admin-areas-crud');
+        Route::patch('/{id}/activate', [CatAreaGobController::class, 'activate'])->name('activate')->middleware('can:admin-areas-crud');
+    });
     Route::resource('cat_estados', CatEstadosController::class);
     Route::patch('cat_estados/{id}/activate', [CatEstadosController::class, 'activate'])->name('cat_estados.activate')->middleware('can:admin-catalogos-crud');
 
@@ -99,19 +103,19 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
 
 // Grupo de rutas para el Usuario OIC
-Route::middleware(['auth'])->prefix('oic')->name('oic.')->group(function (){
+Route::middleware(['auth'])->prefix('oic')->name('oic.')->group(function () {
 
     //Ruta del Dashboard OIC de Denuncias
 
-    Route::middleware(['can:oic-denuncia-ver'])->name('dashboard.')->group(function() {
+    Route::middleware(['can:oic-denuncia-ver'])->name('dashboard.')->group(function () {
 
         // 1. Ruta principal: oic.dashboard.index
         Route::get('/', [DashboardController::class, 'index'])->name('index');
 
         Route::get('/data', [DashboardController::class, 'getDashboardOicData'])
-                ->name('data');
+            ->name('data');
     });
-    
+
     // Listado de mis denuncias para un OIC
     Route::get('/mis-denuncias', [OICDenunciasController::class, 'getMisDenuncias'])
         ->name('mis-denuncias')
@@ -136,8 +140,11 @@ Route::middleware(['auth'])->prefix('oic')->name('oic.')->group(function (){
     */
 });
 
+
 // Grupo de rutas para el Administrador de Denuncias
 Route::middleware(['auth'])->prefix('admin/denuncias')->name('admin.denuncias.')->group(function () {
+
+    Route::get('/interquejas', [InterquejasController::class, 'index'])->name('interquejas');
 
     // 1. Dashboard de Recepción (Listado)
     Route::get('/', [AdminDenunciasController::class, 'index'])
@@ -163,66 +170,74 @@ Route::middleware(['auth'])->prefix('admin/denuncias')->name('admin.denuncias.')
     Route::get('/{id_denuncia}/exportar', [ExportController::class, 'exportarExpediente'])
         ->name('exportar.expediente')
         ->middleware('can:admin-denuncia-descarga'); // Permiso para exportar
-    
+
+    // 1. Dashboard de Recepción (Listado)
+
+    Route::get('/interqueja/{id_denuncia}', [InterquejasController::class, 'show'])->name('interqueja');
+
 });
+
+
+//Route::get('/interquejas', [InterquejasController::class, 'getAllInterquejas'])->name('interquejas'); 
 
 // Grupo de rutas para el Usuario Buzon Naranja
 Route::middleware(['auth'])->prefix('buzon-naranja/denuncias')->name('buzon-naranja.denuncias.')->group(function () {
 
-        Route::get('/nuevas', [BuzonNaranjaDenunciasController::class, 'getDenunciasNuevas'])->name('nuevas');
-        
-        Route::get('/historial', [BuzonNaranjaDenunciasController::class, 'getDenunciasHistorial'])->name('historial');
-        Route::get('/denuncia-historial/{id_denuncia}', [BuzonNaranjaDenunciasController::class, 'verDetallesDenunciaHistorial'])->name('ver-denuncia-historial');
+    //Route::get('/interquejas', [InterquejasController::class, 'getAllInterquejas'])->name('interquejas'); 
+
+    Route::get('/nuevas', [BuzonNaranjaDenunciasController::class, 'getDenunciasNuevas'])->name('nuevas');
+
+    Route::get('/historial', [BuzonNaranjaDenunciasController::class, 'getDenunciasHistorial'])->name('historial');
+    Route::get('/denuncia-historial/{id_denuncia}', [BuzonNaranjaDenunciasController::class, 'verDetallesDenunciaHistorial'])->name('ver-denuncia-historial');
 });
 
 Route::middleware(['auth', 'can:admin-usuarios-crud'])->prefix('admin/usuarios')->name('admin.usuarios.')->group(function () {
-    
+
     // Listado de Usuarios
-    Route::get('/', [AdminUserController::class, 'index'])->name('index'); 
+    Route::get('/', [AdminUserController::class, 'index'])->name('index');
     // Vista de Creación
     Route::get('/create', [AdminUserController::class, 'create'])->name('create');
     // Acción de Guardado
     Route::post('/', [AdminUserController::class, 'store'])->name('store');
     Route::get('usuarios/{user}/editar', [AdminUserController::class, 'edit'])->name('edit');
     Route::put('usuarios/{user}', [AdminUserController::class, 'update'])->name('update');
-
 });
 
-    Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () {
-    
+Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () {
+
     // Rutas del Dashboard de Denuncias
     // El prefijo es 'dashboard' y el nombre es 'dashboard.'
     Route::middleware(['can:admin-denuncia-ver'])->prefix('dashboard')->name('dashboard.')->group(function () {
-        
+
         // 1. Ruta principal: admin.dashboard.index
-            Route::get('/', [DashboardController::class, 'index'])->name('index');
-            
-            // 2. Ruta AJAX de Persistencia: admin.dashboard.saveOrder
-            Route::post('/save-order', [DashboardController::class, 'saveOrder'])
-                ->name('saveOrder');
+        Route::get('/', [DashboardController::class, 'index'])->name('index');
 
-            Route::get('/data', [DashboardController::class, 'getDashboardData'])
-                ->name('data');
-        });
-        
-        // Route::get('/data', [DashboardController::class, 'getDashboardData'])
-        // ->name('data');
+        // 2. Ruta AJAX de Persistencia: admin.dashboard.saveOrder
+        Route::post('/save-order', [DashboardController::class, 'saveOrder'])
+            ->name('saveOrder');
+
+        Route::get('/data', [DashboardController::class, 'getDashboardData'])
+            ->name('data');
     });
 
-    Route::get('admin/areas/{id_area}/users', [AdminDenunciasController::class, 'getUsersForArea'])
-        ->name('admin.areas.getUsersForArea')->middleware('auth', 'can:admin-usuarios-crud');
+    // Route::get('/data', [DashboardController::class, 'getDashboardData'])
+    // ->name('data');
+});
 
-    // RUTAS PARA LA GESTIÓN DE ÁREAS (Trabajo del D4)
-    Route::middleware(['auth', 'can:admin-areas-crud'])->prefix('areas')->name('areas.')->group(function () {
-        // Vista principal del gestor de áreas
-        Route::get('/', [AreaController::class, 'index'])->name('index');
-        
-        // API Endpoint para obtener la estructura del árbol
-        Route::get('/tree', [AreaController::class, 'getTreeData'])->name('tree_data');
-        
-        // API Endpoint para operaciones CRUD de jsTree
-        Route::post('/crud', [AreaController::class, 'crud'])->name('crud');
-    });
+Route::get('admin/areas/{id_area}/users', [AdminDenunciasController::class, 'getUsersForArea'])
+    ->name('admin.areas.getUsersForArea')->middleware('auth', 'can:admin-usuarios-crud');
+
+// RUTAS PARA LA GESTIÓN DE ÁREAS (Trabajo del D4)
+Route::middleware(['auth', 'can:admin-areas-crud'])->prefix('areas')->name('areas.')->group(function () {
+    // Vista principal del gestor de áreas
+    Route::get('/', [AreaController::class, 'index'])->name('index');
+
+    // API Endpoint para obtener la estructura del árbol
+    Route::get('/tree', [AreaController::class, 'getTreeData'])->name('tree_data');
+
+    // API Endpoint para operaciones CRUD de jsTree
+    Route::post('/crud', [AreaController::class, 'crud'])->name('crud');
+});
 
 
 Route::get('/error', function () {

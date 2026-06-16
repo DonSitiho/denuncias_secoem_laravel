@@ -63,12 +63,12 @@
 						</a>
 						<!--end:Menu link-->
 						<!--begin:Menu link-->
-						<a class="menu-link {{ request()->routeIs('admin.denuncias.index') ? 'active' : '' }}"
-							href="{{ route('admin.denuncias.index') }}">
+						<a class="menu-link {{ request()->routeIs('admin.denuncias.interquejas') ? 'active' : '' }}"
+							href="{{ route('admin.denuncias.interquejas') }}">
 							<span class="menu-bullet">
 								<span class="bullet bullet-dot"></span>
 							</span>
-							<span class="menu-title">Denuncias Anteriores</span>
+							<span class="menu-title">Interquejas</span>
 						</a>
 						<!--end:Menu link-->
 					</div>
