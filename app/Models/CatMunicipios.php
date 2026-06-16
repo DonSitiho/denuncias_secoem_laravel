@@ -27,4 +27,10 @@ class CatMunicipios extends Model
         return $this->hasMany(BuzonNarajaDenuncia::class, 'id_municipio', 'id_municipio');
     }
 
+    // Relación 1:N con Interqueja (opcional, para ver dónde se usó)
+    public function interqueja()
+    {
+        return $this->hasMany(Interqueja::class, 'municipio_hecho_id', 'id_municipio');
+    }
+
 }

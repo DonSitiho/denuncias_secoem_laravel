@@ -18,7 +18,7 @@ class InterquejasController extends Controller
 
     public function show($id_denuncia) {
 
-        $interqueja = Interqueja::findOrFail($id_denuncia);
+        $interqueja = Interqueja::with(['municipio_hecho'])->findOrFail($id_denuncia);
 
         return view('admin-denuncias.interquejas.show', compact('interqueja'));
 

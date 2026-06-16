@@ -53,7 +53,7 @@
                                         <div class="fs-6 py-2">
                                             <strong>{{ __('Lugar (Municipio):') }}</strong>
                                             <span
-                                                class="ms-2">{{ $denuncia->municipio->nombre_municipio ?? 'No Especificado' }}</span>
+                                                class="ms-2">{{ $interqueja->municipio_hecho->nombre_municipio ?? 'No Especificado' }}</span>
                                         </div>
                                         <div class="fs-6 py-2">
                                             <strong>{{ __('Localidad / Colonia:') }}</strong>

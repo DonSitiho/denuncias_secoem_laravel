@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Interqueja extends Model
 {
@@ -49,4 +50,11 @@ class Interqueja extends Model
         'qjs_email',
         'created_at'
     ];
+
+    // Relación 1:1 con el Catálogo de Municipios
+    public function municipio_hecho(): BelongsTo 
+    {
+        // Une id_municipio (FK local) con id_municipio (PK externa) en la tabla 'cat_municipios
+        return $this->belongsTo(CatMunicipios::class, 'municipio_hecho_id', 'id_municipio');
+    }
 }
