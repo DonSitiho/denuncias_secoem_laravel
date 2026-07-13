@@ -5,6 +5,7 @@ namespace App\Livewire\AdminDenuncias;
 use Livewire\Component;
 use Livewire\WithPagination;
 use App\Models\Denuncia;
+use App\Repositories\DenunciasRepository;
 use Illuminate\Database\Eloquent\Builder;
 
 class DenunciaTable extends Component
@@ -17,6 +18,12 @@ class DenunciaTable extends Component
     // Propiedades para ordenar
     public string $sortBy = 'fecha_recepcion';
     public bool $sortAsc = false; // Ordenar de forma descendente por defecto
+
+    protected DenunciasRepository $denunciaRepository;
+
+    public function boot(DenunciasRepository $denunciaRepository){
+        $this->denunciaRepository = $denunciaRepository;
+    }
 
     // Campos a buscar
     protected $searchableFields = [
@@ -36,6 +43,9 @@ class DenunciaTable extends Component
     public function render()
     {
         // Consulta base con las relaciones necesarias
+        $denuncias = $this->denunciaRepository->denunciasInterquejas($this->search, $this->sortBy, $this->sortAsc);
+
+        /*
         $denuncias = Denuncia::query()
             ->with([
                 'contacto', 
@@ -61,7 +71,7 @@ class DenunciaTable extends Component
             // Lógica de Ordenación
             ->orderBy($this->sortBy, $this->sortAsc ? 'asc' : 'desc')
             ->paginate(10);
-                
+        */     
         return view('livewire.admin-denuncias.denuncia-table', [
             'denuncias' => $denuncias,
         ]);

@@ -24,7 +24,7 @@
                     <th class="min-w-120px cursor-pointer" wire:click="sortBy('fecha_hechos')">{{ __('Hechos') }}</th>
                     <th class="min-w-150px">{{ __('Datos de Contacto') }}</th>
                     <th class="min-w-150px">{{ __('Dependencia / Municipio') }}</th>
-                    <th class="min-w-100">{{ __('Estatus') }}</th>
+                    <th class="min-w-100px">{{ __('Estatus') }}</th>
                     <th class="min-w-80px">{{ __('Acciones') }}</th>
                 </tr>
             </thead>

@@ -191,6 +191,11 @@
                     <div class="d-flex flex-column flex-lg-row-fluid py-10">
                         <!--begin::Content-->
                         <div class="d-flex flex-center flex-column flex-column-fluid">
+                            @if ($tipo_denuncia == 2)
+                            <h1 class="stepper-title fs-2">
+                                Denuncia Mujer - BUZÓN NARANJA
+                            </h1>
+                            @endif
                             <!--begin::Wrapper-->
                             <div class="w-lg-750px w-xl-900px p-10 p-lg-15 mx-auto">
                                 <!--begin::Form-->
@@ -198,6 +203,7 @@
                                     action="{{ route('denuncias.store') }}" method="POST" enctype="multipart/form-data">
                                     @csrf
 
+                                    <input type="hidden" name="tipo" value="{{ $tipo_denuncia }}">
                                     <!--begin::Step 1-->
                                     <div class="current step-content" data-step="1">
                                         <!--begin::Wrapper-->
@@ -259,7 +265,8 @@
                                                             completo</label>
                                                         <input type="text"
                                                             class="form-control form-control-solid @error('nombre_completo') is-invalid @enderror"
-                                                            name="nombre_completo" placeholder="Ingrese su nombre completo"
+                                                            name="nombre_completo"
+                                                            placeholder="Ingrese su nombre completo"
                                                             value="{{ old('nombre_completo') }}" />
                                                         @error('nombre_completo')
                                                             <div class="invalid-feedback">{{ $message }}</div>
@@ -1599,12 +1606,12 @@
                 });
             </script>
             <script>
-            const chk = document.getElementById('confirmacion_datos');
-            const btn = document.getElementById('submit-btn');
+                const chk = document.getElementById('confirmacion_datos');
+                const btn = document.getElementById('submit-btn');
 
-            chk.addEventListener('change', function () {
-                btn.disabled = !this.checked;
-            });
-        </script>
+                chk.addEventListener('change', function() {
+                    btn.disabled = !this.checked;
+                });
+            </script>
         @endsection
 </x-auth-layout>

@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\User;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
@@ -20,6 +21,7 @@ class RolesPermissionsSeeder extends Seeder
             'oic-denuncia-ver',
             'oic-denuncia-detalles',
             'oic-denuncia-descargar',
+            'oic-denuncia-turnar',
             'oic-denuncia-solventar-info',
             'oic-denuncia-crear',
             'oic-denuncia-tramite', 
@@ -39,6 +41,22 @@ class RolesPermissionsSeeder extends Seeder
             'system-permissions-crud',
             'system-auditoria-ver',
             'system-configuracion-crud',
+
+            // PERMISO PARA OBTENER LOS USUARIOS POR AREAS
+            'system-areas-usuarios',
+            
+            // PERMISOS UAOIC (Operacion y Asignacion a OICS)
+            'uaoic-denuncia-ver',
+            'uaoic-denuncia-turnar',
+            'uaoic-denuncia-descargar',
+            'uaoic-denuncia-detalles',
+
+            // PERMISOS BUZON NARANJA (Operacion y Asignacion)
+            'bn-denuncia-ver',
+            'bn-denuncia-turnar',
+            'bn-denuncia-descargar',
+            'bn-denuncia-detalles',
+            
         ];
 
         // 2. Crear todos los Permisos en la base de datos
@@ -54,21 +72,41 @@ class RolesPermissionsSeeder extends Seeder
                 'full_access' => true, 
             ],
             
-            'Admin Denuncias' => [
+            'Admin Denuncias ST' => [
                 'admin-denuncia-ver',
                 'admin-denuncia-turnar',
                 'admin-denuncia-descarga',
                 'admin-usuarios-crud',
                 'admin-areas-crud',
                 'admin-catalogos-crud',
+                'bn-denuncia-ver',
+                'bn-denuncia-detalles',
             ],
             
+            'Usuario UAOIC' => [
+                'uaoic-denuncia-ver',
+                'uaoic-denuncia-turnar',
+                'uaoic-denuncia-descargar',
+                'uaoic-denuncia-detalles',
+                'system-areas-usuarios',
+
+            ],
+
             'Usuario OIC' => [
                 'oic-denuncia-ver',
                 'oic-denuncia-detalles',
                 'oic-denuncia-descargar',
                 'oic-denuncia-solventar-info',
                 'oic-denuncia-tramite',
+                'system-areas-usuarios',
+            ],
+
+            'Usuario BN' => [
+                'bn-denuncia-ver',
+                'bn-denuncia-turnar',
+                'bn-denuncia-descargar',
+                'bn-denuncia-detalles',
+                'system-areas-usuarios',
             ],
             
             'Capturista' => [
@@ -76,6 +114,8 @@ class RolesPermissionsSeeder extends Seeder
                 'oic-denuncia-detalles',
                 'oic-denuncia-crear',
             ],
+
+            
         ];
 
         // 4. Crear Roles y Sincronizar Permisos
@@ -96,9 +136,12 @@ class RolesPermissionsSeeder extends Seeder
         // -----------------------------------------------------------
         // NOTA: Si ya lo hiciste en UsersSeeder.php, puedes borrar esta sección
         User::find(1)?->assignRole('Administrador');
-        User::find(2)?->assignRole('Admin Denuncias');
-        User::find(3)?->assignRole('Usuario OIC');
-        User::find(4)?->assignRole('Capturista');
+        User::find(2)?->assignRole('Admin Denuncias ST');
+        User::find(3)?->assignRole('Usuario UAOIC');
+        User::find(4)?->assignRole('Usuario OIC');
+        User::find(5)?->assignRole('Usuario BN');
+        User::find(6)?->assignRole('Capturista');
+
         // ... y así sucesivamente para el resto de los usuarios de prueba.
     }
 }

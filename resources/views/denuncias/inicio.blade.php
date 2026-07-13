@@ -8,7 +8,8 @@
         <!-- Contenido Principal -->
         <div class="container">
             <!-- Hero Section -->
-            <section class="hero-section" style="background-color: #fbfbfb; background: url(https://michoacan.gob.mx/images/backgrounds/bg.png) fixed no-repeat; background-size: cover; padding: 10px 0; border-radius: 10px; margin-bottom: 10px;">
+            <section class="hero-section"
+                style="background-color: #fbfbfb; background: url(https://michoacan.gob.mx/images/backgrounds/bg.png) fixed no-repeat; background-size: cover; padding: 10px 0; border-radius: 10px; margin-bottom: 10px;">
                 <div class="text-center mb-5">
                     <!-- Logo y Título -->
                     <div class="mb-6">
@@ -16,17 +17,18 @@
                         <h1 class="textoGuinda fw-bold mb-3" style="color: #6A0F49; font-size: 2.5rem;">
                             Sistema de Denuncias Ciudadanas
                         </h1>
-                       
+
                     </div>
-                    
+
                     <!-- Descripción -->
                     <div class="row justify-content-center">
                         <div class="col-lg-8">
                             <p class="fs-5 text-gray-700 mb-6">
-                                Plataforma oficial del Gobierno del Estado de Michoacán para recibir y dar seguimiento 
-                                a denuncias ciudadanas sobre posibles actos de corrupción y irregularidades en el servicio público.
+                                Plataforma oficial del Gobierno del Estado de Michoacán para recibir y dar seguimiento
+                                a denuncias ciudadanas sobre posibles actos de corrupción y irregularidades en el servicio
+                                público.
                             </p>
-                            
+
                             <!-- Características -->
                             <div class="row g-4 mb-8">
                                 <div class="col-md-4">
@@ -55,18 +57,62 @@
                 <!-- Servicios Section -->
                 <div class="row justify-content-center g-8">
                     <!-- Presentar Denuncia -->
-                    <div class="col-md-5">
-                        <div class="card card-flush h-100 shadow-sm hover-elevate-up" style="border-left: 4px solid #6A0F49;">
+                    <div class="col-md-4">
+                        <div class="card card-flush h-100 shadow-sm hover-elevate-up"
+                            style="border-left: 4px solid #6A0F49;">
                             <div class="card-body text-center p-6">
-                               
+
                                 <h3 class="fw-bold text-gray-800 mb-4">Presentar Denuncia</h3>
                                 <p class="text-gray-600 mb-5 fs-6">
-                                    Reporte actos de corrupción, irregularidades o malas prácticas en el servicio público. 
+                                    Reporte actos de corrupción, irregularidades o malas prácticas en el servicio público.
                                     Puede realizarlo de manera anónima o proporcionando sus datos para seguimiento.
                                 </p>
+                                {{-- 
                                 <a href="{{ route('denunciar') }}" class="btn botonGinda btn-lg w-100 py-3 fw-bold">
                                     Iniciar Denuncia
                                 </a>
+                                --}}
+
+                                <form action="{{ route('denunciar') }}" method="POST">
+                                    @csrf
+                                    <input type="hidden" name="id" value="1">
+                                    <button type="submit" class="btn botonGinda btn-lg w-100 py-3 fw-bold">
+                                        Iniciar Denuncia
+                                    </button>
+                                </form>
+                                {{-- <div class="mt-3">
+                                    <small class="text-muted">
+                                        <i class="fas fa-info-circle me-1"></i>
+                                        Tiempo estimado: 10-15 minutos
+                                    </small>
+                                </div> --}}
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Presentar Denuncia Buzon Naranja -->
+                    <div class="col-md-4">
+                        <div class="card card-flush h-100 shadow-sm hover-elevate-up"
+                            style="border-left: 4px solid #6A0F49;">
+                            <div class="card-body text-center p-6">
+
+                                <h3 class="fw-bold text-gray-800 mb-4">Buzón Naranja en Línea</h3>
+                                <p class="text-gray-600 mb-5 fs-6">
+                                    Reporte actos de corrupción, irregularidades o malas prácticas en el servicio público.
+                                    Puede realizarlo de manera anónima o proporcionando sus datos para seguimiento.
+                                </p>
+                                {{-- 
+                                <a href="{{ route('denunciar') }}" class="btn botonGinda btn-lg w-100 py-3 fw-bold">
+                                    Iniciar Denuncia
+                                </a>
+                                --}}
+                                <form action="{{ route('denunciar') }}" method="POST">
+                                    @csrf
+                                    <input type="hidden" name="id" value="2">
+                                    <button type="submit" class="btn botonGinda btn-lg w-100 py-3 fw-bold">
+                                        Iniciar Denuncia
+                                    </button>
+                                </form>
                                 {{-- <div class="mt-3">
                                     <small class="text-muted">
                                         <i class="fas fa-info-circle me-1"></i>
@@ -78,15 +124,17 @@
                     </div>
 
                     <!-- Consultar Seguimiento -->
-                    <div class="col-md-5">
-                        <div class="card card-flush h-100 shadow-sm hover-elevate-up" style="border-left: 4px solid #8B2A5D;">
+                    <div class="col-md-4">
+                        <div class="card card-flush h-100 shadow-sm hover-elevate-up"
+                            style="border-left: 4px solid #8B2A5D;">
                             <div class="card-body text-center p-6">
-                                
+
                                 <h3 class="fw-bold text-gray-800 mb-4">Consultar Seguimiento</h3>
                                 <p class="text-gray-600 mb-5 fs-6">
                                     Verifique el estado de su denuncia anterior utilizando el folio de seguimiento.
                                 </p>
-                                <a href="{{ route('buscar.denuncia') }}" class="btn botonGuindaClaro btn-lg w-100 py-3 fw-bold">
+                                <a href="{{ route('buscar.denuncia') }}"
+                                    class="btn botonGuindaClaro btn-lg w-100 py-3 fw-bold">
                                     Consultar Denuncia
                                 </a>
                                 {{-- <div class="mt-3">
@@ -102,7 +150,7 @@
             </section>
 
             <!-- Información Importante -->
-            
+
 
             <!-- Call to Action Section -->
             <section class="text-center py-8 mt-5" style="background-color: #eeeeee; border-radius: 10px;">
@@ -111,7 +159,7 @@
                         <div class="col-lg-8">
                             <h2 class="text-guinda fw-bold mb-4">¿Requiere Asistencia o Tiene Dudas?</h2>
                             <p class="text-guinda fs-5 mb-5 opacity-75">
-                                Nuestro equipo está disponible para brindarle orientación sobre el proceso de denuncia 
+                                Nuestro equipo está disponible para brindarle orientación sobre el proceso de denuncia
                                 y resolver cualquier inquietud que pueda tener.
                             </p>
                             <div class="d-flex flex-column flex-sm-row justify-content-center gap-4">

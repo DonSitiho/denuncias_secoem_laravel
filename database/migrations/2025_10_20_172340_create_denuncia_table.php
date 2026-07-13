@@ -34,6 +34,7 @@ return new class extends Migration
             // FK a la tabla de usuarios internos (temporalmente comentada)
             $table->unsignedInteger('id_denunciante')->nullable();
             // $table->foreign('id_denunciante')->references('id_usuario')->on('usuario_sistema')->onDelete('SET NULL');
+            $table->unsignedTinyInteger('tipo_denuncia');
 
             $table->comment('Tabla principal de las denuncias');
         });

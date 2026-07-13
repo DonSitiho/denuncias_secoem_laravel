@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -36,6 +37,7 @@ class Denuncia extends Model
         'clave_denunciante',
         'fecha_cierre',
         'id_denunciante',
+        'tipo_denuncia',
     ];
 
     protected $casts = [
@@ -43,6 +45,7 @@ class Denuncia extends Model
         'fecha_recepcion' => 'datetime',
         'dinero_solicitado' => 'decimal:2',
         'fecha_cierre' => 'datetime',
+        'tipo_denuncia' => 'integer',
     ];
 
     // Relación 1:1 con los metadatos de seguimiento (doc_denuncias)
@@ -130,6 +133,11 @@ class Denuncia extends Model
         );
     }
 
+    public function turnados(): HasMany
+    {
+        return $this->hasMany(DenunciaTurnadoHistorial::class, 'id_denuncia', 'id_denuncia')->orderBy('fecha_turnado');;
+    }
+    
     public function scopeDenunciasByAreaResponable($query){
 
         $user = Auth::user();
@@ -159,6 +167,22 @@ class Denuncia extends Model
 
     }
 
+    // Scope para mostrar las denuncias por area del responsable en especifico
+    public function scopeDenunciasAreaResponsable($query){
+
+        $user = Auth::user();
+        $idArea = $user->id_area;
+        $idUsuario = $user->id;
+
+        return$query->whereHas('turnados', function (Builder $q) use ($idArea, $idUsuario) {
+            $q->where('id_area_destino', $idArea)
+                ->where(function (Builder $sub) use ($idUsuario) {
+                    $sub->whereNull('id_responsable')
+                        ->orWhere('id_responsable', $idUsuario);
+                });
+        });
+    }
+
     // Scope para mostrar las denuncias por estatus de un responable en especifico.
     public function scopeDenunciasEstatus($query, $id_status){
 
@@ -172,5 +196,12 @@ class Denuncia extends Model
         return $query->where('es_anonima', $anonima)
                     ->where('id_responsable', Auth::user()->id);
     }
+
+    // Scope para mostrar las denuncias por tipo de denuncia (Buzon naranja y denuncias).
+    public function scopeDenunciasByTipo(Builder $query, int $tipo): Builder {
+
+        return $query->where('tipo_denuncia', $tipo);
+    }
+
 
 }

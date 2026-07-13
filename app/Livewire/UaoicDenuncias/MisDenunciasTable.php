@@ -1,26 +1,29 @@
 <?php
 
-namespace App\Livewire\BuzonNaranjaDenuncias;
+namespace App\Livewire\UaoicDenuncias;
 
 use App\Repositories\DenunciasRepository;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Livewire\Component;
 use Livewire\WithPagination;
 
-class DenunciasNuevasTable extends Component
+class MisDenunciasTable extends Component
 {
-    use AuthorizesRequests;
-    use WithPagination; 
 
+    use AuthorizesRequests;
+    use WithPagination;
+
+    // Propiedad que almacenará el texto de búsqueda en tiempo real
     public string $search = '';
 
     // Propiedades para ordenar
     public string $sortBy = 'fecha_recepcion';
-    public bool $sortAsc = false;
+    public bool $sortAsc = false; // Ordenar de forma descendente por defecto
 
     protected $denunciaRepository;
 
-    public function boot(DenunciasRepository $denunciaRepository) {
+    public function boot(DenunciasRepository $denunciaRepository)
+    {   
         $this->denunciaRepository = $denunciaRepository;
     }
 
@@ -32,11 +35,9 @@ class DenunciasNuevasTable extends Component
 
     public function render()
     {
-        //$denuncias = $this->denunciaRepository->denunciasTipo($this->search, $this->sortBy, $this->sortAsc);
-        $denuncias = $this->denunciaRepository->denunciasBuzonNaranja($this->search, $this->sortBy, $this->sortAsc);
-        //return json_encode($denuncias);
+        $denuncias = $this->denunciaRepository->denunciasPorResponsable($this->search, $this->sortBy, $this->sortAsc);
 
-        return view('livewire.buzon-naranja-denuncias.denuncias-nuevas-table', ['denuncias' => $denuncias]);
+        return view('livewire.uaoic-denuncias.mis-denuncias-table', ['denuncias' => $denuncias]);
     }
 
     public function sortBy(string $field): void

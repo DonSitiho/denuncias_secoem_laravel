@@ -25,6 +25,7 @@
                     <th class="min-w-120px cursor-pointer" wire:click="sortBy('fecha_hechos')">{{ __('Hechos') }}</th>
                     <th class="min-w-150px">{{ __('Datos de Contacto') }}</th>
                     <th class="min-w-150px">{{ __('Dependencia / Municipio') }}</th>
+                    <th class="min-w-100px">{{ __('Estatus') }}</th>
                     <th class="min-w-80px">{{ __('Acciones') }}</th>
                 </tr>
             </thead>
@@ -53,6 +54,17 @@
                         <td>
                             <span class="text-gray-800">{{ $denuncia->circunstancia->dependencia_involucrada ?? 'Ciudadano General' }}</span>
                             <span class="text-muted fs-7 d-block">{{ $denuncia->circunstancia->municipio->nombre_municipio ?? 'No Especificado' }}</span>
+                        </td>
+                        <td>
+                            <span class="badge badge-lg badge-light-primary">
+                                {{ $denuncia->estado->nombre ?? 'PENDIENTE DE ASIGNACIÓN' }}
+                            </span>
+                            @if ($denuncia->areaResponsable)
+                                <span class="text-muted fs-7 d-block">
+                                    [{{ $denuncia->areaResponsable->siglas ?? 'N/D' }}]
+                                    {{ $denuncia->areaResponsable->nombre_area ?? 'N/D' }}
+                                </span>
+                            @endif
                         </td>
                         <td>
                             <a href="{{ route('oic.ver-denuncia', $denuncia->id_denuncia) }}" class="btn btn-icon btn-light-primary btn-sm me-1" title="{{ __('Revisar Detalle') }}">

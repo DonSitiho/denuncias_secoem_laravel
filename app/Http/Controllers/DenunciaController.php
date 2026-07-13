@@ -33,17 +33,20 @@ class DenunciaController extends Controller
     }
 
     /** Mostrar formulario para crear una denuncia */
-    public function create()
+    public function create(Request $request)
     {
+        $tipo_denuncia = (int) $request->input('id');
+        abort_unless(in_array($tipo_denuncia, [1, 2]), 404);
+
         $municipios = CatMunicipios::orderBy('nombre_municipio')->get();
 
-        return view('denuncias.crear', compact('municipios'));
+        return view('denuncias.crear', compact('municipios', 'tipo_denuncia'));
     }
 
     /** Guardar una nueva denuncia con todas sus relaciones */
     public function store(Request $request)
     {
-        //dd($request->all());
+        //return dd($request->all());
         // Validación del request
         //dd($request->all());
         // es_anonima "0" si requiere llenar los datos
@@ -52,6 +55,7 @@ class DenunciaController extends Controller
         ]);
 
         $validator = \Validator::make($request->all(), [
+            'tipo'        => 'required|integer|in:1,2',
             'es_anonima' => 'required|in:0,1',
             'motivo_denuncia' => 'required|string',
             'fecha_hechos' => 'required|date',
@@ -83,7 +87,7 @@ class DenunciaController extends Controller
         ]);
 
         // Validar campos de contacto solo si NO es anónima
-      
+
         if ($request->es_anonima == 0) {
             $validator->sometimes(['nombre_completo', 'telefono', 'correo_electronico'], 'required|string|max:255', function () {
                 return true; // Siempre requeridos si llegamos aquí
@@ -94,14 +98,22 @@ class DenunciaController extends Controller
 
         DB::beginTransaction();
 
+        $prefijos = [
+            1 => 'DEN-',
+            2 => 'DEN-BNJ-',
+        ];
+
+        $prefijo = $prefijos[$request->tipo];
+
         //try {
         /** 1️ Crear denuncia principal sin folio aún */
         //ver el id de la ultima denuncia
-        $id_ultima_denuncia = Denuncia::select('id_denuncia')->orderBy('id_denuncia', 'desc')->first();
+        $id_ultima_denuncia = Denuncia::select('id_denuncia')->where('tipo_denuncia', $request->tipo)->orderBy('id_denuncia', 'desc')->first();
 
         $ultimo_id = $id_ultima_denuncia ? $id_ultima_denuncia->id_denuncia : 0;
 
-        $folio = 'DEN-' . now()->format('Y') . '-' . str_pad($ultimo_id + 1, 6, '0', STR_PAD_LEFT);
+        $folio = $prefijo . now()->format('Y') . '-' . str_pad($ultimo_id + 1, 6, '0', STR_PAD_LEFT);
+
 
         //Generar token de validación único
         $codigo = Str::upper(Str::random(5)); // Ej: "A1B2C"
@@ -121,6 +133,7 @@ class DenunciaController extends Controller
             'id_responsable' => $request->id_responsable ?? null,
             'token_validacion' => $codigo,
             'clave_denunciante' => $clave_denunciante,
+            'tipo_denuncia' => $request->tipo,
 
         ]);
 
@@ -254,7 +267,7 @@ class DenunciaController extends Controller
 
     /** Buscar denuncia */
     public function buscar(Request $request)
-    {   
+    {
         // Viene del QR con parámetros, o entra manual sin nada
         $folio  = $request->query('folio', '');
         $codigo = $request->query('codigo', '');
@@ -351,7 +364,7 @@ class DenunciaController extends Controller
             ->where('is_active', 1)
             ->where('is_complete', 0)
             ->get();
-        
+
         // Cargar todas las relaciones para los detalles completos
         $denuncia = Denuncia::with([
             'contacto',
