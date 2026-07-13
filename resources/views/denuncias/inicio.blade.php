@@ -96,7 +96,12 @@
                             style="border-left: 4px solid #6A0F49;">
                             <div class="card-body text-center p-6">
 
-                                <h3 class="fw-bold text-gray-800 mb-4">Buzón Naranja en Línea</h3>
+                                <h3 class="fw-bold text-gray-800 mb-4">
+                                    <span style="color: #ff8d3a; font-size: inherit; font-weight: inherit;">
+                                        Buzón Naranja
+                                    </span>
+                                    en Línea
+                                </h3>
                                 <p class="text-gray-600 mb-5 fs-6">
                                     Reporte actos de corrupción, irregularidades o malas prácticas en el servicio público.
                                     Puede realizarlo de manera anónima o proporcionando sus datos para seguimiento.

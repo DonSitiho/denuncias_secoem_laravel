@@ -193,7 +193,11 @@
                         <div class="d-flex flex-center flex-column flex-column-fluid">
                             @if ($tipo_denuncia == 2)
                             <h1 class="stepper-title fs-2">
-                                Denuncia Mujer - BUZÓN NARANJA
+                                Denuncia Mujer - 
+                                <span style="color: #ff8d3a">
+                                    BUZÓN NARANJA
+                                </span>
+                                
                             </h1>
                             @endif
                             <!--begin::Wrapper-->
