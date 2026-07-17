@@ -205,8 +205,8 @@
                                 </div>
                                 <span class="ms-2">
                                     {{-- ⭐ ENLACE ACTUALIZADO AL MÉTODO DE DESCARGA SEGURA --}}
-                                    @can('admin-denuncia-descarga')
-                                        <a href="{{ route('admin.denuncias.descargar.evidencia', ['id_archivo' => $archivo->id_archivo]) }}" 
+                                    @can('oic-denuncia-descargar')
+                                        <a href="{{ route('oic.descargar', ['id_archivo' => $archivo->id_archivo]) }}" 
                                         class="btn btn-icon btn-sm btn-info" 
                                         title="Descargar Evidencia">
                                             <i class="fas fa-download"></i>

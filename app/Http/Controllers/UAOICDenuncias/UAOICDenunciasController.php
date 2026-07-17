@@ -2,13 +2,17 @@
 
 namespace App\Http\Controllers\UAOICDenuncias;
 
+use App\Helpers\ArchivoHelper;
 use App\Http\Controllers\Controller;
+use App\Models\ArchivoAdjunto;
 use App\Models\Area;
 use App\Models\Denuncia;
 use App\Models\DenunciaTurnadoHistorial;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Log;
 use PhpParser\Node\Stmt\TryCatch;
 
 class UAOICDenunciasController extends Controller
@@ -91,8 +95,35 @@ class UAOICDenunciasController extends Controller
         }
     }
 
-    public function descargarDenuncia($id_denuncia) 
+    public function descargarDenuncia($id_archivo) 
     {
+        try {
+            $archivo = ArchivoAdjunto::with('denuncia')->findOrFail($id_archivo);
 
+            // Aseguramos que el usuario logueado tenga derecho a ver esta denuncia específica.
+            if (Gate::denies('uaoic-denuncia-descarga')) {
+                // Si falla el permiso general de descarga
+                return redirect()->back()->with('error', 'Permisos insuficientes para esta acción.');
+            }
+
+            // Opcional: Si necesitas chequear que la denuncia le pertenece (Policy por objeto)
+            // if (Gate::denies('view', $archivo->denuncia)) { 
+            //     return redirect()->back()->with('error', 'No tiene permisos sobre esta denuncia.');
+            // }
+
+            return ArchivoHelper::descargarArchivoEncriptado(
+                $archivo->ruta_cifrada,
+                $archivo->nombre_original,
+                $archivo->tipo_archivo, // Se puede usar el campo 'tipo_archivo' del modelo para el MIME type
+                true // Forzar descarga (descargar=true)
+            );
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+            return redirect()->back()->with('error', 'El archivo solicitado no existe.');
+        } catch (\Exception $e) {
+            Log::error("Error al servir archivo encriptado (Admin): " . $e->getMessage());
+            return redirect()->back()->with('error', 'Error al acceder o desencriptar el archivo de prueba.');
+        }
+
+        
     }
 }

@@ -20,9 +20,7 @@ use Illuminate\Support\Str;
 use App\Helpers\ArchivoHelper;
 use App\Models\ArchivoAdjunto;
 use App\Models\SolventarInfo;
-
-
-
+use Illuminate\Support\Facades\Http;
 
 class DenunciaController extends Controller
 {
@@ -108,9 +106,9 @@ class DenunciaController extends Controller
         //try {
         /** 1️ Crear denuncia principal sin folio aún */
         //ver el id de la ultima denuncia
-        $id_ultima_denuncia = Denuncia::select('id_denuncia')->where('tipo_denuncia', $request->tipo)->orderBy('id_denuncia', 'desc')->first();
+        $ultima_denuncia = Denuncia::select('folio_seguimiento')->where('tipo_denuncia', $request->tipo)->orderBy('id_denuncia', 'desc')->lockForUpdate()->first();
 
-        $ultimo_id = $id_ultima_denuncia ? $id_ultima_denuncia->id_denuncia : 0;
+        $ultimo_id = $ultima_denuncia ? (int) last(explode('-', $ultima_denuncia->folio_seguimiento)) : 0;
 
         $folio = $prefijo . now()->format('Y') . '-' . str_pad($ultimo_id + 1, 6, '0', STR_PAD_LEFT);
 
@@ -487,7 +485,7 @@ class DenunciaController extends Controller
             'codigo' => $denuncia->token_validacion
         ]);
         $qrCode = QrCode::format('svg')->size(200)->generate($urlSeguimiento);
-
+        $logoMich = $this->imagenUrlABase64('https://michoacan.gob.mx/images/logo-old.png');
         // Datos para la vista
         $data = [
             'denuncia' => $denuncia,
@@ -498,6 +496,9 @@ class DenunciaController extends Controller
             'datosTestigos' => $denuncia->testigos,
             'datosCircunstancia' => $datosCircunstancia,
             'datosMunicipio' => $datosMunicipio,
+            'logoMichoacan' => public_path('images/logo-mich.png'),
+            'logoSecoem' => public_path('images/logo-secoem.png'),
+
         ];
 
         // Generar PDF
@@ -509,5 +510,18 @@ class DenunciaController extends Controller
 
         // Descargar PDF
         return $pdf->download("comprobante-denuncia-{$folio}.pdf");
+    }
+
+    private function imagenUrlABase64(string $url): ?string
+    {
+
+        $response = Http::withoutVerifying()->timeout(5)->get($url);
+
+        if ($response->successful()){
+            $tipo = pathinfo(parse_url($url, PHP_URL_PATH), PATHINFO_EXTENSION);
+            return 'data:image/' . $tipo . ';base64' . base64_encode($response->body());
+        }
+
+        return null;
     }
 }

@@ -123,8 +123,8 @@ Route::middleware(['auth'])->prefix('uaoic')->name('uaoic.')->group(function () 
         ->name('turnar')
         ->middleware('can:uaoic-denuncia-turnar');
 
-    Route::get('/descargar/{id_denuncia}', [UAOICDenunciasController::class, 'descargarDenuncia'])
-        ->name('descargar')
+    Route::get('/evidencia/{id_archivo}', [UAOICDenunciasController::class, 'descargarDenuncia'])
+        ->name('descargar.evidencia')
         ->middleware('can:uaoic-denuncia-descargar');
 
 });
@@ -165,6 +165,10 @@ Route::middleware(['auth'])->prefix('oic')->name('oic.')->group(function () {
     Route::post('/{id_denuncia}/solicitar-informacion', [OICDenunciasController::class, 'solvetarInformacionDenuncia'])
         ->name('solicitar-informacion')
         ->middleware('can:oic-denuncia-solventar-info');
+
+    Route::get('/{id_denuncia}/exportar', [ExportController::class, 'exportarExpediente'])
+        ->name('exportar.expediente')
+        ->middleware('can:oic-denuncia-descargar');
 
     /*
     Route::get('/tramite/{id_denuncia}', [OICDenunciasController::class, 'denunciaEnTramite'])

@@ -27,9 +27,12 @@ class ExportController extends Controller
         ])
         ->findOrFail($id_denuncia);
 
+        $logoMichoacan = public_path('images/logo-mich.png');
+        $logoSecoem = public_path('images/logo-secoem.png');
+
         // 2. Cargar la vista Blade que servirá como plantilla del PDF
         // Se utiliza la vista 'admin-denuncias.export_expediente'
-        $pdf = PDF::loadView('admin-denuncias.export_expediente', compact('denuncia'));
+        $pdf = PDF::loadView('admin-denuncias.export_expediente', compact('denuncia', 'logoMichoacan', 'logoSecoem'));
 
         // 3. Devolver el PDF para descarga con un nombre de archivo dinámico
         $nombreArchivo = 'Expediente_SECOEM_' . $denuncia->folio_seguimiento . '.pdf';

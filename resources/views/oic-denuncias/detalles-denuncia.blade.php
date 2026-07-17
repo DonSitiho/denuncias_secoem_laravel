@@ -228,8 +228,8 @@
                             </div>
                             <span class="ms-2">
 
-                                @can('admin-denuncia-descarga')
-                                <a href="{{ route('admin.denuncias.descargar.evidencia', $archivo->id_archivo) }}"
+                                @can('oic-denuncia-descargar')
+                                <a href="{{ route('oic.descargar', $archivo->id_archivo) }}"
                                     class="btn btn-icon btn-sm btn-info" title="Descargar">
                                     <i class="fas fa-download"></i>
                                 </a>

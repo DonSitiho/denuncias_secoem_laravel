@@ -389,10 +389,33 @@
     </div>
 
     <!-- Encabezado Oficial -->
+    <!--
     <div class="official-header">
         <div class="government-title">GOBIERNO DEL ESTADO</div>
         <div class="system-title">SISTEMA INTEGRAL DE DENUNCIAS CIUDADANAS</div>
         <div class="document-title">COMPROBANTE OFICIAL DE DENUNCIA</div>
+    </div>
+    -->
+
+    <div class="official-header">
+        <table width="100%" cellpadding="0" cellspacing="0">
+            <tr>
+                <td width="15%" align="center" valign="top">
+                    <img src="{{ $logoMichoacan }}" style="height: 75px; width: auto;">
+                </td>
+                <td width="70%"></td>
+                <td width="15%" align="center" valign="top">
+                    <img src="{{ $logoSecoem }}" style="height: 75px; width: auto;">
+                </td>
+            </tr>
+            <tr>
+                <td colspan="3" align="center">
+                    <div class="government-title">GOBIERNO DEL ESTADO</div>
+                    <div class="system-title">SISTEMA INTEGRAL DE DENUNCIAS CIUDADANAS</div>
+                    <div class="document-title">COMPROBANTE OFICIAL DE DENUNCIA</div>
+                </td>
+            </tr>
+        </table>
     </div>
 
     <!-- Folio Oficial -->

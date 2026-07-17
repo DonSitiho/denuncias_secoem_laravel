@@ -4,7 +4,7 @@
     @section('content')
         <!-- Estilos oficiales -->
         @include('denuncias.layout.navbar')
-
+  
         <!-- Contenido Principal -->
         <div class="container">
             <!-- Hero Section -->
@@ -12,7 +12,7 @@
                 style="background-color: #fbfbfb; background: url(https://michoacan.gob.mx/images/backgrounds/bg.png) fixed no-repeat; background-size: cover; padding: 10px 0; border-radius: 10px; margin-bottom: 10px;">
                 <div class="text-center mb-5">
                     <!-- Logo y Título -->
-                    <div class="mb-6">
+                    <div class="mb-6"> 
                         {{-- <img src="https://michoacan.gob.mx/cdn/img/logos/dependencias/secoem.svg" alt="SECOEM" height="80" class="mb-4"> --}}
                         <h1 class="textoGuinda fw-bold mb-3" style="color: #6A0F49; font-size: 2.5rem;">
                             Sistema de Denuncias Ciudadanas

@@ -63,7 +63,7 @@
                         {{-- El modal debe estar incluido como partial --}}
                         @include('uaoic-denuncias.partials.modal_turnado', ['denuncia' => $denuncia]) 
                         <button type="button" class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#modal_turno">
-                            <i class="fas fa-arrow-right-rotate me-1"></i> Turnar a UAOIC
+                            <i class="fas fa-arrow-right-rotate me-1"></i> Turnar a OIC
                         </button>
                     @endcan
                 </div>
@@ -205,8 +205,8 @@
                                 </div>
                                 <span class="ms-2">
                                     {{-- ⭐ ENLACE ACTUALIZADO AL MÉTODO DE DESCARGA SEGURA --}}
-                                    @can('admin-denuncia-descarga')
-                                        <a href="{{ route('admin.denuncias.descargar.evidencia', ['id_archivo' => $archivo->id_archivo]) }}" 
+                                    @can('uaoic-denuncia-descarga')
+                                        <a href="{{ route('uaoic.descargar.evidencia', ['id_archivo' => $archivo->id_archivo]) }}" 
                                         class="btn btn-icon btn-sm btn-info" 
                                         title="Descargar Evidencia">
                                             <i class="fas fa-download"></i>
