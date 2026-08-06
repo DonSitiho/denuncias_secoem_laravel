@@ -86,7 +86,7 @@
     </div>
 
     {{-- Paginación --}}
-    <div class="d-flex justify-content-end">
+    <div class="justify-content-end">
         {{ $denuncias->links() }}
     </div>
 </div>

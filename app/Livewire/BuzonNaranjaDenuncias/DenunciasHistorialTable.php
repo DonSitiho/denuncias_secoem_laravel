@@ -12,6 +12,8 @@ class DenunciasHistorialTable extends Component
     use AuthorizesRequests;
     use WithPagination;
 
+    protected string $paginationTheme = 'bootstrap';
+
     public string $search = '';
 
     // Propiedades para ordenar

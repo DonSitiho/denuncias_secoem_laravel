@@ -11,8 +11,9 @@ use Livewire\WithPagination;
 class MisDenunciasTable extends Component
 {
     use AuthorizesRequests;
-
     use WithPagination;
+
+    protected string $paginationTheme = 'bootstrap';
 
     // Propiedad que almacenará el texto de búsqueda en tiempo real
     public string $search = '';
@@ -68,10 +69,10 @@ class MisDenunciasTable extends Component
         try {
 
             $this->denunciaRepository->cambiarDenunciaATramite($this->id_denuncia,  $this->status);
-            $this->dispatch('success', 'Denuncia en proceso de trámite correctamente.');
+            $this->dispatch('success', 'La denuncia ha sido enviada a trámite correctamente.');
 
         } catch (\Exception $e){
-            $this->dispatch('danger', 'Error al pasar la denuncia a trámite.');
+            $this->dispatch('danger', 'Ocurrió un error al enviar la denuncia a trámite');
         }
 
     }

@@ -485,7 +485,8 @@ class DenunciaController extends Controller
             'codigo' => $denuncia->token_validacion
         ]);
         $qrCode = QrCode::format('svg')->size(200)->generate($urlSeguimiento);
-        $logoMich = $this->imagenUrlABase64('https://michoacan.gob.mx/images/logo-old.png');
+
+        $logoMich = public_path('images/logo-mich.png');
         // Datos para la vista
         $data = [
             'denuncia' => $denuncia,
@@ -496,9 +497,8 @@ class DenunciaController extends Controller
             'datosTestigos' => $denuncia->testigos,
             'datosCircunstancia' => $datosCircunstancia,
             'datosMunicipio' => $datosMunicipio,
-            'logoMichoacan' => public_path('images/logo-mich.png'),
+            'logoMichoacan' => $logoMich,
             'logoSecoem' => public_path('images/logo-secoem.png'),
-
         ];
 
         // Generar PDF
@@ -512,16 +512,4 @@ class DenunciaController extends Controller
         return $pdf->download("comprobante-denuncia-{$folio}.pdf");
     }
 
-    private function imagenUrlABase64(string $url): ?string
-    {
-
-        $response = Http::withoutVerifying()->timeout(5)->get($url);
-
-        if ($response->successful()){
-            $tipo = pathinfo(parse_url($url, PHP_URL_PATH), PATHINFO_EXTENSION);
-            return 'data:image/' . $tipo . ';base64' . base64_encode($response->body());
-        }
-
-        return null;
-    }
 }

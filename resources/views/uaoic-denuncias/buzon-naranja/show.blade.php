@@ -53,7 +53,7 @@
                     
                     {{-- 1. Botón de Exportación (Permiso: uaoic-denuncia-descargar) --}}
                     @can('uaoic-denuncia-descargar')
-                        <a href="{{ route('admin.denuncias.exportar.expediente', $denuncia->id_denuncia) }}" class="btn btn-sm btn-light-warning me-2">
+                        <a href="{{ route('uaoic.exportar.expediente', $denuncia->id_denuncia) }}" class="btn btn-sm btn-light-warning me-2">
                             <i class="fas fa-file-pdf me-1"></i> Exportar Expediente
                         </a>
                     @endcan

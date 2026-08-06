@@ -72,11 +72,11 @@
                             </a>
 
                             @if ($denuncia->id_estado == 3)
-                            <a href="{{ route('uaoic.descargar', $denuncia->id_denuncia) }}" class="btn btn-icon btn-light-primary btn-sm me-1" title="{{ __('Descargar Evidencia') }}">
+                            <a href="{{ route('uaoic.descargar.evidencia', $denuncia->id_denuncia) }}" class="btn btn-icon btn-light-primary btn-sm me-1" title="{{ __('Descargar Evidencia') }}">
                                 <i class="fas fa-download"></i>
                             </a>
                             @elseif ($denuncia->id_estado == 2)
-                            <a wire:click="pasarATramite({{ $denuncia->id_denuncia }})"
+                            <a wire:click="cambiarATramite({{ $denuncia->id_denuncia }})"
                                 class="btn btn-icon btn-light-primary btn-sm me-1" title="{{ __('Pasar a Tramite') }}">
                                 <i class="fas fa-check"></i>
                             </a>
@@ -93,7 +93,7 @@
     </div>
 
     {{-- Paginación --}}
-    <div class="d-flex justify-content-end">
+    <div class="justify-content-end">
         {{ $denuncias->links() }}
     </div>
 </div>

@@ -66,6 +66,8 @@
                             <i class="fas fa-arrow-right-rotate me-1"></i> Turnar a UAOIC
                         </button>
                     @endcan
+
+                    
                 </div>
             </div>
             

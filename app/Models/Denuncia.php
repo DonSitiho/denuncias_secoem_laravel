@@ -187,14 +187,26 @@ class Denuncia extends Model
     public function scopeDenunciasEstatus($query, $id_status){
 
         return $query->where('id_estado', $id_status)
-                    ->where('id_responsable', Auth::user()->id);
+                    ->where(function ($q){
+                        $q->where('id_responsable', Auth::id())
+                            ->orWhere(function ($sub){
+                                $sub->where('id_area_responsable', Auth::user()->id_area)
+                                    ->whereNull('id_responsable');
+                            });
+                    });
     }
 
     // Scope para mostrar las denuncias anonimas y no anominas de un responable en especifico.
     public function scopeDenunciasAnonimas($query, $anonima){
 
         return $query->where('es_anonima', $anonima)
-                    ->where('id_responsable', Auth::user()->id);
+                    ->where(function ($q){
+                        $q->where('id_responsable', Auth::id())
+                            ->orWhere(function ($sub){
+                                $sub->where('id_area_responsable', Auth::user()->id_area)
+                                    ->whereNull('id_responsable');
+                            });
+                    });
     }
 
     // Scope para mostrar las denuncias por tipo de denuncia (Buzon naranja y denuncias).

@@ -5,6 +5,7 @@ namespace App\Repositories;
 use App\Models\Denuncia;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class DenunciasRepository {
 
@@ -184,9 +185,8 @@ class DenunciasRepository {
             return $denuncia;
         } catch (\Exception $e){
             DB::rollBack();
-            \Log::error("Error al cambiar el estatus de la denuncia: " . $e->getMessage());
+            Log::error("Error al cambiar el estatus de la denuncia: " . $e->getMessage());
         }
-
     }
 }
 

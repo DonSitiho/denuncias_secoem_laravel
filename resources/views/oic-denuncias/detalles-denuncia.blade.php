@@ -52,6 +52,8 @@
                 
                 @livewire('oic-denuncias.acciones-botones', ['denuncia' => $denuncia])
                 {{-- El modal debe estar incluido como partial --}}
+                @include('oic-denuncias.partials.modal_turnado', ['denuncia' => $denuncia])
+                {{-- El modal debe estar incluido como partial --}}
                 @include('oic-denuncias.partials.modal_solicitar_info', ['denuncia' => $denuncia])
                 
             </div>
@@ -361,4 +363,112 @@
             </div>
         </div>
     </div>
+
+    @push('script')
+    <script>
+        // 1. Mapa de todos los usuarios OIC para la lógica inversa (Usuario -> Área)
+        // Se usa keyBy('id') para que el acceso sea rápido por ID de usuario.
+        const ALL_USERS_OIC = @json($usuariosOIC->keyBy('id'));
+        const areaSelect = $('#id_area_responsable');
+        const userSelect = $('#id_responsable');
+        const userSelectOriginalHtml = userSelect.html(); // Guardar el HTML original
+        
+        // Función para inicializar Select2 (necesario al abrir el modal)
+        function initSelect2() {
+            areaSelect.select2({
+                dropdownParent: $('#modal_turno')
+            });
+            userSelect.select2({
+                dropdownParent: $('#modal_turno')
+            });
+        }
+        
+        // Re-inicializar Select2 al abrir el modal
+        $('#modal_turno').on('shown.bs.modal', function () {
+            initSelect2();
+        });
+
+        // =========================================================================
+        // Lógica 1: Área Seleccionada -> Filtrar Usuarios (AJAX)
+        // =========================================================================
+        areaSelect.on('select2:select', function (e) {
+            const idArea = e.params.data.id;
+            
+            // Si se selecciona un área válida
+            if (idArea) {
+                // 1. Crear URL dinámica
+                const url = '{{ route("areas.usuarios", ["id_area" => ":id_area"]) }}'.replace(':id_area', idArea);
+
+                // 2. Preparar select de usuarios
+                userSelect.empty().append('<option value="">Cargando usuarios...</option>');
+                userSelect.prop('disabled', true);
+                userSelect.select2('destroy');
+                
+                // 3. Llamada AJAX para obtener usuarios del área
+                $.ajax({
+                    url: url,
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function(users) {
+                        userSelect.empty();
+                        userSelect.append('<option value="">No asignar a usuario específico (Solo al Área)...</option>');
+                        
+                        // Rellenar el select con los usuarios filtrados
+                        if (users.length > 0) {
+                            $.each(users, function(index, user) {
+                                // Selecciona al usuario previamente asignado (si existe)
+                                const isSelected = (user.id == '{{ $denuncia->id_responsable }}');
+                                userSelect.append(new Option(user.name + ' (' + user.email + ')', user.id, isSelected, isSelected));
+                            });
+                        } else {
+                            userSelect.append('<option value="" disabled>No hay usuarios en esta área.</option>');
+                        }
+
+                        userSelect.prop('disabled', false);
+                        userSelect.val(userSelect.find(':selected').val() || '').trigger('change'); // Mantener o limpiar
+                        initSelect2(); // Re-inicializar Select2
+                    },
+                    error: function() {
+                        userSelect.empty().append('<option value="">Error al cargar usuarios.</option>');
+                        userSelect.prop('disabled', false);
+                        initSelect2(); // Re-inicializar Select2
+                    }
+                });
+            } else {
+                // Si el área se deselecciona, restaurar todos los usuarios OIC
+                userSelect.html(userSelectOriginalHtml);
+                userSelect.val('').trigger('change');
+                initSelect2();
+            }
+        });
+
+
+        // =========================================================================
+        // Lógica 2: Usuario Seleccionado -> Auto-seleccionar Área (Mapeo Rápido)
+        // =========================================================================
+        userSelect.on('select2:select', function (e) {
+            const idUser = e.params.data.id;
+            
+            if (idUser) {
+                const user = ALL_USERS_OIC[idUser];
+                
+                if (user && user.id_area) {
+                    // Seleccionar el área del usuario en el otro select
+                    areaSelect.val(user.id_area).trigger('change');
+                    
+                    // Disparar el evento de Select2 para forzar el filtrado de usuarios
+                    areaSelect.trigger('select2:select'); 
+                }
+            }
+            // Si se selecciona la opción "No asignar a usuario...", el área no cambia.
+        });
+        
+        // Trigger inicial si ya hay un área seleccionada al cargar
+        if (areaSelect.val()) {
+            areaSelect.trigger('select2:select');
+        }
+
+    </script>
+    @endpush
+
 </x-default-layout>

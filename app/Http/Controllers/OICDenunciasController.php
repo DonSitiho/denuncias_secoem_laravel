@@ -91,7 +91,7 @@ class OICDenunciasController extends Controller
          */
 
         if ($denuncia->tipo_denuncia == 1) {
-            return view('oic-denuncias.detalles-denuncia', compact('denuncia', 'tipoCampos'));
+            return view('oic-denuncias.detalles-denuncia', compact('denuncia', 'tipoCampos', 'areaResponsable', 'usuariosOIC'));
         } else if ($denuncia->tipo_denuncia == 2) {
             return view('oic-denuncias.buzon-naranja.detalles', compact('denuncia', 'areaResponsable', 'usuariosOIC'));
         }

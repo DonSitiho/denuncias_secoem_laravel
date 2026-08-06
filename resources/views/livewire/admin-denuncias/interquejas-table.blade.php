@@ -72,7 +72,7 @@
     </div>
 
     {{-- Paginación --}}
-    <div class="d-flex justify-content-end">
+    <div class="justify-content-end">
         {{ $interquejas->links() }}
     </div>
 </div>

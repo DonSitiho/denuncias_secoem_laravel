@@ -10,7 +10,9 @@ use Livewire\WithPagination;
 class DenunciasNuevasTable extends Component
 {
     use AuthorizesRequests;
-    use WithPagination; 
+    use WithPagination;
+
+    protected string $paginationTheme = 'bootstrap';
 
     public string $search = '';
 

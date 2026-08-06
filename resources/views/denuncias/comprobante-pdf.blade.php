@@ -410,7 +410,7 @@
             </tr>
             <tr>
                 <td colspan="3" align="center">
-                    <div class="government-title">GOBIERNO DEL ESTADO</div>
+                    <div class="government-title">SECRETARíA DE CONTRALORÍA DEL ESTADO DE MICHOACÁN</div>
                     <div class="system-title">SISTEMA INTEGRAL DE DENUNCIAS CIUDADANAS</div>
                     <div class="document-title">COMPROBANTE OFICIAL DE DENUNCIA</div>
                 </td>

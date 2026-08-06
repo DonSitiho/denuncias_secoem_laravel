@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Builder;
 class DenunciaTable extends Component
 {
     use WithPagination;
+    protected string $paginationTheme = 'bootstrap';
 
     // Propiedad que almacenará el texto de búsqueda en tiempo real
     public string $search = '';

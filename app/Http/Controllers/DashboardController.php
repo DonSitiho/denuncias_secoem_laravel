@@ -45,13 +45,21 @@ class DashboardController extends Controller
                         // Vista: Dashboard Operativo de Recepción
                         return $this->indexAdminDenuncias();
                         
-                    case 3: // Usuario OIC (Órgano Interno de Control)
+                    case 3: // Usuario UAOIC (Unidad de Apoyo del Órgano Interno de Control)
+                        // Vista: Dashboard de Casos Asignados
+                        return $this->indexUAOIC();
+
+                    case 4:// Usuario OIC (Órgano Interno de Control)
                         // Vista: Dashboard de Casos Asignados
                         return $this->indexIOC();
-                        
-                    case 4: // Capturista
+
+                    case 6: // Capturista
                         // Vista: Dashboard de Captura y Listado Básico (Placeholder)
                         return $this->indexCapturista();
+                    
+                    case 5: //Usuario UAOIC (unidad de apoyo de organos internos de control)
+                        // Vista: Dashboard de Captura y Listado Básico (Placeholder)
+                        return $this->indexUAOIC();
                 }
             }
         }
@@ -81,6 +89,14 @@ class DashboardController extends Controller
     public function indexCapturista()
     {
         // Nota: Este dashboard aún no está construido. Usamos una vista por defecto.
+        addVendors(['amcharts', 'amcharts-maps', 'amcharts-stock']);
+        return view('pages/dashboards.index');
+    }
+
+    /**
+     * Muestra el dashboard del Usuario de la Unidad de Apoyo a los  Órganos Internos de Control (UAOIC - ID 5).
+     */
+    public function indexUAOIC () {
         addVendors(['amcharts', 'amcharts-maps', 'amcharts-stock']);
         return view('pages/dashboards.index');
     }

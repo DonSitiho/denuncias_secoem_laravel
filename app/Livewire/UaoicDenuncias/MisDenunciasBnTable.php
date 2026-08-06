@@ -13,11 +13,15 @@ class MisDenunciasBnTable extends Component
     use AuthorizesRequests;
     use WithPagination;
 
+    protected string $paginationTheme = 'bootstrap';
+
     public string $search = '';
 
     // Propiedades para ordenar
     public string $sortBy = 'fecha_recepcion';
     public bool $sortAsc = false;
+    public int $id_denuncia;
+    public int $status;
 
     protected $denunciaRepository;
 
@@ -49,4 +53,19 @@ class MisDenunciasBnTable extends Component
         }
         $this->sortBy = $field;
     }
+
+    // Funcion que cambia el estatus a en tramite.
+    public function cambiarATramite($id_denuncia) 
+    {
+        $this->id_denuncia = $id_denuncia;
+        $this->status = 3;
+
+        try {
+            $this->denunciaRepository->cambiarDenunciaATramite($this->id_denuncia, $this->status);
+            $this->dispatch('success', 'La denuncia ha sido enviada a trámite correctamente.');
+        } catch (\Exception $e) {
+            $this->dispatch('danger', 'Ocurrió un error al enviar la denuncia a trámite');
+        }
+    }
+
 }

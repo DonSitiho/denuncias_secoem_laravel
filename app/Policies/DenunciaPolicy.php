@@ -36,6 +36,10 @@ class DenunciaPolicy
             return true;
         }
 
+        if ($user->hasRole('Capturista')) {
+            return true;
+        }
+
         return Response::deny('No está autorizado para ver las denu
         ncias, ya que no le ha sido asignada o no cuenta con los privilegios de administrador.');
     }
