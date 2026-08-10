@@ -93,7 +93,7 @@ class OICDenunciasController extends Controller
         if ($denuncia->tipo_denuncia == 1) {
             return view('oic-denuncias.detalles-denuncia', compact('denuncia', 'tipoCampos', 'areaResponsable', 'usuariosOIC'));
         } else if ($denuncia->tipo_denuncia == 2) {
-            return view('oic-denuncias.buzon-naranja.detalles', compact('denuncia', 'areaResponsable', 'usuariosOIC'));
+            return view('oic-denuncias.buzon-naranja.detalles', compact('denuncia', 'tipoCampos', 'areaResponsable', 'usuariosOIC'));
         }
     }
 
@@ -211,11 +211,11 @@ class OICDenunciasController extends Controller
             //return json_encode($denuncia);
 
             return redirect()->route('oic.ver-denuncia', $id_denuncia)
-                ->with('success', 'Solicitud de mas informacion de la denuncia exitosamente al denunciante.');
+                ->with('success', 'Se solicitó información adicional al denunciante de manera exitosa.');
         } catch (\Exception $e) {
             DB::rollBack();
-            \Log::error("Error al solicitara mas informacion de la denuncia: " . $e->getMessage());
-            return redirect()->back()->with('error', 'Fallo al realizar la solicitud de mas informacion. Intente de nuevo.');
+            Log::error("Error al solicitar mas informacion de la denuncia: " . $e->getMessage());
+            return redirect()->back()->with('error', 'Ocurrió un error al solicitar información adicional. Inténtelo nuevamente.');
         }
     }
 

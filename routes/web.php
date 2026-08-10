@@ -127,6 +127,10 @@ Route::middleware(['auth'])->prefix('uaoic')->name('uaoic.')->group(function () 
         ->name('descargar.evidencia')
         ->middleware('can:uaoic-denuncia-descargar');
 
+    Route::post('/{id_denuncia}/solicitar-informacion', [UAOICDenunciasController::class, 'solvetarInformacionDenuncia'])
+        ->name('solicitar-informacion')
+        ->middleware('can:uaoic-denuncia-solventar-info');
+
     Route::get('/{id_denuncia}/exportar', [ExportController::class, 'exportarExpediente'])
         ->name('exportar.expediente')
         ->middleware('can:uaoic-denuncia-descargar');

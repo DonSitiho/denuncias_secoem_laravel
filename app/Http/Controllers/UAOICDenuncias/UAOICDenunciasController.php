@@ -8,8 +8,10 @@ use App\Models\ArchivoAdjunto;
 use App\Models\Area;
 use App\Models\Denuncia;
 use App\Models\DenunciaTurnadoHistorial;
+use App\Models\SolventarInfo;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Log;
@@ -45,12 +47,14 @@ class UAOICDenunciasController extends Controller
 
         $usuariosOIC = User::where('is_active', true)->whereBetween('id_area', [6, 17])->get();
 
+        $tipoCampos = SolventarInfo::TIPOCAMPO;
+
         $tipo = $denuncia->tipo_denuncia;
         
         if ($tipo == 1) {
-            return view('uaoic-denuncias.show', compact('denuncia', 'areaResponsable', 'usuariosOIC' ));
+            return view('uaoic-denuncias.show', compact('denuncia', 'tipoCampos', 'areaResponsable', 'usuariosOIC' ));
         } elseif ($tipo == 2) {
-            return view('uaoic-denuncias.buzon-naranja.show', compact('denuncia', 'areaResponsable', 'usuariosOIC'));
+            return view('uaoic-denuncias.buzon-naranja.show', compact('denuncia', 'tipoCampos', 'areaResponsable', 'usuariosOIC'));
         }
 
     }
@@ -123,7 +127,41 @@ class UAOICDenunciasController extends Controller
             Log::error("Error al servir archivo encriptado (Admin): " . $e->getMessage());
             return redirect()->back()->with('error', 'Error al acceder o desencriptar el archivo de prueba.');
         }
+    }
 
-        
+    public function solvetarInformacionDenuncia(Request $request, $id_denuncia)
+    {
+        // 1. VALIDACIÓN ACTUALIZADA
+        $request->validate([
+            'observacion_responsable' => 'required|string',
+            'tipo_campo' => 'required',
+        ]);
+
+        try {
+            DB::beginTransaction();
+            $denuncia = Denuncia::findOrFail($id_denuncia);
+            $user = Auth::user();
+
+            $solventarInfo = SolventarInfo::create([
+                'id_denuncia' => $denuncia->id_denuncia,
+                'id_usuario_solicito' => $user->id,
+                'id_area_responsable' => $user->id_area,
+                'observacion_responsable' => $request->observacion_responsable,
+                'tipo_campo' => $request->tipo_campo,
+                'info_solicitada' => null,
+                'fecha_solicitud_info' => now(),
+            ]);
+
+            $solventarInfo->save();
+            DB::commit();
+
+            return redirect()->route('uaoic.show', $id_denuncia)
+                ->with('success', 'Se solicitó información adicional al denunciante de manera exitosa.');
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Log::error("Error al solicitar mas informacion de la denuncia: " . $e->getMessage());
+            return redirect()->back()->with('error', 'Ocurrió un error al solicitar información adicional. Inténtelo nuevamente.');
+        }
     }
 }

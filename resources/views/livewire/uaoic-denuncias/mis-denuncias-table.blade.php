@@ -11,7 +11,9 @@
                 <i class="fas fa-search"></i>
             </span>
             {{-- ENLACE EN TIEMPO REAL: wire:model.live.debounce.300ms se actualiza al escribir --}}
-            <input type="text" wire:model.live.debounce.300ms="search" class="form-control form-control-solid w-300px ps-15" placeholder="{{ __('Buscar en todas las denuncias...') }}" />
+            <input type="text" wire:model.live.debounce.300ms="search"
+                class="form-control form-control-solid w-300px ps-15"
+                placeholder="{{ __('Buscar en todas las denuncias...') }}" />
         </div>
     </div>
 
@@ -20,8 +22,10 @@
         <table class="table align-middle table-row-dashed fs-6 gy-5">
             <thead>
                 <tr class="text-start text-muted fw-bold fs-7 text-uppercase gs-0">
-                    <th class="min-w-100px cursor-pointer" wire:click="sortBy('folio_seguimiento')">{{ __('Folio') }}</th>
-                    <th class="min-w-120px cursor-pointer" wire:click="sortBy('fecha_recepcion')">{{ __('Recepción') }}</th>
+                    <th class="min-w-100px cursor-pointer" wire:click="sortBy('folio_seguimiento')">{{ __('Folio') }}
+                    </th>
+                    <th class="min-w-120px cursor-pointer" wire:click="sortBy('fecha_recepcion')">{{ __('Recepción') }}
+                    </th>
                     <th class="min-w-120px cursor-pointer" wire:click="sortBy('fecha_hechos')">{{ __('Hechos') }}</th>
                     <th class="min-w-150px">{{ __('Datos de Contacto') }}</th>
                     <th class="min-w-150px">{{ __('Dependencia / Municipio') }}</th>
@@ -48,12 +52,15 @@
                                 <span class="badge badge-light-danger">{{ __('Anónima') }}</span>
                             @else
                                 <span>{{ $denuncia->contacto->nombre_completo ?? 'N/D' }}</span>
-                                <span class="text-muted fs-7 d-block">{{ $denuncia->contacto->correo_electronico ?? 'N/D' }}</span>
+                                <span
+                                    class="text-muted fs-7 d-block">{{ $denuncia->contacto->correo_electronico ?? 'N/D' }}</span>
                             @endif
                         </td>
                         <td>
-                            <span class="text-gray-800">{{ $denuncia->circunstancia->dependencia_involucrada ?? 'Ciudadano General' }}</span>
-                            <span class="text-muted fs-7 d-block">{{ $denuncia->circunstancia->municipio->nombre_municipio ?? 'No Especificado' }}</span>
+                            <span
+                                class="text-gray-800">{{ $denuncia->circunstancia->dependencia_involucrada ?? 'Ciudadano General' }}</span>
+                            <span
+                                class="text-muted fs-7 d-block">{{ $denuncia->circunstancia->municipio->nombre_municipio ?? 'No Especificado' }}</span>
                         </td>
                         <td>
                             <span class="badge badge-lg badge-light-primary">
@@ -67,25 +74,29 @@
                             @endif
                         </td>
                         <td>
-                            <a href="{{ route('uaoic.show', $denuncia->id_denuncia) }}" class="btn btn-icon btn-light-primary btn-sm me-1" title="{{ __('Revisar Detalle') }}">
+                            <a href="{{ route('uaoic.show', $denuncia->id_denuncia) }}"
+                                class="btn btn-icon btn-light-primary btn-sm me-1" title="{{ __('Revisar Detalle') }}">
                                 <i class="fas fa-eye"></i>
                             </a>
-
-                            @if ($denuncia->id_estado == 3)
-                            <a href="{{ route('uaoic.descargar.evidencia', $denuncia->id_denuncia) }}" class="btn btn-icon btn-light-primary btn-sm me-1" title="{{ __('Descargar Evidencia') }}">
-                                <i class="fas fa-download"></i>
-                            </a>
-                            @elseif ($denuncia->id_estado == 2)
-                            <a wire:click="cambiarATramite({{ $denuncia->id_denuncia }})"
-                                class="btn btn-icon btn-light-primary btn-sm me-1" title="{{ __('Pasar a Tramite') }}">
-                                <i class="fas fa-check"></i>
-                            </a>
+                            @if ($denuncia->id_estado == 2)
+                                <a wire:click="cambiarATramite({{ $denuncia->id_denuncia }})"
+                                    class="btn btn-icon btn-light-primary btn-sm me-1"
+                                    title="{{ __('Pasar a Tramite') }}">
+                                    <i class="fas fa-check"></i>
+                                </a>
+                            @elseif ($denuncia->id_estado == 3)
+                                <a href="{{ route('uaoic.descargar.evidencia', $denuncia->id_denuncia) }}"
+                                    class="btn btn-icon btn-light-primary btn-sm me-1"
+                                    title="{{ __('Descargar Evidencia') }}">
+                                    <i class="fas fa-download"></i>
+                                </a>
                             @endif
                         </td>
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="6" class="text-center text-muted">{{ __('No se encontraron denuncias que coincidan con la búsqueda.') }}</td>
+                        <td colspan="6" class="text-center text-muted">
+                            {{ __('No se encontraron denuncias que coincidan con la búsqueda.') }}</td>
                     </tr>
                 @endforelse
             </tbody>
