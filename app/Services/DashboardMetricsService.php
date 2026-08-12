@@ -168,11 +168,12 @@ class DashboardMetricsService
         ];
     }
 
-    public function getMonthDenunciasData(int $year, int $userId): array
+    public function getMonthDenunciasData(int $year, int $userId, int $userAreaId): array
     {
 
         $denuncias = Denuncia::whereYear('fecha_recepcion', $year)
             ->where('id_responsable', $userId)
+            ->orwhere('id_area_responsable', $userAreaId)
             ->selectRaw('MONTH(fecha_recepcion) as date')
             ->selectRaw('COUNT(id_denuncia) AS count')
             ->groupBy('date')

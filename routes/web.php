@@ -106,6 +106,16 @@ Route::middleware(['auth', 'verified'])->group(function () {
 // Grupo de rutas para el Usuario OIC
 Route::middleware(['auth'])->prefix('uaoic')->name('uaoic.')->group(function () {
 
+    //Ruta del Dashboard UAOIC de Denuncias
+    Route::middleware(['can:uaoic-denuncia-ver'])->name('dashboard.')->group(function () {
+
+        // 1. Ruta principal: uaoic.dashboard.index
+        Route::get('/', [DashboardController::class, 'index'])->name('index');
+
+        Route::get('/data', [DashboardController::class, 'getDashboardUaoicData'])
+            ->name('data');
+    });
+
     // Listado de mis denuncias para un UAOIC
     Route::get('/mis-denuncias', [UAOICDenunciasController::class, 'getMisDenuncias'])
         ->name('mis-denuncias')

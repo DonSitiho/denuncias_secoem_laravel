@@ -98,7 +98,7 @@
                                         <span class="text-gray-700 fw-bolder d-block fs-2qx lh-1 ls-n1 mb-1">
                                             <font dir="auto" style="vertical-align: inherit;">
                                                 <font dir="auto" style="vertical-align: inherit;">{{
-                                                    $totalDenunciasTurnadaResponsable }}</font>
+                                                    $totalDenunciasEnTramite }}</font>
                                             </font>
                                         </span>
                                         <!--end::Number-->
@@ -183,14 +183,14 @@
                                         <span class="text-gray-700 fw-bolder d-block fs-2qx lh-1 ls-n1 mb-1">
                                             <font dir="auto" style="vertical-align: inherit;">
                                                 <font dir="auto" style="vertical-align: inherit;">{{
-                                                    $totalDenuncias }}</font>
+                                                    $totalDenunciasTurnadaResponsable }}</font>
                                             </font>
                                         </span>
                                         <!--end::Number-->
                                         <!--begin::Desc-->
                                         <span class="text-gray-500 fw-semibold fs-6">
                                             <font dir="auto" style="vertical-align: inherit;">
-                                                <font dir="auto" style="vertical-align: inherit;">Total</font>
+                                                <font dir="auto" style="vertical-align: inherit;">Turnadas</font>
                                             </font>
                                         </span>
                                         <!--end::Desc-->

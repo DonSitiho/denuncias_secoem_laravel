@@ -98,7 +98,7 @@
                                         <span class="text-gray-700 fw-bolder d-block fs-2qx lh-1 ls-n1 mb-1">
                                             <font dir="auto" style="vertical-align: inherit;">
                                                 <font dir="auto" style="vertical-align: inherit;">{{
-                                                    $totalDenunciasTurnadaResponsable }}</font>
+                                                    $totalDenunciasEnTramite }}</font>
                                             </font>
                                         </span>
                                         <!--end::Number-->
@@ -183,14 +183,14 @@
                                         <span class="text-gray-700 fw-bolder d-block fs-2qx lh-1 ls-n1 mb-1">
                                             <font dir="auto" style="vertical-align: inherit;">
                                                 <font dir="auto" style="vertical-align: inherit;">{{
-                                                    $totalDenuncias }}</font>
+                                                    $totalDenunciasTurnadaResponsable }}</font>
                                             </font>
                                         </span>
                                         <!--end::Number-->
                                         <!--begin::Desc-->
                                         <span class="text-gray-500 fw-semibold fs-6">
                                             <font dir="auto" style="vertical-align: inherit;">
-                                                <font dir="auto" style="vertical-align: inherit;">Total</font>
+                                                <font dir="auto" style="vertical-align: inherit;">Turnadas</font>
                                             </font>
                                         </span>
                                         <!--end::Desc-->
@@ -214,10 +214,12 @@
         {{-- Contenedor de las gráficas estáticas --}}
         <!--begin::Col-->
         <div class="col-xl-8">
-            @include('partials/widgets/oic_denuncias/_widget-18')
+            @include('partials/widgets/uaoic_denuncias/_widget-18')
         </div>
         <!--end::Col-->
 
     </div>
     <!--end::Row--> 
+
+    @include('pages.dashboards.partials.modal_denuncias_dashboard')
 </x-default-layout>

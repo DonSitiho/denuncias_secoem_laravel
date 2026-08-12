@@ -113,8 +113,15 @@ class DenunciasRepository {
 
     public function totalDenunciasTurnadasResponsable(){
 
-        return Denuncia::denunciasEstatus(3)->count();
+        return Denuncia::denunciasEstatus(2)->count();
+    }
 
+    public function getDenunciasTurnadas(){
+        return Denuncia::denunciasEstatus(2)->orderBy('folio_seguimiento', 'desc')->get();
+    }
+
+    public function totalDenunciasEnTramite(){
+        return Denuncia::denunciasEstatus(3)->count();
     }
 
     public function getDenunciasEnTramite(){

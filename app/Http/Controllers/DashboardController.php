@@ -13,16 +13,16 @@ use Illuminate\Http\Request;
 
 class DashboardController extends Controller
 {
-    protected $denunciasOICRepo;
+    protected $denunciasRepo;
     protected $metricsService;
 
     const DEFAULT_WIDGETS = [
         'recibidas', 'turnadas', 'activas', 'cerradas', 'areas'
     ];
 
-    public function __construct(DenunciasRepository $denunciasOICRepo, DashboardMetricsService $metricsService)
+    public function __construct(DenunciasRepository $denunciasRepo, DashboardMetricsService $metricsService)
     {
-        $this->denunciasOICRepo = $denunciasOICRepo;
+        $this->denunciasRepo = $denunciasRepo;
         $this->metricsService = $metricsService;
     }
 
@@ -88,17 +88,62 @@ class DashboardController extends Controller
      */
     public function indexCapturista()
     {
-        // Nota: Este dashboard aún no está construido. Usamos una vista por defecto.
-        addVendors(['amcharts', 'amcharts-maps', 'amcharts-stock']);
-        return view('pages/dashboards.index');
+         // Obtener el total de denuncias por area del responsable OIC.
+        $totalDenunciasArea = $this->denunciasRepo->totalDenunciasArea();
+        $denunciasArea = $this->denunciasRepo->getDenunciasArea();
+        
+        // Obtener el total de denunicas turnardas al responsable OIC.
+        $totalDenunciasTurnadaResponsable = $this->denunciasRepo->totalDenunciasTurnadasResponsable();
+        // Obtener las denunicas turnardas al responsable OIC.
+        $denunciasTurnadas = $this->denunciasRepo->getDenunciasTurnadas();
+
+        // Obtener el total de denuncias terminadas por el responsble OIC.
+        $totalDTR = $this->denunciasRepo->totalDenunciasTerminadasResponsable();
+        // Obtener las denunicas terminadas por el responsable OIC.
+        $denunciasTerminadas = $this->denunciasRepo->getDenunciasTerminadas();
+
+        //Obtener el total de denuncias anonimas.
+        $totalDenunciasAnonimas = $this->denunciasRepo->totalDenunciasAnonimas();
+        $denunciasAnonimas = $this->denunciasRepo->getDenunciasAnonimas();
+
+        //Obtener el total de denuncias no anonimas.
+        $totalDenunciasNoAnonimas = $this->denunciasRepo->totalDenunciasNoAnonimas(); 
+        $denunciasNoAnonimas = $this->denunciasRepo->getDenunciasNoAnonimas();
+
+        $totalDenunciasEnTramite = $this->denunciasRepo->totalDenunciasEnTramite();
+        $denunciasTramite = $this->denunciasRepo->getDenunciasEnTramite();
+
+        //return json_encode($totalDenuncias);
+
+        return view('pages/dashboards.indexOIC', compact('totalDenunciasArea', 'denunciasArea', 'totalDenunciasTurnadaResponsable', 'denunciasTurnadas', 'totalDTR', 'denunciasTerminadas', 'totalDenunciasAnonimas', 'denunciasAnonimas', 'totalDenunciasNoAnonimas', 'denunciasNoAnonimas', 'totalDenunciasEnTramite', 'denunciasTramite'));
     }
 
     /**
      * Muestra el dashboard del Usuario de la Unidad de Apoyo a los  Órganos Internos de Control (UAOIC - ID 5).
      */
     public function indexUAOIC () {
-        addVendors(['amcharts', 'amcharts-maps', 'amcharts-stock']);
-        return view('pages/dashboards.index');
+        
+        $totalDenunciasArea = $this->denunciasRepo->totalDenunciasArea();
+        $denunciasArea = $this->denunciasRepo->getDenunciasArea();
+
+        $totalDenunciasTurnadaResponsable = $this->denunciasRepo->totalDenunciasTurnadasResponsable();
+        $denunciasTurnadas = $this->denunciasRepo->getDenunciasTurnadas();
+        
+        $totalDTR = $this->denunciasRepo->totalDenunciasTerminadasResponsable();
+        $denunciasTerminadas = $this->denunciasRepo->getDenunciasTerminadas();
+
+        $totalDenunciasAnonimas = $this->denunciasRepo->totalDenunciasAnonimas();
+        $denunciasAnonimas = $this->denunciasRepo->getDenunciasAnonimas();
+
+        $totalDenunciasNoAnonimas = $this->denunciasRepo->totalDenunciasNoAnonimas(); 
+        $denunciasNoAnonimas = $this->denunciasRepo->getDenunciasNoAnonimas();
+
+        $totalDenunciasEnTramite = $this->denunciasRepo->totalDenunciasEnTramite();
+        $denunciasTramite = $this->denunciasRepo->getDenunciasEnTramite();
+        
+        //return json_encode($denunciasArea);
+
+        return view('pages/dashboards.index_uaoic_denuncias', compact('totalDenunciasArea', 'denunciasArea', 'totalDenunciasTurnadaResponsable', 'denunciasTurnadas', 'totalDTR', 'denunciasTerminadas', 'totalDenunciasAnonimas', 'denunciasAnonimas', 'totalDenunciasNoAnonimas', 'denunciasNoAnonimas', 'totalDenunciasEnTramite', 'denunciasTramite'));
     }
 
     /**
@@ -107,33 +152,33 @@ class DashboardController extends Controller
     public function indexIOC()
     {
         // Obtener el total de denuncias por area del responsable OIC.
-        $totalDenunciasArea = $this->denunciasOICRepo->totalDenunciasArea();
-        $denunciasArea = $this->denunciasOICRepo->getDenunciasArea();
+        $totalDenunciasArea = $this->denunciasRepo->totalDenunciasArea();
+        $denunciasArea = $this->denunciasRepo->getDenunciasArea();
         
         // Obtener el total de denunicas turnardas al responsable OIC.
-        $totalDenunciasTurnadaResponsable = $this->denunciasOICRepo->totalDenunciasTurnadasResponsable();
+        $totalDenunciasTurnadaResponsable = $this->denunciasRepo->totalDenunciasTurnadasResponsable();
         // Obtener las denunicas turnardas al responsable OIC.
-        $denunciasTramite = $this->denunciasOICRepo->getDenunciasEnTramite();
+        $denunciasTurnadas = $this->denunciasRepo->getDenunciasTurnadas();
 
         // Obtener el total de denuncias terminadas por el responsble OIC.
-        $totalDTR = $this->denunciasOICRepo->totalDenunciasTerminadasResponsable();
+        $totalDTR = $this->denunciasRepo->totalDenunciasTerminadasResponsable();
         // Obtener las denunicas terminadas por el responsable OIC.
-        $denunciasTerminadas = $this->denunciasOICRepo->getDenunciasTerminadas();
+        $denunciasTerminadas = $this->denunciasRepo->getDenunciasTerminadas();
 
         //Obtener el total de denuncias anonimas.
-        $totalDenunciasAnonimas = $this->denunciasOICRepo->totalDenunciasAnonimas();
-        $denunciasAnonimas = $this->denunciasOICRepo->getDenunciasAnonimas();
+        $totalDenunciasAnonimas = $this->denunciasRepo->totalDenunciasAnonimas();
+        $denunciasAnonimas = $this->denunciasRepo->getDenunciasAnonimas();
 
         //Obtener el total de denuncias no anonimas.
-        $totalDenunciasNoAnonimas = $this->denunciasOICRepo->totalDenunciasNoAnonimas(); 
-        $denunciasNoAnonimas = $this->denunciasOICRepo->getDenunciasNoAnonimas();
+        $totalDenunciasNoAnonimas = $this->denunciasRepo->totalDenunciasNoAnonimas(); 
+        $denunciasNoAnonimas = $this->denunciasRepo->getDenunciasNoAnonimas();
 
-        $totalDenuncias = $this->denunciasOICRepo->totalDenuncias();
-        $denuncias = $this->denunciasOICRepo->getDenuncias();  
+        $totalDenunciasEnTramite = $this->denunciasRepo->totalDenunciasEnTramite();
+        $denunciasTramite = $this->denunciasRepo->getDenunciasEnTramite();
 
         //return json_encode($totalDenuncias);
 
-        return view('pages/dashboards.indexOIC', compact('totalDenunciasArea', 'denunciasArea', 'totalDenunciasTurnadaResponsable', 'denunciasTramite', 'totalDTR', 'denunciasTerminadas', 'totalDenunciasAnonimas', 'denunciasAnonimas', 'totalDenunciasNoAnonimas', 'denunciasNoAnonimas', 'totalDenuncias', 'denuncias'));
+        return view('pages/dashboards.indexOIC', compact('totalDenunciasArea', 'denunciasArea', 'totalDenunciasTurnadaResponsable', 'denunciasTurnadas', 'totalDTR', 'denunciasTerminadas', 'totalDenunciasAnonimas', 'denunciasAnonimas', 'totalDenunciasNoAnonimas', 'denunciasNoAnonimas', 'totalDenunciasEnTramite', 'denunciasTramite'));
     }
     
     /**
@@ -221,11 +266,24 @@ class DashboardController extends Controller
         $user = Auth::user();
 
         // 2. Llamar al servicio de métricas para obtener los datos agrupados
-        $data = $this->metricsService->getMonthDenunciasData($year, $user->id);
+        $data = $this->metricsService->getMonthDenunciasData($year, $user->id, $user->id_area);
 
         // 3. Devolver los datos en formato JSON para el frontend
         // Esto será consumido por el script del widget para actualizar el gráfico ApexCharts
         return response()->json($data);
 
+    }
+
+    public function getDashboardUaoicData () {
+        // 1. Obtener el año actual y el usuario logueado
+        $year = Carbon::now()->year;
+        $user = Auth::user();
+
+        // 2. Llamar al servicio de métricas para obtener los datos agrupados
+        $data = $this->metricsService->getMonthDenunciasData($year, $user->id, $user->id_area);
+
+        // 3. Devolver los datos en formato JSON para el frontend
+        // Esto será consumido por el script del widget para actualizar el gráfico ApexCharts
+        return response()->json($data);
     }
 }

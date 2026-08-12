@@ -59,7 +59,7 @@
                         @can('uaoic-denuncia-turnar')
                             {{-- El modal debe estar incluido como partial --}}
                             @include('uaoic-denuncias.partials.modal_turnado', ['denuncia' => $denuncia])
-                            <button type="button" class="btn btn-sm btn-success" data-bs-toggle="modal"
+                            <button type="button" class="btn btn-sm btn-light-success" data-bs-toggle="modal"
                                 data-bs-target="#modal_turno">
                                 <i class="fas fa-arrow-right-rotate me-1"></i> Turnar a OIC
                             </button>

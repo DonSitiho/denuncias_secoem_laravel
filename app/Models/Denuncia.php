@@ -173,8 +173,8 @@ class Denuncia extends Model
         $user = Auth::user();
         $idArea = $user->id_area;
         $idUsuario = $user->id;
-
-        return$query->whereHas('turnados', function (Builder $q) use ($idArea, $idUsuario) {
+        
+        return $query->whereHas('turnados', function (Builder $q) use ($idArea, $idUsuario) {
             $q->where('id_area_destino', $idArea)
                 ->where(function (Builder $sub) use ($idUsuario) {
                     $sub->whereNull('id_responsable')

@@ -7,8 +7,8 @@
             <!--begin::Modal header-->
             <div class="modal-header pb-0 border-0 justify-content-end">
                 <!--begin::Close-->
-                <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">{!!
-                    getIcon('cross', 'fs-1') !!}</div>
+                <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">{!! getIcon('cross', 'fs-1') !!}
+                </div>
                 <!--end::Close-->
             </div>
             <!--begin::Modal header-->
@@ -31,45 +31,57 @@
                     <!--begin::List-->
 
                     <div class="mh-375px scroll-y me-n7 pe-7">
-                        @foreach($denunciasArea->take(5) as $denuncia)
-                        <!--begin::User-->
-                        <div class="d-flex flex-stack py-5 border-bottom border-gray-300 border-bottom-dashed">
-                            <!--begin::Details-->
-                            <div class="d-flex align-items-center">
+                        @foreach ($denunciasArea->take(5) as $denuncia)
+                            <!--begin::User-->
+                            <div class="d-flex flex-stack py-5 border-bottom border-gray-300 border-bottom-dashed">
                                 <!--begin::Details-->
-                                <div class="ms-6">
-                                    <!--begin::Name-->
-                                    <a href="{{ route('oic.ver-denuncia', $denuncia->id_denuncia) }}"
-                                        class="d-flex align-items-center fs-5 fw-bold text-gray-900 text-hover-primary">
-                                        {{ $denuncia->folio_seguimiento }}
-                                        <span class="badge badge-light fs-8 fw-semibold ms-2"></span></a>
-                                    <!--end::Name-->
-                                    <!--begin::Email-->
-                                    <div class="fw-semibold text-muted">{{ $denuncia->fecha_recepcion->format('d/m/Y
-                                        H:i') }}</div>
-                                    <!--end::Email-->
+                                <div class="d-flex align-items-center">
+                                    <!--begin::Details-->
+                                    <div class="ms-6">
+
+                                        @if ($denuncia->id_responsable == 3 || $denuncia->id_area_responsable == 3)
+                                            <!--begin::Name-->
+                                            <a href="{{ route('uaoic.show', $denuncia->id_denuncia) }}"
+                                                class="d-flex align-items-center fs-5 fw-bold text-gray-900 text-hover-primary">
+                                                {{ $denuncia->folio_seguimiento }}
+                                                <span class="badge badge-light fs-8 fw-semibold ms-2"></span></a>
+                                            <!--end::Name-->
+                                        @else
+                                            <!--begin::Name-->
+                                            <a href="{{ route('oic.ver-denuncia', $denuncia->id_denuncia) }}"
+                                                class="d-flex align-items-center fs-5 fw-bold text-gray-900 text-hover-primary">
+                                                {{ $denuncia->folio_seguimiento }}
+                                                <span class="badge badge-light fs-8 fw-semibold ms-2"></span></a>
+                                            <!--end::Name-->
+                                        @endif
+                                        <!--begin::Email-->
+                                        <div class="fw-semibold text-muted">
+                                            {{ $denuncia->fecha_recepcion->format('d/m/Y
+                                                                                                                                                                                                                                                                    H:i') }}
+                                        </div>
+                                        <!--end::Email-->
+                                    </div>
+                                    <!--end::Details-->
                                 </div>
                                 <!--end::Details-->
-                            </div>
-                            <!--end::Details-->
-                            <!--begin::Stats-->
-                            <div class="d-flex">
-                                <!--begin::Sales-->
-                                <div class="text-end">
+                                <!--begin::Stats-->
+                                <div class="d-flex">
+                                    <!--begin::Sales-->
+                                    <div class="text-end">
 
-                                    <div class="fs-5 fw-bold text-gray-900">
-                                        <span class="badge badge-lg badge-light-success me-3 fs-6">
-                                            {{ $denuncia->areaResponsable->siglas }}
-                                        </span>
+                                        <div class="fs-5 fw-bold text-gray-900">
+                                            <span class="badge badge-lg badge-light-success me-3 fs-6">
+                                                {{ $denuncia->areaResponsable->siglas }}
+                                            </span>
+                                        </div>
+                                        <div class="fs-7 text-muted">{{ $denuncia->areaResponsable->nombre_area }}</div>
+
                                     </div>
-                                    <div class="fs-7 text-muted">{{ $denuncia->areaResponsable->nombre_area }}</div>
-
+                                    <!--end::Sales-->
                                 </div>
-                                <!--end::Sales-->
+                                <!--end::Stats-->
                             </div>
-                            <!--end::Stats-->
-                        </div>
-                        <!--end::User-->
+                            <!--end::User-->
                         @endforeach
                     </div>
 
@@ -95,8 +107,8 @@
             <!--begin::Modal header-->
             <div class="modal-header pb-0 border-0 justify-content-end">
                 <!--begin::Close-->
-                <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">{!!
-                    getIcon('cross', 'fs-1') !!}</div>
+                <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">
+                    {!! getIcon('cross', 'fs-1') !!}</div>
                 <!--end::Close-->
             </div>
             <!--begin::Modal header-->
@@ -119,43 +131,55 @@
                     <!--begin::List-->
 
                     <div class="mh-375px scroll-y me-n7 pe-7">
-                        @foreach($denunciasTramite->take(5) as $denuncia)
-                        <!--begin::User-->
-                        <div class="d-flex flex-stack py-5 border-bottom border-gray-300 border-bottom-dashed">
-                            <!--begin::Details-->
-                            <div class="d-flex align-items-center">
+                        @foreach ($denunciasTramite->take(5) as $denuncia)
+                            <!--begin::User-->
+                            <div class="d-flex flex-stack py-5 border-bottom border-gray-300 border-bottom-dashed">
                                 <!--begin::Details-->
-                                <div class="ms-6">
-                                    <!--begin::Name-->
-                                    <a href="{{ route('oic.ver-denuncia', $denuncia->id_denuncia) }}"
-                                        class="d-flex align-items-center fs-5 fw-bold text-gray-900 text-hover-primary">
-                                        {{ $denuncia->folio_seguimiento }}
-                                        <span class="badge badge-light fs-8 fw-semibold ms-2"></span></a>
-                                    <!--end::Name-->
-                                    <!--begin::Email-->
-                                    <div class="fw-semibold text-muted">{{ $denuncia->fecha_recepcion->format('d/m/Y
-                                        H:i') }}</div>
-                                    <!--end::Email-->
+                                <div class="d-flex align-items-center">
+                                    <!--begin::Details-->
+                                    <div class="ms-6">
+
+                                        @if ($denuncia->id_responsable == 3 ||  $denuncia->id_area_responsable == 3)
+                                            <!--begin::Name-->
+                                            <a href="{{ route('uaoic.show', $denuncia->id_denuncia) }}"
+                                                class="d-flex align-items-center fs-5 fw-bold text-gray-900 text-hover-primary">
+                                                {{ $denuncia->folio_seguimiento }}
+                                                <span class="badge badge-light fs-8 fw-semibold ms-2"></span></a>
+                                            <!--end::Name-->
+                                        @else
+                                            <!--begin::Name-->
+                                            <a href="{{ route('oic.ver-denuncia', $denuncia->id_denuncia) }}"
+                                                class="d-flex align-items-center fs-5 fw-bold text-gray-900 text-hover-primary">
+                                                {{ $denuncia->folio_seguimiento }}
+                                                <span class="badge badge-light fs-8 fw-semibold ms-2"></span></a>
+                                            <!--end::Name-->
+                                        @endif
+                                        <!--begin::Email-->
+                                        <div class="fw-semibold text-muted">
+                                            {{ $denuncia->fecha_recepcion->format('d/m/Y
+                                                                                                                                                                                                                                                                    H:i') }}
+                                        </div>
+                                        <!--end::Email-->
+                                    </div>
+                                    <!--end::Details-->
                                 </div>
                                 <!--end::Details-->
-                            </div>
-                            <!--end::Details-->
-                            <!--begin::Stats-->
-                            <div class="d-flex">
-                                <!--begin::Sales-->
-                                <div class="text-end">
-                                    <div class="fs-5 fw-bold text-gray-900">
-                                        <span class="badge badge-lg badge-light-warning me-3 fs-6">
-                                            Estado: {{ $denuncia->estado->nombre }}
-                                        </span>
-                                    </div>
+                                <!--begin::Stats-->
+                                <div class="d-flex">
+                                    <!--begin::Sales-->
+                                    <div class="text-end">
+                                        <div class="fs-5 fw-bold text-gray-900">
+                                            <span class="badge badge-lg badge-light-warning me-3 fs-6">
+                                                Estado: {{ $denuncia->estado->nombre }}
+                                            </span>
+                                        </div>
 
+                                    </div>
+                                    <!--end::Sales-->
                                 </div>
-                                <!--end::Sales-->
+                                <!--end::Stats-->
                             </div>
-                            <!--end::Stats-->
-                        </div>
-                        <!--end::User-->
+                            <!--end::User-->
                         @endforeach
                     </div>
 
@@ -181,8 +205,8 @@
             <!--begin::Modal header-->
             <div class="modal-header pb-0 border-0 justify-content-end">
                 <!--begin::Close-->
-                <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">{!!
-                    getIcon('cross', 'fs-1') !!}</div>
+                <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">
+                    {!! getIcon('cross', 'fs-1') !!}</div>
                 <!--end::Close-->
             </div>
             <!--begin::Modal header-->
@@ -205,42 +229,55 @@
                     <!--begin::List-->
 
                     <div class="mh-375px scroll-y me-n7 pe-7">
-                        @foreach($denunciasTerminadas->take(5) as $denuncia)
-                        <!--begin::User-->
-                        <div class="d-flex flex-stack py-5 border-bottom border-gray-300 border-bottom-dashed">
-                            <!--begin::Details-->
-                            <div class="d-flex align-items-center">
+                        @foreach ($denunciasTerminadas->take(5) as $denuncia)
+                            <!--begin::User-->
+                            <div class="d-flex flex-stack py-5 border-bottom border-gray-300 border-bottom-dashed">
                                 <!--begin::Details-->
-                                <div class="ms-6">
-                                    <!--begin::Name-->
-                                    <a href="{{ route('oic.ver-denuncia', $denuncia->id_denuncia) }}"
-                                        class="d-flex align-items-center fs-5 fw-bold text-gray-900 text-hover-primary">
-                                        {{ $denuncia->folio_seguimiento }}
-                                        <span class="badge badge-light fs-8 fw-semibold ms-2"></span></a>
-                                    <!--end::Name-->
-                                    <!--begin::Email-->
-                                    <div class="fw-semibold text-muted">{{ $denuncia->fecha_recepcion->format('d/m/Y
-                                        H:i') }}</div>
-                                    <!--end::Email-->
+                                <div class="d-flex align-items-center">
+                                    <!--begin::Details-->
+                                    <div class="ms-6">
+
+                                        @if ($denuncia->id_responsable == 3 ||  $denuncia->id_area_responsable == 3)
+                                            <!--begin::Name-->
+                                            <a href="{{ route('uaoic.show', $denuncia->id_denuncia) }}"
+                                                class="d-flex align-items-center fs-5 fw-bold text-gray-900 text-hover-primary">
+                                                {{ $denuncia->folio_seguimiento }}
+                                                <span class="badge badge-light fs-8 fw-semibold ms-2"></span></a>
+                                            <!--end::Name-->
+                                        @else
+                                            <!--begin::Name-->
+                                            <a href="{{ route('oic.ver-denuncia', $denuncia->id_denuncia) }}"
+                                                class="d-flex align-items-center fs-5 fw-bold text-gray-900 text-hover-primary">
+                                                {{ $denuncia->folio_seguimiento }}
+                                                <span class="badge badge-light fs-8 fw-semibold ms-2"></span></a>
+                                            <!--end::Name-->
+                                        @endif
+
+                                        <!--begin::Email-->
+                                        <div class="fw-semibold text-muted">
+                                            {{ $denuncia->fecha_recepcion->format('d/m/Y
+                                                                                                                                                                                                                                                                    H:i') }}
+                                        </div>
+                                        <!--end::Email-->
+                                    </div>
+                                    <!--end::Details-->
                                 </div>
                                 <!--end::Details-->
-                            </div>
-                            <!--end::Details-->
-                            <!--begin::Stats-->
-                            <div class="d-flex">
-                                <!--begin::Sales-->
-                                <div class="text-end">
-                                    <div class="fs-5 fw-bold text-gray-900">
-                                        <span class="badge badge-lg badge-light-success me-3 fs-6">
-                                            Estado: {{ $denuncia->estado->nombre }}
-                                        </span>
+                                <!--begin::Stats-->
+                                <div class="d-flex">
+                                    <!--begin::Sales-->
+                                    <div class="text-end">
+                                        <div class="fs-5 fw-bold text-gray-900">
+                                            <span class="badge badge-lg badge-light-success me-3 fs-6">
+                                                Estado: {{ $denuncia->estado->nombre }}
+                                            </span>
+                                        </div>
                                     </div>
+                                    <!--end::Sales-->
                                 </div>
-                                <!--end::Sales-->
+                                <!--end::Stats-->
                             </div>
-                            <!--end::Stats-->
-                        </div>
-                        <!--end::User-->
+                            <!--end::User-->
                         @endforeach
                     </div>
 
@@ -266,8 +303,8 @@
             <!--begin::Modal header-->
             <div class="modal-header pb-0 border-0 justify-content-end">
                 <!--begin::Close-->
-                <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">{!!
-                    getIcon('cross', 'fs-1') !!}</div>
+                <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">
+                    {!! getIcon('cross', 'fs-1') !!}</div>
                 <!--end::Close-->
             </div>
             <!--begin::Modal header-->
@@ -290,42 +327,56 @@
                     <!--begin::List-->
 
                     <div class="mh-375px scroll-y me-n7 pe-7">
-                        @foreach($denunciasAnonimas->take(5) as $denuncia)
-                        <!--begin::User-->
-                        <div class="d-flex flex-stack py-5 border-bottom border-gray-300 border-bottom-dashed">
-                            <!--begin::Details-->
-                            <div class="d-flex align-items-center">
+                        @foreach ($denunciasAnonimas->take(5) as $denuncia)
+                            <!--begin::User-->
+                            <div class="d-flex flex-stack py-5 border-bottom border-gray-300 border-bottom-dashed">
                                 <!--begin::Details-->
-                                <div class="ms-6">
-                                    <!--begin::Name-->
-                                    <a href="{{ route('oic.ver-denuncia', $denuncia->id_denuncia) }}"
-                                        class="d-flex align-items-center fs-5 fw-bold text-gray-900 text-hover-primary">
-                                        {{ $denuncia->folio_seguimiento }}
-                                        <span class="badge badge-light fs-8 fw-semibold ms-2"></span></a>
-                                    <!--end::Name-->
-                                    <!--begin::Email-->
-                                    <div class="fw-semibold text-muted">{{ $denuncia->fecha_recepcion->format('d/m/Y
-                                        H:i') }}</div>
-                                    <!--end::Email-->
+                                <div class="d-flex align-items-center">
+                                    <!--begin::Details-->
+                                    <div class="ms-6">
+
+                                        @if ($denuncia->id_responsable == 3 ||  $denuncia->id_area_responsable == 3)
+                                            <!--begin::Name-->
+                                            <a href="{{ route('uaoic.show', $denuncia->id_denuncia) }}"
+                                                class="d-flex align-items-center fs-5 fw-bold text-gray-900 text-hover-primary">
+                                                {{ $denuncia->folio_seguimiento }}
+                                                <span class="badge badge-light fs-8 fw-semibold ms-2"></span></a>
+                                            <!--end::Name-->
+                                        @else
+                                            <!--begin::Name-->
+                                            <a href="{{ route('oic.ver-denuncia', $denuncia->id_denuncia) }}"
+                                                class="d-flex align-items-center fs-5 fw-bold text-gray-900 text-hover-primary">
+                                                {{ $denuncia->folio_seguimiento }}
+                                                <span class="badge badge-light fs-8 fw-semibold ms-2"></span></a>
+                                            <!--end::Name-->
+                                        @endif
+
+                                        <!--begin::Email-->
+                                        <div class="fw-semibold text-muted">
+                                            {{ $denuncia->fecha_recepcion->format('d/m/Y
+                                                                                                                                                                                                                                                                    H:i') }}
+                                        </div>
+                                        <!--end::Email-->
+                                    </div>
+                                    <!--end::Details-->
                                 </div>
                                 <!--end::Details-->
-                            </div>
-                            <!--end::Details-->
-                            <!--begin::Stats-->
-                            <div class="d-flex">
-                                <!--begin::Sales-->
-                                <div class="text-end">
-                                    <div class="fs-5 fw-bold text-gray-900">
-                                        @if ($denuncia->es_anonima)
-                                        <span class="badge badge-light-danger me-3 fs-6">{{ __('Anónima') }}</span>
-                                        @endif
+                                <!--begin::Stats-->
+                                <div class="d-flex">
+                                    <!--begin::Sales-->
+                                    <div class="text-end">
+                                        <div class="fs-5 fw-bold text-gray-900">
+                                            @if ($denuncia->es_anonima)
+                                                <span
+                                                    class="badge badge-light-danger me-3 fs-6">{{ __('Anónima') }}</span>
+                                            @endif
+                                        </div>
                                     </div>
+                                    <!--end::Sales-->
                                 </div>
-                                <!--end::Sales-->
+                                <!--end::Stats-->
                             </div>
-                            <!--end::Stats-->
-                        </div>
-                        <!--end::User-->
+                            <!--end::User-->
                         @endforeach
                     </div>
 
@@ -350,8 +401,8 @@
             <!--begin::Modal header-->
             <div class="modal-header pb-0 border-0 justify-content-end">
                 <!--begin::Close-->
-                <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">{!!
-                    getIcon('cross', 'fs-1') !!}</div>
+                <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">
+                    {!! getIcon('cross', 'fs-1') !!}</div>
                 <!--end::Close-->
             </div>
             <!--begin::Modal header-->
@@ -374,42 +425,56 @@
                     <!--begin::List-->
 
                     <div class="mh-375px scroll-y me-n7 pe-7">
-                        @foreach($denunciasNoAnonimas->take(5) as $denuncia)
-                        <!--begin::User-->
-                        <div class="d-flex flex-stack py-5 border-bottom border-gray-300 border-bottom-dashed">
-                            <!--begin::Details-->
-                            <div class="d-flex align-items-center">
+                        @foreach ($denunciasNoAnonimas->take(5) as $denuncia)
+                            <!--begin::User-->
+                            <div class="d-flex flex-stack py-5 border-bottom border-gray-300 border-bottom-dashed">
                                 <!--begin::Details-->
-                                <div class="ms-6">
-                                    <!--begin::Name-->
-                                    <a href="{{ route('oic.ver-denuncia', $denuncia->id_denuncia) }}"
-                                        class="d-flex align-items-center fs-5 fw-bold text-gray-900 text-hover-primary">
-                                        {{ $denuncia->folio_seguimiento }}
-                                        <span class="badge badge-light fs-8 fw-semibold ms-2"></span></a>
-                                    <!--end::Name-->
-                                    <!--begin::Email-->
-                                    <div class="fw-semibold text-muted">{{ $denuncia->fecha_recepcion->format('d/m/Y
-                                        H:i') }}</div>
-                                    <!--end::Email-->
+                                <div class="d-flex align-items-center">
+                                    <!--begin::Details-->
+                                    <div class="ms-6">
+
+                                        @if ($denuncia->id_responsable == 3 ||  $denuncia->id_area_responsable == 3)
+                                            <!--begin::Name-->
+                                            <a href="{{ route('uaoic.show', $denuncia->id_denuncia) }}"
+                                                class="d-flex align-items-center fs-5 fw-bold text-gray-900 text-hover-primary">
+                                                {{ $denuncia->folio_seguimiento }}
+                                                <span class="badge badge-light fs-8 fw-semibold ms-2"></span></a>
+                                            <!--end::Name-->
+                                        @else
+                                            <!--begin::Name-->
+                                            <a href="{{ route('oic.ver-denuncia', $denuncia->id_denuncia) }}"
+                                                class="d-flex align-items-center fs-5 fw-bold text-gray-900 text-hover-primary">
+                                                {{ $denuncia->folio_seguimiento }}
+                                                <span class="badge badge-light fs-8 fw-semibold ms-2"></span></a>
+                                            <!--end::Name-->
+                                        @endif
+                                        <!--begin::Email-->
+                                        <div class="fw-semibold text-muted">
+                                            {{ $denuncia->fecha_recepcion->format('d/m/Y
+                                                                                                                                                                                                                                                                    H:i') }}
+                                        </div>
+                                        <!--end::Email-->
+                                    </div>
+                                    <!--end::Details-->
                                 </div>
                                 <!--end::Details-->
-                            </div>
-                            <!--end::Details-->
-                            <!--begin::Stats-->
-                            <div class="d-flex">
-                                <!--begin::Sales-->
-                                <div class="text-end">
-                                    @if (!$denuncia->es_anonima)
-                                    <div class="fs-5 fw-bold text-gray-900">{{ $denuncia->contacto->nombre_completo }}
+                                <!--begin::Stats-->
+                                <div class="d-flex">
+                                    <!--begin::Sales-->
+                                    <div class="text-end">
+                                        @if (!$denuncia->es_anonima)
+                                            <div class="fs-5 fw-bold text-gray-900">
+                                                {{ $denuncia->contacto->nombre_completo }}
+                                            </div>
+                                            <div class="fs-7 text-muted">{{ $denuncia->contacto->correo_electronico }}
+                                            </div>
+                                        @endif
                                     </div>
-                                    <div class="fs-7 text-muted">{{ $denuncia->contacto->correo_electronico }}</div>
-                                    @endif
+                                    <!--end::Sales-->
                                 </div>
-                                <!--end::Sales-->
+                                <!--end::Stats-->
                             </div>
-                            <!--end::Stats-->
-                        </div>
-                        <!--end::User-->
+                            <!--end::User-->
                         @endforeach
                     </div>
 
@@ -435,8 +500,8 @@
             <!--begin::Modal header-->
             <div class="modal-header pb-0 border-0 justify-content-end">
                 <!--begin::Close-->
-                <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">{!!
-                    getIcon('cross', 'fs-1') !!}</div>
+                <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">
+                    {!! getIcon('cross', 'fs-1') !!}</div>
                 <!--end::Close-->
             </div>
             <!--begin::Modal header-->
@@ -445,7 +510,7 @@
                 <!--begin::Heading-->
                 <div class="text-center mb-13">
                     <!--begin::Title-->
-                    <h1 class="mb-3">Lista de Denunicas No Anonimas</h1>
+                    <h1 class="mb-3">Lista de Denunicas Turnadas</h1>
                     <!--end::Title-->
                     <!--begin::Description-->
                     <div class="text-muted fw-semibold fs-5">
@@ -459,56 +524,65 @@
                     <!--begin::List-->
 
                     <div class="mh-375px scroll-y me-n7 pe-7">
-                        @foreach($denuncias->take(5) as $denuncia)
-                        <!--begin::User-->
-                        <div class="d-flex flex-stack py-5 border-bottom border-gray-300 border-bottom-dashed">
-                            <!--begin::Details-->
-                            <div class="d-flex align-items-center">
+                        @foreach ($denunciasTurnadas->take(5) as $denuncia)
+                            <!--begin::User-->
+                            <div class="d-flex flex-stack py-5 border-bottom border-gray-300 border-bottom-dashed">
                                 <!--begin::Details-->
-                                <div class="ms-6">
-                                    <!--begin::Name-->
-                                    <a href="{{ route('oic.ver-denuncia', $denuncia->id_denuncia) }}"
-                                        class="d-flex align-items-center fs-5 fw-bold text-gray-900 text-hover-primary">
-                                        {{ $denuncia->folio_seguimiento }}
-                                        <span class="badge badge-light fs-8 fw-semibold ms-2"></span></a>
-                                    <!--end::Name-->
-                                    <!--begin::Email-->
-                                    <div class="fw-semibold text-muted">{{ $denuncia->fecha_recepcion->format('d/m/Y
-                                        H:i') }}</div>
-                                    <!--end::Email-->
+                                <div class="d-flex align-items-center">
+                                    <!--begin::Details-->
+                                    <div class="ms-6">
+
+                                        @if ($denuncia->id_responsable == 3 ||  $denuncia->id_area_responsable == 3)
+                                            <!--begin::Name-->
+                                            <a href="{{ route('uaoic.show', $denuncia->id_denuncia) }}"
+                                                class="d-flex align-items-center fs-5 fw-bold text-gray-900 text-hover-primary">
+                                                {{ $denuncia->folio_seguimiento }}
+                                                <span class="badge badge-light fs-8 fw-semibold ms-2"></span></a>
+                                            <!--end::Name-->
+                                        @else
+                                            <!--begin::Name-->
+                                            <a href="{{ route('oic.ver-denuncia', $denuncia->id_denuncia) }}"
+                                                class="d-flex align-items-center fs-5 fw-bold text-gray-900 text-hover-primary">
+                                                {{ $denuncia->folio_seguimiento }}
+                                                <span class="badge badge-light fs-8 fw-semibold ms-2"></span></a>
+                                            <!--end::Name-->
+                                        @endif
+                                        <!--begin::Email-->
+                                        <div class="fw-semibold text-muted">
+                                            {{ $denuncia->fecha_recepcion->format('d/m/Y
+                                                                                                                                                                                                                                                                    H:i') }}
+                                        </div>
+                                        <!--end::Email-->
+                                    </div>
+                                    <!--end::Details-->
                                 </div>
                                 <!--end::Details-->
-                            </div>
-                            <!--end::Details-->
-                            <!--begin::Stats-->
-                            <div class="d-flex">
-                                <!--begin::Sales-->
-                                <div class="text-end">
-                                    <div class="fs-5 fw-bold text-gray-900">
+                                <!--begin::Stats-->
+                                <div class="d-flex">
+                                    <!--begin::Sales-->
+                                    <div class="text-end">
+                                        <div class="fs-5 fw-bold text-gray-900">
 
-                                        @if ($denuncia->id_estado === 2)
-                                        <span class="badge badge-lg badge-light-primary me-3 fs-6">
-                                            {{ $denuncia->estado->nombre }}
-                                        </span>
-
-                                        @elseif ($denuncia->id_estado === 3)
-                                        <span class="badge badge-lg badge-light-warning me-3 fs-6">
-                                            {{ $denuncia->estado->nombre }}
-                                        </span>
-
-                                        @elseif ($denuncia->id_estado === 4)
-                                        <span class="badge badge-lg badge-light-success me-3 fs-6">
-                                            {{ $denuncia->estado->nombre }}
-                                        </span>
-
-                                        @endif
+                                            @if ($denuncia->id_estado === 2)
+                                                <span class="badge badge-lg badge-light-primary me-3 fs-6">
+                                                    {{ $denuncia->estado->nombre }}
+                                                </span>
+                                            @elseif ($denuncia->id_estado === 3)
+                                                <span class="badge badge-lg badge-light-warning me-3 fs-6">
+                                                    {{ $denuncia->estado->nombre }}
+                                                </span>
+                                            @elseif ($denuncia->id_estado === 4)
+                                                <span class="badge badge-lg badge-light-success me-3 fs-6">
+                                                    {{ $denuncia->estado->nombre }}
+                                                </span>
+                                            @endif
+                                        </div>
                                     </div>
+                                    <!--end::Sales-->
                                 </div>
-                                <!--end::Sales-->
+                                <!--end::Stats-->
                             </div>
-                            <!--end::Stats-->
-                        </div>
-                        <!--end::User-->
+                            <!--end::User-->
                         @endforeach
                     </div>
 
