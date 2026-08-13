@@ -9,7 +9,7 @@
         <div class="container">
             <!-- Hero Section -->
             <section class="hero-section"
-                style="background-color: #fbfbfb; background: url(https://michoacan.gob.mx/images/backgrounds/bg.png) fixed no-repeat; background-size: cover; padding: 10px 0; border-radius: 10px; margin-bottom: 10px;">
+                style="background-color: #fbfbfb; background: url('{{ asset('images/backgrounds/bg.png') }}') fixed no-repeat; background-size: cover; padding: 10px 0; border-radius: 10px; margin-bottom: 10px;">
                 <div class="text-center mb-5">
                     <!-- Logo y Título -->
                     <div class="mb-6"> 

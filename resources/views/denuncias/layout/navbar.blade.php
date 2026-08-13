@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 {{-- <link rel="stylesheet" href="https://michoacan.gob.mx/cdn/css/bootstrap.min.css">
         <link rel="stylesheet" href="https://michoacan.gob.mx/cdn/css/estilos.css">
         
@@ -7,12 +8,19 @@
         <link rel="stylesheet" href="{{ asset('assets/vendor/bootstrap/bootstrap.min.css') }}">
 <link rel="stylesheet" href="{{ asset('assets/css/estilos.css') }}">
 <link rel="shortcut icon" href="{{ asset('assets/img/favicon.ico') }}" type="image/x-icon">
+=======
+<link rel="stylesheet" href="{{ asset('assets/css/michoacanbootstrap.min.css')}}">
+        <link rel="stylesheet" href="{{ asset('assets/css/michoacanestilos.css')}}">
+        
+        <link rel="shortcut icon" href="{{ asset('assets/media/logos/michoacanfavicon.ico')}}" type="image/x-icon" />
+        <link rel="stylesheet" href="{{ asset('assets/css/estiloGob.css') }}">
+>>>>>>> Stashed changes
 
         <!-- Navbar Oficial -->
         <nav class="navbar main-nav fixed-top navbar-expand-lg">
             <div class="container-fluid">
                 <a class="navbar-brand" href="https://secoem.michoacan.gob.mx">
-                    <img src="https://michoacan.gob.mx/cdn/img/logos/dependencias/secoem.svg" height="85px;" alt="Logo SECOEM">
+                    <img src="{{ asset('assets/media/logos/secoem.svg')}}" height="85px;" alt="Logo SECOEM">
                 </a>
                 <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
