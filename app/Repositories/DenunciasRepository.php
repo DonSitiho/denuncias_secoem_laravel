@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\Models\Denuncia;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
@@ -33,52 +34,34 @@ class DenunciasRepository {
         return $denuncia;
     }
 
-    public function denunciasPorResponsable(string $search, string $sortBy, bool $sortAsc){
+    public function denunciasPorResponsable(string $search, string $sortBy, bool $sortAsc)
+    {
+        $user = Auth::user();
 
         // Consulta base con las relaciones necesarias
-
         $denuncia = $this->denunciasBaseQuery($search)
-            ->denunciasAreaResponsable()
+            ->denunciasAreaResponsable($user->id_area, $user->id)
             ->denunciasByTipo(1)
             ->orderBy($sortBy, $sortAsc ? 'asc' : 'desc')
             ->paginate(10);
-        /*
-        $denuncia = Denuncia::denunciasByAreaResponable()
-            ->with(['contacto', 'circunstancia.municipio'])
-            ->select('denuncia.*')
-            ->join('denuncia_circunstancia as dc', 'denuncia.id_denuncia', '=', 'dc.id_denuncia')
-            ->leftJoin('datos_contacto_denunciante as dcd', 'denuncia.id_denuncia', '=', 'dcd.id_denuncia')
-            ->leftJoin('cat_municipios as cm', 'dc.id_municipio', '=', 'cm.id_municipio')
-
-            // Lógica de Búsqueda
-            ->when($search, function (Builder $query, $search){
-                $query->where(function (Builder $q) use ($search) {
-                    $q->where('denuncia.folio_seguimiento', 'like', '%' . $search . '%')
-                        ->orWhere('denuncia.motivo_denuncia', 'like', '%' . $search . '%')
-                        // Búsqueda en tablas relacionadas (es más complejo, pero Livewire lo permite)
-                        ->orWhere('dcd.nombre_completo', 'like', '%' . $search . '%')
-                        ->orWhere('dc.dependencia_involucrada', 'like', '%' . $search . '%')
-                        ->orWhere('cm.nombre_municipio', 'like', '%' . $search . '%');
-                });
-            })
-            ->orderBy($sortBy, $sortAsc ? 'asc' : 'desc')
-            ->paginate(10); 
-        */
 
         return $denuncia;
     }
 
-    public function denunciasBNPorResponsable(?string $search, string $sortBy, bool $sortAsc){
+
+    public function denunciasBNPorResponsable(?string $search, string $sortBy, bool $sortAsc)
+    {
+        $user = Auth::user();
+
         $denuncia = $this->denunciasBaseQuery($search)
-            ->denunciasAreaResponsable()
+            ->denunciasAreaResponsable($user->id_area, $user->id)
             ->denunciasByTipo(2)
             ->orderBy($sortBy, $sortAsc ? 'asc' : 'desc')
             ->paginate(10);
 
         return $denuncia;
-
-
     }
+    
 
     public function denunciasInterquejas(?string $search, string $sortBy, bool $sortAsc){
         $denuncia = $this->denunciasBaseQuery($search)
@@ -90,11 +73,16 @@ class DenunciasRepository {
 
     }
 
-    public function denunciasBuzonNaranja(?string $search, string $sortBy, bool $sortAsc) {
-
+    public function denunciasBuzonNaranja(?string $search, string $sortBy, bool $sortAsc) 
+    {
+        $user = Auth::user();
         // Consulta base con las relaciones necesarias.
         $denuncia = $this->denunciasBaseQuery($search)
             ->denunciasByTipo(2)
+            ->when(
+                $user->hasRole('Admin Denuncias ST'),
+                fn ($q) => $q->denunciasAreaResponsable($user->id_area, $user->id)
+            )
             ->orderBy($sortBy, $sortAsc ? 'asc' : 'desc')
             ->paginate(10);
             

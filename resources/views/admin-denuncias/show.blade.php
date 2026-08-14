@@ -53,7 +53,7 @@
                 <div class="card-toolbar">
                     
                     {{-- 1. Botón de Exportación (Permiso: admin-denuncia-descarga) --}}
-                    @can('admin-denuncia-descarga')
+                    @can('admin-denuncia-descargar')
                         <a href="{{ route('admin.denuncias.exportar.expediente', $denuncia->id_denuncia) }}" class="btn btn-sm btn-light-warning me-2">
                             <i class="fas fa-file-pdf me-1"></i> Exportar Expediente
                         </a>
@@ -64,7 +64,7 @@
                         {{-- El modal debe estar incluido como partial --}}
                         @include('admin-denuncias.partials.modal_turno', ['denuncia' => $denuncia]) 
                         <button type="button" class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#modal_turno">
-                            <i class="fas fa-arrow-right-rotate me-1"></i> Turnar a UAOIC
+                            <i class="fas fa-arrow-right-rotate me-1"></i> Turnar a OIC
                         </button>
                     @endcan
                 </div>
@@ -206,7 +206,7 @@
                                 </div>
                                 <span class="ms-2">
                                     {{-- ⭐ ENLACE ACTUALIZADO AL MÉTODO DE DESCARGA SEGURA --}}
-                                    @can('admin-denuncia-descarga')
+                                    @can('admin-denuncia-descargar')
                                         <a href="{{ route('admin.denuncias.descargar.evidencia', ['id_archivo' => $archivo->id_archivo]) }}" 
                                         class="btn btn-icon btn-sm btn-info" 
                                         title="Descargar Evidencia">

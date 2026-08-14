@@ -219,12 +219,12 @@ Route::middleware(['auth'])->prefix('admin/denuncias')->name('admin.denuncias.')
     // 4. Descarga Segura de Evidencia (GET)
     Route::get('/evidencia/{id_archivo}', [AdminDenunciasController::class, 'descargarArchivoEncriptado'])
         ->name('descargar.evidencia')
-        ->middleware('can:admin-denuncia-descarga'); // Permiso para la descarga
+        ->middleware('can:admin-denuncia-descargar'); // Permiso para la descarga
 
     // 5. Exportación del Expediente (GET/PDF/Excel)
     Route::get('/{id_denuncia}/exportar', [ExportController::class, 'exportarExpediente'])
         ->name('exportar.expediente')
-        ->middleware('can:admin-denuncia-descarga'); // Permiso para exportar
+        ->middleware('can:admin-denuncia-descargar'); // Permiso para exportar
 
     // 1. Dashboard de Recepción (Listado)
 

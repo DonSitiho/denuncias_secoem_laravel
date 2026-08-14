@@ -28,17 +28,6 @@ class Areas extends Seeder
         ]);
         
         // 2. ÓRGANO INTERNO DE CONTROL (Nivel 2)
-        $oicId = DB::table('areas')->insertGetId([
-            'id_area_padre' => $secretariaId,
-            'nombre_area' => 'Órgano Interno de Control',
-            'siglas' => 'OIC',
-            'nivel' => 'Dirección',
-            'is_active' => 1,
-            'created_at' => now(),
-            'updated_at' => now(),
-        ]);
-
-        // 3. ÓRGANO INTERNO DE CONTROL (Nivel 2)
         $uaoicId = DB::table('areas')->insertGetId([
             'id_area_padre' => $secretariaId,
             'nombre_area' => 'Unidad de Apoyo a Órganos Interno de Control',
@@ -49,7 +38,7 @@ class Areas extends Seeder
             'updated_at' => now(),
         ]);
 
-        // 4. SECRETARIA TECNICA (Nivel 2)
+        // 3. SECRETARIA TECNICA (Nivel 2)
         $stId = DB::table('areas')->insertGetId([
             'id_area_padre' => $secretariaId,
             'nombre_area' => 'Secretaría Técnica',
@@ -60,7 +49,7 @@ class Areas extends Seeder
             'updated_at' => now(),
         ]);
 
-        // 5. CONTRALORIA SOCIAL (Nivel 2)
+        // 4. CONTRALORIA SOCIAL (Nivel 2)
         $stId = DB::table('areas')->insertGetId([
             'id_area_padre' => $secretariaId,
             'nombre_area' => 'Dirección de Ciudadanización y Contraloría social',
@@ -71,7 +60,7 @@ class Areas extends Seeder
             'updated_at' => now(),
         ]);
 
-        // 6. OIC A (Nivel 3)
+        // 5. OIC A (Nivel 3)
         $oicAId = DB::table('areas')->insertGetId([
             'id_area_padre' => $uaoicId,
             'nombre_area' => 'OIC A',
@@ -82,7 +71,7 @@ class Areas extends Seeder
             'updated_at' => now(),
         ]);
 
-        // 7. OIC B (Nivel 3)
+        // 6. OIC B (Nivel 3)
         $oicId = DB::table('areas')->insertGetId([
             'id_area_padre' => $uaoicId,
             'nombre_area' => 'OIC B',
@@ -94,7 +83,7 @@ class Areas extends Seeder
         ]);
         
 
-        // 8. OIC C (Nivel 3)
+        // 7. OIC C (Nivel 3)
         $oicId = DB::table('areas')->insertGetId([
             'id_area_padre' => $uaoicId,
             'nombre_area' => 'OIC C',

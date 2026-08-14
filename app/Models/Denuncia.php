@@ -18,10 +18,10 @@ class Denuncia extends Model
     protected $primaryKey = 'id_denuncia';
 
     // Deshabilitamos timestamps (created_at, updated_at) si no se usan
-    public $timestamps = false; 
+    public $timestamps = false;
 
     //chaleeee
-     protected $fillable = [
+    protected $fillable = [
         'folio_seguimiento',
         'es_anonima',
         'fecha_recepcion',
@@ -95,7 +95,7 @@ class Denuncia extends Model
         // Asume que la FK es 'id_estado' en la tabla 'denuncia'
         return $this->belongsTo(CatEstados::class, 'id_estado', 'id_estado');
     }
-    
+
     /**
      * Relación N:1 con el Área Responsable (areas).
      */
@@ -104,7 +104,7 @@ class Denuncia extends Model
         // Une denuncia.id_area_responsable con areas.id_area
         return $this->belongsTo(Area::class, 'id_area_responsable', 'id_area');
     }
-    
+
     /**
      * Relación N:1 con el Usuario Responsable (users).
      * Usa el nuevo nombre de campo: id_responsable.
@@ -120,7 +120,7 @@ class Denuncia extends Model
     {
         return $this->hasMany(SolventarInfo::class, 'id_denuncia', 'id_denuncia');
     }
-    
+
     public function municipio()
     {
         return $this->hasOneThrough(
@@ -137,83 +137,102 @@ class Denuncia extends Model
     {
         return $this->hasMany(DenunciaTurnadoHistorial::class, 'id_denuncia', 'id_denuncia')->orderBy('fecha_turnado');;
     }
-    
-    public function scopeDenunciasByAreaResponable($query){
 
-        $user = Auth::user();
-
-        return $query->where(function ($q) use ($user) {
+    public function scopeDenunciasByAreaResponable($query, $id_area, $id_responsable)
+    {
+        return $query->where(function ($q) use ($id_area, $id_responsable) {
             // Denuncias sin responsable, visibles para todos del área
             $q->whereNull('id_responsable')
-            ->where('id_area_responsable', $user->id_area);
-        })->orWhere(function ($q) use ($user) {
+                ->where('id_area_responsable', $id_area);
+        })->orWhere(function ($q) use ($id_area, $id_responsable) {
             // Denuncias con responsable, solo visibles para ese usuario en el área
-            $q->where('id_responsable', $user->id)
-            ->where('id_area_responsable', $user->id_area);
+            $q->where('id_responsable', $id_responsable)
+                ->where('id_area_responsable', $id_area);
         });
     }
 
-    // Scope para mostrar las denuncias por Area.
-    public function scopeDenunciasArea($query){
+    public function scopeDenunciasBNByAreaResponsable($query)
+    {  
+        /*
+        $user = Auth::user();
 
+        if ($user->hasRole('Usuario BN')) {
+            // BN puede ver todas las denuncias de tipo 2
+            return $query;
+        }
+
+        if ($user->hasRole('Admin Denuncias ST')) {
+            // ST solo puede ver denuncias turnadas a su área
+            // o directamente a él
+            return $query->where(function ($q) use ($user) {
+                $q->where('id_area_responsable', $user->id_area)
+                    ->orWhere('id_responsable', $user->id);
+            });
+        }
+        // Otros roles: no mostrar registros
+        return $query->whereRaw('1 = 0');
+        */
+
+
+
+        //return $query->where(function)
+
+
+    }
+
+    // Scope para mostrar las denuncias por Area.
+    public function scopeDenunciasArea($query)
+    {
         $userArea = Auth::user()->id_area;
 
         if (!$userArea) {
             // Devuelve un query vacío
             return $query->whereRaw('1 = 0');
         }
-
         return $query->where('id_area_responsable', $userArea);
-
     }
 
     // Scope para mostrar las denuncias por area del responsable en especifico
-    public function scopeDenunciasAreaResponsable($query){
-
-        $user = Auth::user();
-        $idArea = $user->id_area;
-        $idUsuario = $user->id;
-        
-        return $query->whereHas('turnados', function (Builder $q) use ($idArea, $idUsuario) {
-            $q->where('id_area_destino', $idArea)
-                ->where(function (Builder $sub) use ($idUsuario) {
+    public function scopeDenunciasAreaResponsable($query, $id_area, $id_responsable)
+    {
+        return $query->whereHas('turnados', function (Builder $q) use ($id_area, $id_responsable) {
+            $q->where('id_area_destino', $id_area)
+                ->where(function (Builder $sub) use ($id_responsable) {
                     $sub->whereNull('id_responsable')
-                        ->orWhere('id_responsable', $idUsuario);
+                        ->orWhere('id_responsable', $id_responsable);
                 });
         });
     }
 
     // Scope para mostrar las denuncias por estatus de un responable en especifico.
-    public function scopeDenunciasEstatus($query, $id_status){
-
+    public function scopeDenunciasEstatus($query, $id_status)
+    {
         return $query->where('id_estado', $id_status)
-                    ->where(function ($q){
-                        $q->where('id_responsable', Auth::id())
-                            ->orWhere(function ($sub){
-                                $sub->where('id_area_responsable', Auth::user()->id_area)
-                                    ->whereNull('id_responsable');
-                            });
+            ->where(function ($q) {
+                $q->where('id_responsable', Auth::id())
+                    ->orWhere(function ($sub) {
+                        $sub->where('id_area_responsable', Auth::user()->id_area)
+                            ->whereNull('id_responsable');
                     });
+            });
     }
 
     // Scope para mostrar las denuncias anonimas y no anominas de un responable en especifico.
-    public function scopeDenunciasAnonimas($query, $anonima){
-
+    public function scopeDenunciasAnonimas($query, $anonima)
+    {
         return $query->where('es_anonima', $anonima)
-                    ->where(function ($q){
-                        $q->where('id_responsable', Auth::id())
-                            ->orWhere(function ($sub){
-                                $sub->where('id_area_responsable', Auth::user()->id_area)
-                                    ->whereNull('id_responsable');
-                            });
+            ->where(function ($q) {
+                $q->where('id_responsable', Auth::id())
+                    ->orWhere(function ($sub) {
+                        $sub->where('id_area_responsable', Auth::user()->id_area)
+                            ->whereNull('id_responsable');
                     });
+            });
     }
 
     // Scope para mostrar las denuncias por tipo de denuncia (Buzon naranja y denuncias).
-    public function scopeDenunciasByTipo(Builder $query, int $tipo): Builder {
-
+    public function scopeDenunciasByTipo(Builder $query, int $tipo): Builder
+    {
         return $query->where('tipo_denuncia', $tipo);
     }
-
-
 }

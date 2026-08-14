@@ -39,7 +39,7 @@ class UsersSeeder extends Seeder
             'email'             => 'denuncias_st' . $domain,
             'password'          => $defaultPassword,
             'email_verified_at' => now(),
-            'id_area'           => 4, // Asume la existencia de un área con ID 2
+            'id_area'           => 3, // Asume la existencia de un área con ID 2
         ]);
         //$denunciasUser->assignRole('Admin Denuncias ST');
         
@@ -49,19 +49,27 @@ class UsersSeeder extends Seeder
             'email'             => 'uaoic' . $domain,
             'password'          => $defaultPassword,
             'email_verified_at' => now(),
-            'id_area'           => 3, // Asume la existencia de un área con ID 3
+            'id_area'           => 2, // Asume la existencia de un área con ID 3
         ]);
         //$oicUser->assignRole('Usuario UAOIC');
         
         // 4. Usuarios OIC
-        $oicUser = User::create([
-            'name'              => 'Usuario OIC',
-            'email'             => 'oic' . $domain,
+        $oicAUser = User::create([
+            'name'              => 'Usuario OIC A',
+            'email'             => 'oic-a' . $domain,
+            'password'          => $defaultPassword,
+            'email_verified_at' => now(),
+            'id_area'           => 5, // Asume la existencia de un área con ID 3
+        ]);
+        //$oicUser->assignRole('Usuario OIC');
+
+        $oicBUser = User::create([
+            'name'              => 'Usuario OIC B',
+            'email'             => 'oic-b' . $domain,
             'password'          => $defaultPassword,
             'email_verified_at' => now(),
             'id_area'           => 6, // Asume la existencia de un área con ID 3
         ]);
-        //$oicUser->assignRole('Usuario OIC');
 
         // 5. Usuario Buzon Naranja
         $bnUser = User::create([
@@ -69,7 +77,7 @@ class UsersSeeder extends Seeder
             'email'             => 'bn' . $domain,
             'password'          => $defaultPassword,
             'email_verified_at' => now(),
-            'id_area'           => 5, // Asume la existencia de un área con ID 4
+            'id_area'           => 4, // Asume la existencia de un área con ID 4
         ]);
         //$oicUser->assignRole('Usuario BN');
 
@@ -79,7 +87,7 @@ class UsersSeeder extends Seeder
             'email'             => 'capturista' . $domain,
             'password'          => $defaultPassword,
             'email_verified_at' => now(),
-            'id_area'           => 18, // Asume la existencia de un área con ID 4
+            'id_area'           => 17, // Asume la existencia de un área con ID 4
         ]);
         //$capturistaUser->assignRole('Capturista');
 

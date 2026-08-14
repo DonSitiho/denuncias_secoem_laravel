@@ -9,6 +9,7 @@ use App\Models\Denuncia;
 use App\Models\DenunciaTurnadoHistorial;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class BuzonNaranjaDenunciasController extends Controller
@@ -39,14 +40,26 @@ class BuzonNaranjaDenunciasController extends Controller
         ])
             ->findOrFail($id_denuncia);
 
-        $areaResponsable = Area::where('is_active', true)->where('id_area', 3)->get();
-        
-        // Cargar usuarios que tienen asignado un id_area en la tabla users
-        $usuariosUAOIC = User::where('id_area', 3)
-            ->where('is_active', true)
-            ->orderBy('name', 'asc')
-            ->get();
+        $user = Auth::user();
 
+        if ($user->id_area == 3) {
+            $areaResponsable = Area::where('is_active', true)->where('id_area_padre', 2)->get();
+
+            // Cargar usuarios que tienen asignado un id_area en la tabla users
+            $usuariosUAOIC = User::whereBetween('id_area', [5, 16])
+                ->orderBy('name', 'asc')
+                ->get();
+
+        } else {
+
+            $areaResponsable = Area::where('is_active', true)->where('id_area', 3)->get();
+
+            // Cargar usuarios que tienen asignado un id_area en la tabla users
+            $usuariosUAOIC = User::where('id_area', 3)
+                ->where('is_active', true)
+                ->orderBy('name', 'asc')
+                ->get();
+        }
 
         return view('buzon-naranja-denuncias.show', compact('denuncia', 'areaResponsable', 'usuariosUAOIC'));
     }
@@ -62,7 +75,8 @@ class BuzonNaranjaDenunciasController extends Controller
     }
 
 
-    public function turnarDenuncia(Request $request, $id_denuncia){
+    public function turnarDenuncia(Request $request, $id_denuncia)
+    {
 
         $request->validate([
             'id_area_responsable' => 'required|integer|exists:areas,id_area', // Área es OBLIGATORIA
@@ -78,7 +92,7 @@ class BuzonNaranjaDenunciasController extends Controller
             $denuncia = Denuncia::findOrFail($id_denuncia);
 
             // 2. ASIGNACIÓN ACTUALIZADA DE RESPONSABILIDAD
-            $denuncia->id_area_responsable = $request->id_area_responsable; 
+            $denuncia->id_area_responsable = $request->id_area_responsable;
             $denuncia->id_responsable = $request->id_responsable; // ⬅️ Usando el nuevo nombre de campo
             $denuncia->id_estado = 2; // Asumir '2' es 'Turnada al Área'
 
@@ -96,7 +110,6 @@ class BuzonNaranjaDenunciasController extends Controller
             DB::commit();
 
             return redirect()->route('buzon-naranja.denuncias.show', $id_denuncia)->with('success', 'Denuncia turnada exitosamente al área responsable.');
-            
         } catch (\Exception $e) {
             DB::rollBack();
             \Log::error("Error al turnar denuncia: " . $e->getMessage());

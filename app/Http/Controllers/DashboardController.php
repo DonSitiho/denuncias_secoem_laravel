@@ -180,6 +180,12 @@ class DashboardController extends Controller
 
         return view('pages/dashboards.indexOIC', compact('totalDenunciasArea', 'denunciasArea', 'totalDenunciasTurnadaResponsable', 'denunciasTurnadas', 'totalDTR', 'denunciasTerminadas', 'totalDenunciasAnonimas', 'denunciasAnonimas', 'totalDenunciasNoAnonimas', 'denunciasNoAnonimas', 'totalDenunciasEnTramite', 'denunciasTramite'));
     }
+
+
+    public function indexBuzonNaranja()
+    {
+        
+    }
     
     /**
      * Muestra el dashboard del Administrador de Denuncias (ID 2) con métricas operativas.

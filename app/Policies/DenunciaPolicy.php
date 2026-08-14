@@ -15,7 +15,7 @@ class DenunciaPolicy
      */
     public function viewAny(User $user): Response|bool
     {
-        
+
         //Si el usuario es el administrador del sistema, puede ver todas las denuncias
         if ($user->hasRole('Administrador')) {
             return true;
@@ -40,8 +40,7 @@ class DenunciaPolicy
             return true;
         }
 
-        return Response::deny('No está autorizado para ver las denu
-        ncias, ya que no le ha sido asignada o no cuenta con los privilegios de administrador.');
+        return Response::deny('No está autorizado para ver las denuncias, ya que no le ha sido asignada o no cuenta con los privilegios de administrador.');
     }
 
     /**
@@ -58,36 +57,39 @@ class DenunciaPolicy
         }
 
         if ($user->hasRole('Usuario UAOIC')) {
-            
+
             $responsableId = $denuncia->id_responsable;
-            
-            if($user->id === $responsableId){
+
+            if ($user->id === $responsableId) {
                 return true;
             }
-            
         }
 
         if ($user->hasRole('Usuario OIC')) {
+
+            $denuncia = $denuncia->turnados()
+                ->where('id_area_destino', $user->id_area)
+                ->where(function ($q) use ($user) {
+                    $q->whereNull('id_responsable')
+                        ->orWhere('id_responsable', $user->id);
+                })
+                ->exists();
             
-            $responsableId = $denuncia->id_responsable;
-            
-            if($user->id === $responsableId){
-                return true;
-            }
+            return $denuncia;
         }
 
         $participa = $denuncia->turnados()
+            ->where('id_area_destino', $user->id_area)
             ->where(function ($q) use ($user) {
                 $q->where('id_responsable', $user->id)
-                ->orWhere('id_responsable', $user->id);
-        });
+                    ->orWhereNull('id_responsable');
+            });
 
-        if ($participa){
+        if ($participa) {
             return true;
         }
 
         return Response::deny('No está autorizado para ver esta denuncia, ya que no le ha sido asignada o no cuenta con los privilegios de administrador.');
-
     }
 
     /**

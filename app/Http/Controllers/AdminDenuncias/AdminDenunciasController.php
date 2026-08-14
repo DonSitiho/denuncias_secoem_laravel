@@ -70,11 +70,11 @@ class AdminDenunciasController extends Controller
 
         $user = Auth::user();
 
-        if ($user->id_area == 4) {
-            $areaResponsable = Area::where('is_active', true)->where('id_area', 3)->get();
+        if ($user->id_area == 3) {
+            $areaResponsable = Area::where('is_active', true)->whereBetween('id_area', [5, 16])->get();
 
             // Cargar usuarios que tienen asignado un id_area en la tabla users
-            $usuariosOIC = User::where('id_area', 3)
+            $usuariosOIC = User::whereBetween('id_area', [5, 16])
                 ->orderBy('name', 'asc')
                 ->get();
         } else {
@@ -101,7 +101,7 @@ class AdminDenunciasController extends Controller
             $archivo = ArchivoAdjunto::with('denuncia')->findOrFail($id_archivo);
 
             // Aseguramos que el usuario logueado tenga derecho a ver esta denuncia específica.
-            if (Gate::denies('admin-denuncia-descarga')) {
+            if (Gate::denies('admin-denuncia-descargar')) {
                 // Si falla el permiso general de descarga
                 return redirect()->back()->with('error', 'Permisos insuficientes para esta acción.');
             }

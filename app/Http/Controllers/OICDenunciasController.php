@@ -64,23 +64,20 @@ class OICDenunciasController extends Controller
         ])
             ->findOrFail($id_denuncia);
 
+        // Aplicar politica para la denuncia sea visualizada unicamente por el responsable al que se le turno la denuncia.
+        $this->authorize('view', $denuncia);
 
         $usuario = auth()->user();
 
-        $areaResponsable = Area::where('is_active', true)->where('id_area_padre', $usuario->id_area)->get();
-
-        //$usuariosOIC = User::where('is_active', true)->offset(4)->limit(10)->get();
-
+        //$areaResponsable = Area::where('is_active', true)->where('id_area_padre', $usuario->id_area)->get();
+        $areaResponsable = Area::where('is_active', true)
+            ->where(function ($query) use ($usuario) {
+                $query->where('id_area_padre', $usuario->id_area)
+                    ->orWhere('id_area', 3);
+            })
+            ->get();
 
         $usuariosOIC = User::where('is_active', true)->whereIn('id_area', $areaResponsable->pluck('id_area'))->get();
-
-        //return json_encode($usuarios);
-
-
-        //return json_encode($denuncia->tipo_denuncia);
-
-        // Aplicar politica para la denuncia sea visualizada unicamente por el responsable al que se le turno la denuncia.
-        $this->authorize('view', $denuncia);
 
         $tipoCampos = SolventarInfo::TIPOCAMPO;
 

@@ -34,7 +34,7 @@ class RolesPermissionsSeeder extends Seeder
             // PERMISOS ADMIN DENUNCIAS (Operación y Asignación)
             'admin-denuncia-ver',
             'admin-denuncia-turnar',
-            'admin-denuncia-descarga',
+            'admin-denuncia-descargar',
             
             // PERMISOS SÚPER ADMINISTRADOR (Gestión de Sistema)
             'system-roles-crud',
@@ -75,11 +75,12 @@ class RolesPermissionsSeeder extends Seeder
             'Admin Denuncias ST' => [
                 'admin-denuncia-ver',
                 'admin-denuncia-turnar',
-                'admin-denuncia-descarga',
+                'admin-denuncia-descargar',
                 'admin-usuarios-crud',
                 'admin-areas-crud',
                 'admin-catalogos-crud',
                 'bn-denuncia-ver',
+                'bn-denuncia-turnar',
                 'bn-denuncia-detalles',
             ],
             
@@ -96,6 +97,7 @@ class RolesPermissionsSeeder extends Seeder
                 'oic-denuncia-ver',
                 'oic-denuncia-detalles',
                 'oic-denuncia-descargar',
+                'oic-denuncia-turnar',
                 'oic-denuncia-solventar-info',
                 'oic-denuncia-tramite',
                 'system-areas-usuarios',
@@ -139,8 +141,9 @@ class RolesPermissionsSeeder extends Seeder
         User::find(2)?->assignRole('Admin Denuncias ST');
         User::find(3)?->assignRole('Usuario UAOIC');
         User::find(4)?->assignRole('Usuario OIC');
-        User::find(5)?->assignRole('Usuario BN');
-        User::find(6)?->assignRole('Capturista');
+        User::find(5)?->assignRole('Usuario OIC');
+        User::find(6)?->assignRole('Usuario BN');
+        User::find(7)?->assignRole('Capturista');
 
         // ... y así sucesivamente para el resto de los usuarios de prueba.
     }

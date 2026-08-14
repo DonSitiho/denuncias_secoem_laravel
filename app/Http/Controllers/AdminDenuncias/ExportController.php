@@ -11,7 +11,7 @@ class ExportController extends Controller
 {
     /**
      * Muestra la vista detallada de una denuncia específica para su revisión administrativa.
-     * El acceso a esta función está previamente protegido por el middleware 'can:admin-denuncia-descarga'.
+     * El acceso a esta función está previamente protegido por el middleware 'can:admin-denuncia-descargar'.
      */
     public function exportarExpediente($id_denuncia)
     {
