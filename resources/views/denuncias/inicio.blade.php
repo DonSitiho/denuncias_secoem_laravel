@@ -66,6 +66,8 @@
                                 <p class="text-gray-600 mb-5 fs-6">
                                     Reporte actos de corrupción, irregularidades o malas prácticas en el servicio público.
                                     Puede realizarlo de manera anónima o proporcionando sus datos para seguimiento.
+                                    <br>
+                                    <br>
                                 </p>
                                 {{-- 
                                 <a href="{{ route('denunciar') }}" class="btn botonGinda btn-lg w-100 py-3 fw-bold">
@@ -103,8 +105,9 @@
                                     en Línea
                                 </h3>
                                 <p class="text-gray-600 mb-5 fs-6">
-                                    Reporte actos de corrupción, irregularidades o malas prácticas en el servicio público.
-                                    Puede realizarlo de manera anónima o proporcionando sus datos para seguimiento.
+                                    El sistema de denuncia buzón naranja brinda atención especial a todas aquellas mujeres 
+                                    que han sufrido algún tipo de agresión, violencia, ofensa o actos de corrupción por parte 
+                                    de algún servidor público del Gobierno del Estado de Michoacán.
                                 </p>
                                 {{-- 
                                 <a href="{{ route('denunciar') }}" class="btn botonGinda btn-lg w-100 py-3 fw-bold">
@@ -115,7 +118,7 @@
                                     @csrf
                                     <input type="hidden" name="id" value="2">
                                     <button type="submit" class="btn botonGinda btn-lg w-100 py-3 fw-bold">
-                                        Iniciar Denuncia
+                                        Iniciar Denuncia Buzón Naranja - Mujer
                                     </button>
                                 </form>
                                 {{-- <div class="mt-3">
@@ -137,6 +140,7 @@
                                 <h3 class="fw-bold text-gray-800 mb-4">Consultar Seguimiento</h3>
                                 <p class="text-gray-600 mb-5 fs-6">
                                     Verifique el estado de su denuncia anterior utilizando el folio de seguimiento.
+                                    <br><br><br>
                                 </p>
                                 <a href="{{ route('buscar.denuncia') }}"
                                     class="btn botonGuindaClaro btn-lg w-100 py-3 fw-bold">
@@ -172,7 +176,7 @@
                                     <i class="fas fa-phone me-2"></i>
                                     Llamar al (443) 443 310 8600
                                 </a>
-                                <a href="mailto:denuncias@secoem.michoacan.gob.mx" class="btn botonGuinda btn-lg fw-bold">
+                                <a href="mailto:secoem@michoacan.gob.mx" class="btn botonGuinda btn-lg fw-bold">
                                     <i class="fas fa-envelope me-2"></i>
                                     Enviar Correo
                                 </a>
@@ -202,14 +206,14 @@
                         <div class="text-center">
                             <i class="fas fa-phone fs-2x text-guinda mb-3"></i>
                             <h5 class="fw-bold text-gray-800">Teléfono</h5>
-                            <p class="text-gray-600">(443) 443 310 8600<br>Ext. 1234, 1235</p>
+                            <p class="text-gray-600">(443) 443 310 8600<br>Ext. 115</p>
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="text-center">
                             <i class="fas fa-envelope fs-2x text-guinda mb-3"></i>
                             <h5 class="fw-bold text-gray-800">Correo Electrónico</h5>
-                            <p class="text-gray-600">denuncias@secoem.michoacan.gob.mx<br>secoem@michoacan.gob.mx</p>
+                            <p class="text-gray-600">secoem@michoacan.gob.mx</p>
                         </div>
                     </div>
                 </div>

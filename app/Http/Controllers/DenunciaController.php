@@ -132,7 +132,7 @@ class DenunciaController extends Controller
             'token_validacion' => $codigo,
             'clave_denunciante' => $clave_denunciante,
             'tipo_denuncia' => $request->tipo,
-
+            'tipo_denunciante' => 1,
         ]);
 
         /** 2️ Generar folio único y guardarlo */

@@ -63,8 +63,15 @@
                     @can('admin-denuncia-turnar')
                         {{-- El modal debe estar incluido como partial --}}
                         @include('admin-denuncias.partials.modal_turno', ['denuncia' => $denuncia]) 
-                        <button type="button" class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#modal_turno">
+                        <button type="button" class="btn btn-sm btn-light-success me-2" data-bs-toggle="modal" data-bs-target="#modal_turno">
                             <i class="fas fa-arrow-right-rotate me-1"></i> Turnar a OIC
+                        </button>
+                    @endcan
+                    
+                    @can('st-denuncia-folio')
+                        @include('admin-denuncias.partials.modal_agregar_folio', ['denuncia' => $denuncia]) 
+                        <button type="button" class="btn btn-sm btn-light-success" data-bs-toggle="modal" data-bs-target="#modal_folio">
+                            <i class="fas fa-bookmark me-1"></i> Agregar Folio
                         </button>
                     @endcan
                 </div>

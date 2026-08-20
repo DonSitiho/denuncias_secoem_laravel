@@ -89,6 +89,19 @@ class DenunciasRepository {
         return $denuncia;
     }
 
+    public function denunciasCapturadas(?string $search, string $sortBy, bool $sortAsc) 
+    {
+        $user = Auth::user();
+
+        $denuncia = $this->denunciasBaseQuery($search)
+            ->denunciasByTipo(1)
+            ->denunciaByTipoDenunciante(2)
+            ->orderBy($sortBy, $sortAsc ? 'asc' : 'desc')
+            ->paginate(10);
+        
+        return $denuncia;
+    }
+
     public function totalDenunciasArea(){
 
         return Denuncia::denunciasArea()->count();

@@ -80,6 +80,48 @@
 			<!--end:Menu item-->
 			@endcan
 
+			@can('st-denuncia-capturar')
+			<!--begin:Menu item-->
+			<div class="menu-item pt-5">
+				<!--begin:Menu content-->
+				<div class="menu-content">
+					<span class="menu-heading fw-bold text-uppercase fs-7">Secretaria Tecnica</span>
+				</div>
+				<!--end:Menu content-->
+			</div>
+			<!--end:Menu item-->
+
+			<!--begin:Menu item-->
+			<div data-kt-menu-trigger="click"
+				class="menu-item menu-accordion {{ request()->routeIs('dashboard') ? 'here show' : '' }}">
+				<!--begin:Menu link-->
+				<span class="menu-link">
+					<span class="menu-icon">{!! getIcon('element-11', 'fs-2') !!}</span>
+					<span class="menu-title">Denuncias</span>
+					<span class="menu-arrow"></span>
+				</span>
+				<!--end:Menu link-->
+				<!--begin:Menu sub-->
+				<div class="menu-sub menu-sub-accordion">
+					<!--begin:Menu item-->
+					<div class="menu-item">
+						<!--begin:Menu link-->
+						<a class="menu-link {{ request()->routeIs('st.capturar') ? 'active' : '' }}"
+							href="{{ route('st.capturar') }}">
+							<span class="menu-bullet">
+								<span class="bullet bullet-dot"></span>
+							</span>
+							<span class="menu-title">Capturar denuncia</span>
+						</a>
+						<!--end:Menu link-->
+
+					</div>
+					<!--end:Menu item-->
+				</div>
+				<!--end:Menu sub-->
+			</div>
+			<!--end:Menu item-->
+			@endcan
 
 			@can('uaoic-denuncia-ver')
 			<!--begin:Menu item-->

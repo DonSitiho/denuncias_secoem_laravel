@@ -24,6 +24,7 @@
                     <th class="min-w-120px cursor-pointer" wire:click="sortBy('fecha_hechos')">{{ __('Hechos') }}</th>
                     <th class="min-w-150px">{{ __('Datos de Contacto') }}</th>
                     <th class="min-w-150px">{{ __('Dependencia / Municipio') }}</th>
+                    <th class="min-w-100px">{{ __('Origen') }}</th>
                     <th class="min-w-100px">{{ __('Estatus') }}</th>
                     <th class="min-w-80px">{{ __('Acciones') }}</th>
                 </tr>
@@ -56,6 +57,11 @@
                                 class="text-gray-800">{{ $denuncia->circunstancia->dependencia_involucrada ?? 'Ciudadano General' }}</span>
                             <span
                                 class="text-muted fs-7 d-block">{{ $denuncia->circunstancia->municipio->nombre_municipio ?? 'No Especificado' }}</span>
+                        </td>
+                        <td>
+                            <span class="badge badge-lg badge-light-primary">
+                                {{ $denuncia->tipo_denunciante == 1 ? 'Público' : 'ST' }}
+                            </span>
                         </td>
                         <td>
                             <span class="badge badge-lg badge-light-primary">

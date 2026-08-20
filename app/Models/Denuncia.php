@@ -38,6 +38,7 @@ class Denuncia extends Model
         'fecha_cierre',
         'id_denunciante',
         'tipo_denuncia',
+        'tipo_denunciante',
     ];
 
     protected $casts = [
@@ -46,6 +47,7 @@ class Denuncia extends Model
         'dinero_solicitado' => 'decimal:2',
         'fecha_cierre' => 'datetime',
         'tipo_denuncia' => 'integer',
+        'tipo_denunciante' => 'integer'
     ];
 
     // Relación 1:1 con los metadatos de seguimiento (doc_denuncias)
@@ -204,6 +206,14 @@ class Denuncia extends Model
         });
     }
 
+    public function scopeDenunciasCapturadasST($query, $id_area, $id_responsable)
+    {
+        return $query->whereHas('turnados', function (Builder $q) use ($id_area, $id_responsable){
+            $q->where('id_area_destino', $id_area)
+                ->where('id_responsable', $id_responsable);
+        });
+    }
+
     // Scope para mostrar las denuncias por estatus de un responable en especifico.
     public function scopeDenunciasEstatus($query, $id_status)
     {
@@ -230,9 +240,15 @@ class Denuncia extends Model
             });
     }
 
-    // Scope para mostrar las denuncias por tipo de denuncia (Buzon naranja y denuncias).
+    // Scope para mostrar las denuncias por tipo de denuncia (Buzon naranja = 2 y Denuncias = 1).
     public function scopeDenunciasByTipo(Builder $query, int $tipo): Builder
     {
         return $query->where('tipo_denuncia', $tipo);
+    }
+
+     // Scope para mostrar las denuncias por tipo de denunciante (Publico = 1 y Secretaria Tecnica = 2).
+    public function scopeDenunciaByTipoDenunciante(Builder $query, int $tipo): Builder
+    {
+        return $query->where('tipo_denunciante', $tipo);
     }
 }

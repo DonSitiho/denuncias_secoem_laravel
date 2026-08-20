@@ -18,7 +18,9 @@ use App\Http\Controllers\AdminDenuncias\AdminUserController;
 use App\Http\Controllers\AdminDenuncias\AdminDashboardController;
 use App\Http\Controllers\AdminDenuncias\InterquejasController;
 use App\Http\Controllers\BuzonNarajaDenuncias\BuzonNaranjaDenunciasController;
+use App\Http\Controllers\STDenuncias\STDenunciasController;
 use App\Http\Controllers\UAOICDenuncias\UAOICDenunciasController;
+use FontLib\Table\Type\name;
 use GuzzleHttp\Middleware;
 
 /*
@@ -146,6 +148,25 @@ Route::middleware(['auth'])->prefix('uaoic')->name('uaoic.')->group(function () 
         ->middleware('can:uaoic-denuncia-descargar');
 
 });
+
+
+Route::middleware(['auth'])->prefix('secretaria-tecnica')->name('st.')->group(function () {
+
+    Route::get('/capturar', [STDenunciasController::class, 'create'])
+        ->name('capturar')
+        ->middleware('can:st-denuncia-capturar');
+
+    Route::post('/denunciar', [STDenunciasController::class, 'store'])
+        ->name('denunciar')
+        ->middleware('can:st-denuncia-capturar');
+
+    Route::patch('/{id_denuncia}/agregar-folio', [STDenunciasController::class, 'agregarFolioCED'])
+        ->name('agregar-folio')
+        ->middleware('can:St-denuncia-folio');
+        
+});
+
+
 
 // Grupo de rutas para el Usuario OIC
 Route::middleware(['auth'])->prefix('oic')->name('oic.')->group(function () {
@@ -312,6 +333,7 @@ Route::get('/inicio', [DenunciaController::class, 'inicio'])->name('inicio');
 //denuncias
 Route::post('/denunciar', [DenunciaController::class, 'create'])->name('denunciar'); // <-- create, no crear
 Route::get('/buscar-denuncia', [DenunciaController::class, 'buscar'])->name('buscar.denuncia');
+
 Route::post('/api/denuncias', [DenunciaController::class, 'store'])->name('denuncias.store');
 //qr
 // Route::get('/denuncias/seguimiento/{folio}', [DenunciaController::class, 'seguimiento'])
