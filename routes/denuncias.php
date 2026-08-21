@@ -14,7 +14,6 @@ Route::get('/denuncias/seguimiento/{folio}', [DenunciaController::class, 'seguim
 Route::get('/denuncias/{folio}/pdf', [App\Http\Controllers\DenunciaController::class, 'generarPDF'])->name('denuncias.pdf')->middleware('signed'); // opcional: devuelve 403 si firma inválida;
 
 Route::post('/denuncias/buscar', [DenunciaController::class, 'buscarDenunciaFolio'])
-    ->middleware('throttle:3,30')
     ->name('denuncias.buscarDenunciaFolio');
 
 // Route::get('/denuncias/buscar', [DenunciaController::class, 'buscarForm'])->name('denuncias.buscar.form');

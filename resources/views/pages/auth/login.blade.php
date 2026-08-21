@@ -1,7 +1,8 @@
 <x-auth-layout>
 
     <!--begin::Form-->
-    <form class="form w-100" novalidate="novalidate" id="kt_sign_in_form" data-kt-redirect-url="{{ route('dashboard') }}" action="{{ route('login') }}">
+    <form class="form w-100" novalidate="novalidate" id="kt_sign_in_form" data-kt-redirect-url="{{ route('dashboard') }}"
+        action="{{ route('login') }}">
         @csrf
         <!--begin::Heading-->
         <div class="text-center mb-11">
@@ -45,7 +46,7 @@
             <!--end::Col-->
             {{-- Logo centrado --}}
             <a href="{{ route('dashboard') }}" class="mb-12" style="display: flex; justify-content: center;">
-                <img alt="Logo" src="{{ image('auth/secoem.svg') }}" class="h-60px h-lg-75px"/>
+                <img alt="Logo" src="{{ image('auth/secoem.svg') }}" class="h-60px h-lg-75px" />
             </a>
         </div>
         <!--end::Login options-->
@@ -59,14 +60,16 @@
         <!--begin::Input group--->
         <div class="fv-row mb-8">
             <!--begin::Email-->
-            <input type="text" placeholder="Email" name="email" autocomplete="off" class="form-control bg-transparent" value=""/>
+            <input type="text" placeholder="Email" name="email" autocomplete="off"
+                class="form-control bg-transparent" value="" />
             <!--end::Email-->
         </div>
 
         <!--end::Input group--->
         <div class="fv-row mb-3">
             <!--begin::Password-->
-            <input type="password" placeholder="Password" name="password" autocomplete="off" class="form-control bg-transparent" value=""/>
+            <input type="password" placeholder="Password" name="password" autocomplete="off"
+                class="form-control bg-transparent" value="" />
             <!--end::Password-->
         </div>
         <!--end::Input group--->
@@ -82,6 +85,8 @@
             <!--end::Link-->
         </div>
         <!--end::Wrapper-->
+
+        <input type="hidden" name="recaptcha_token" id="recaptcha_token">
 
         <!--begin::Submit button-->
         <div class="d-grid mb-10">
@@ -102,5 +107,12 @@
         <!--end::Sign up-->
     </form>
     <!--end::Form-->
+
+    @push('scripts')
+        <script>
+            window.recaptchaSiteKey = '{{ config('services.recaptcha.site_key') }}';
+        </script>
+        <script src="https://www.google.com/recaptcha/api.js?render={{ config('services.recaptcha.site_key') }}"></script>
+    @endpush
 
 </x-auth-layout>

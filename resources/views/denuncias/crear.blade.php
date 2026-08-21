@@ -192,14 +192,14 @@
                         <!--begin::Content-->
                         <div class="d-flex flex-center flex-column flex-column-fluid">
                             @if ($tipo_denuncia == 2)
-                            <h1 class="stepper-title fs-1">
-                                Denuncias 
-                                <span style="color: #ff8d3a">
-                                    Buzón Naranja
-                                </span>
-                                - Mujer
-                                
-                            </h1>
+                                <h1 class="stepper-title fs-1">
+                                    Denuncias
+                                    <span style="color: #ff8d3a">
+                                        Buzón Naranja
+                                    </span>
+                                    - Mujer
+
+                                </h1>
                             @endif
                             <!--begin::Wrapper-->
                             <div class="w-lg-750px w-xl-900px p-10 p-lg-15 mx-auto">
@@ -1008,6 +1008,8 @@
                                     </div>
                                     <!--end::Step 5-->
 
+                                    <input type="hidden" name="recaptcha_token" id="recaptcha_token">
+
                                     <!--begin::Actions-->
                                     <div class="d-flex flex-stack pt-15">
                                         <div class="mr-2">
@@ -1561,8 +1563,9 @@
                     const form = document.querySelector('form');
                     if (form) {
                         form.addEventListener('submit', function(e) {
+                            e.preventDefault();
+
                             if (!validatePasswordMatch()) {
-                                e.preventDefault();
                                 Swal.fire({
                                     icon: 'error',
                                     title: 'Contraseñas no coinciden',
@@ -1570,7 +1573,38 @@
                                     confirmButtonText: 'Entendido',
                                     confirmButtonColor: '#3699FF'
                                 });
+                                return;
                             }
+
+                            // Si las contraseñas coinciden, generamos el token de reCAPTCHA
+                            const submitButton = form.querySelector('button[type="submit"]');
+                            if (submitButton) {
+                                submitButton.setAttribute('data-kt-indicator', 'on')
+                                submitButton.disabled = true;
+                            }
+
+                            grecaptcha.ready(function() {
+                                grecaptcha.execute('{{ config('services.recaptcha.site_key') }}', {
+                                        action: 'crearDenuncia'
+                                    })
+                                    .then(function(token) {
+                                        document.getElementById('recaptcha_token').value = token;
+                                        form.submit();
+                                    }).catch(function(error) {
+                                        if (submitButton) {
+                                            submitButton.removeAttribute('data-kt-indicator');
+                                            submitButton.disabled = false;
+                                        }
+
+                                        Swal.fire({
+                                            icon: 'error',
+                                            title: 'Error de verificación',
+                                            text: 'No se pudo completar la verificación de seguridad. Intenta nuevamente.',
+                                            confirmButtonColor: '#F64E60'
+                                        });
+                                    });
+                            });
+
                         });
                     }
                 });
@@ -1618,5 +1652,9 @@
                     btn.disabled = !this.checked;
                 });
             </script>
+
+            @push('scripts')
+                <script src="https://www.google.com/recaptcha/api.js?render={{ config('services.recaptcha.site_key') }}"></script>
+            @endpush
         @endsection
 </x-auth-layout>

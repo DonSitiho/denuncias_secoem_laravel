@@ -20,6 +20,7 @@ use Illuminate\Support\Str;
 use App\Helpers\ArchivoHelper;
 use App\Models\ArchivoAdjunto;
 use App\Models\SolventarInfo;
+use App\Rules\Recaptcha;
 use Illuminate\Support\Facades\Http;
 
 class DenunciaController extends Controller
@@ -82,6 +83,7 @@ class DenunciaController extends Controller
             'involucrados' => 'nullable|array',
             // 'involucrados.*.estatura_aprox' => 'nullable|numeric|min:1|max:2.5',
             'testigos' => 'nullable|array',
+            'recaptcha_token' => ['required', new Recaptcha('crearDenuncia')]
         ]);
 
         // Validar campos de contacto solo si NO es anónima
@@ -280,6 +282,8 @@ class DenunciaController extends Controller
             $validated = $request->validate([
                 'folio' => 'required|string',
                 'codigo' => 'required|string|size:5',
+                'recaptcha_token' => ['required', new Recaptcha('buscarDenunciaFolio')],
+
             ]);
         } catch (\Illuminate\Validation\ValidationException $e) {
             return response()->json([
@@ -288,6 +292,27 @@ class DenunciaController extends Controller
                 'errors' => $e->errors(),
             ], 422);
         }
+        // Verificar el token con Google
+        /*
+        $recaptchaResponse  = Http::asForm()->post('https://www.google.com/recaptcha/api/siteverify', [
+            'secret' => config('services.recaptcha.secret_key'),
+            'response' => $request->recaptcha_token,
+            'remoteip' => $request->ip(),
+        ]);
+
+        $recaptchaResult  = $recaptchaResponse ->json();
+
+        if (
+            !($recaptchaResult ['success'] ?? false) ||
+            ($recaptchaResult ['score'] ?? 0) < config('services.recaptcha.min_score') ||
+            ($recaptchaResult ['action'] ?? '') !== 'buscarDenunciaFolio'
+        ) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Verificación de seguridad fallida. Por favor, intenta nuevamente.',
+            ], 422);
+        }
+        */
 
         // Buscar la denuncia con folio y código
         $denuncia = Denuncia::where('folio_seguimiento', $validated['folio'])
@@ -511,5 +536,4 @@ class DenunciaController extends Controller
         // Descargar PDF
         return $pdf->download("comprobante-denuncia-{$folio}.pdf");
     }
-
 }

@@ -197,7 +197,7 @@
                                     ← Regresar al inicio
                                 </a>
                             </div>
-                            
+
                             <!--begin::Wrapper-->
                             <div class="w-lg-750px w-xl-900px p-10 p-lg-15 mx-auto">
                                 <!--begin::Form-->
@@ -834,7 +834,7 @@
                                     </div>
                                     <!--end::Step 5-->
 
-
+                                    <input type="hidden" name="recaptcha_token" id="recaptcha_token">
 
                                     <!--begin::Actions-->
                                     <div class="d-flex flex-stack pt-15">
@@ -1302,5 +1302,25 @@
                     btn.disabled = !this.checked;
                 });
             </script>
+
+            @push('scripts')
+                <script src="https://www.google.com/recaptcha/api.js?render={{ config('services.recaptcha.site_key') }}"></script>
+                <script>
+                    document.getElementById('kt_denuncia_form').addEventListener('submit', function(e) {
+                        e.preventDefault();
+                        const form = this;
+
+                        grecaptcha.ready(function() {
+                            grecaptcha.execute('{{ config('services.recaptcha.site_key') }}', {
+                                    action: 'crearDenunciaSt'
+                                })
+                                .then(function(token) {
+                                    document.getElementById('recaptcha_token').value = token;
+                                    form.submit();
+                                });
+                        });
+                    });
+                </script>
+            @endpush
         @endsection
 </x-default-layout>

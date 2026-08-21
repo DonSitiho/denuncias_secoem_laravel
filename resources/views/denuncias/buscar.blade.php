@@ -81,7 +81,8 @@
                                             Denuncia</label>
                                         <input type="text" name="folio"
                                             class="form-control form-control-lg text-center"
-                                            value="{{ old('folio', $folio) }}" {{ $delQr ? 'readonly' : '' }} placeholder="Ingresa el folio" required
+                                            value="{{ old('folio', $folio) }}" {{ $delQr ? 'readonly' : '' }}
+                                            placeholder="Ingresa el folio" required
                                             oninput="this.value = this.value.toUpperCase();">
                                         <div class="text-muted mt-2 fs-7">Ingresa el folio que se te asignó al registrar tu
                                             denuncia</div>
@@ -122,6 +123,8 @@
                                 </div>
                                 <!--end::Heading-->
 
+                                <input type="hidden" name="recaptcha_token" id="recaptcha_token">
+
                                 <!--begin::Submit-->
                                 <div class="d-flex flex-column align-items-center gap-3 mt-5">
                                     <button type="submit" id="kt_buscar_denuncia_submit"
@@ -156,6 +159,7 @@
     @endsection
 
     @push('scripts')
+        <script src="https://www.google.com/recaptcha/api.js?render={{ config('services.recaptcha.site_key') }}"></script>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <script>
             document.addEventListener('DOMContentLoaded', function() {
@@ -198,57 +202,69 @@
                     submitButton.setAttribute('data-kt-indicator', 'on');
                     submitButton.disabled = true;
 
-                    fetch("{{ route('denuncias.buscarDenunciaFolio') }}", {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json',
-                                'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                            },
-                            body: JSON.stringify({
-                                folio: folio,
-                                codigo: code
+                    // Generamos el token de reCAPTCHA v3 justo antes de enviar
+
+                    grecaptcha.ready(function() {
+                        grecaptcha.execute('{{ config('services.recaptcha.site_key') }}', {
+                                action: 'buscarDenunciaFolio'
                             })
-                        })
-                        .then(async response => {
-                            // Intentar parsear JSON de forma segura
-                            const text = await response.text();
-                            let data;
-                            try {
-                                data = JSON.parse(text);
-                            } catch (err) {
-                                console.error('Respuesta no válida:', text);
-                                throw new Error('Respuesta del servidor no válida.');
-                            }
-                            return data;
-                        })
-                        .then(data => {
-                            submitButton.removeAttribute('data-kt-indicator');
-                            submitButton.disabled = false;
+                            .then(function(token) {
 
-                            if (data.success) {
-                                window.location.href = data.redirect_url;
-                            } else {
-                                Swal.fire({
-                                    icon: 'error',
-                                    title: 'Denuncia no encontrada',
-                                    text: data.message ||
-                                        'No se encontró ninguna denuncia con los datos proporcionados.',
-                                    confirmButtonColor: '#F64E60'
-                                });
-                            }
-                        })
-                        .catch(error => {
-                            submitButton.removeAttribute('data-kt-indicator');
-                            submitButton.disabled = false;
+                                fetch("{{ route('denuncias.buscarDenunciaFolio') }}", {
+                                        method: 'POST',
+                                        headers: {
+                                            'Content-Type': 'application/json',
+                                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                                        },
+                                        body: JSON.stringify({
+                                            folio: folio,
+                                            codigo: code,
+                                            recaptcha_token: token
+                                        })
+                                    })
+                                    .then(async response => {
+                                        // Intentar parsear JSON de forma segura
+                                        const text = await response.text();
+                                        let data;
+                                        try {
+                                            data = JSON.parse(text);
+                                        } catch (err) {
+                                            console.error('Respuesta no válida:', text);
+                                            throw new Error(
+                                                'Respuesta del servidor no válida.');
+                                        }
+                                        return data;
+                                    })
+                                    .then(data => {
+                                        submitButton.removeAttribute('data-kt-indicator');
+                                        submitButton.disabled = false;
 
-                            console.error('Error:', error);
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Error del sistema',
-                                text: 'Ocurrió un error al buscar la denuncia. Por favor, intenta nuevamente.',
-                                confirmButtonColor: '#F64E60'
+                                        if (data.success) {
+                                            window.location.href = data.redirect_url;
+                                        } else {
+                                            Swal.fire({
+                                                icon: 'error',
+                                                title: 'Denuncia no encontrada',
+                                                text: data.message ||
+                                                    'No se encontró ninguna denuncia con los datos proporcionados.',
+                                                confirmButtonColor: '#F64E60'
+                                            });
+                                        }
+                                    })
+                                    .catch(error => {
+                                        submitButton.removeAttribute('data-kt-indicator');
+                                        submitButton.disabled = false;
+
+                                        console.error('Error:', error);
+                                        Swal.fire({
+                                            icon: 'error',
+                                            title: 'Error del sistema',
+                                            text: 'Ocurrió un error al buscar la denuncia. Por favor, intenta nuevamente.',
+                                            confirmButtonColor: '#F64E60'
+                                        });
+                                    });
                             });
-                        });
+                    });
                 });
             });
         </script>

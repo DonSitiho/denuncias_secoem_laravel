@@ -11,6 +11,7 @@ use App\Models\Denuncia;
 use App\Models\DenunciaCircunstancia;
 use App\Models\DenunciaInvolucrado;
 use App\Models\DenunciaTestigo;
+use App\Rules\Recaptcha;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
@@ -64,6 +65,7 @@ class STDenunciasController extends Controller
             'involucrados' => 'nullable|array',
             // 'involucrados.*.estatura_aprox' => 'nullable|numeric|min:1|max:2.5',
             'testigos' => 'nullable|array',
+            'recaptcha_token' => ['required', new Recaptcha('crearDenunciaSt')]
         ]);
 
         // Validar campos de contacto solo si NO es anónima
