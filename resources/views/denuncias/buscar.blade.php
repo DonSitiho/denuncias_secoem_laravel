@@ -229,7 +229,7 @@
                                         try {
                                             data = JSON.parse(text);
                                         } catch (err) {
-                                            console.error('Respuesta no válida:', text);
+                                            
                                             throw new Error(
                                                 'Respuesta del servidor no válida.');
                                         }
@@ -255,7 +255,6 @@
                                         submitButton.removeAttribute('data-kt-indicator');
                                         submitButton.disabled = false;
 
-                                        console.error('Error:', error);
                                         Swal.fire({
                                             icon: 'error',
                                             title: 'Error del sistema',
