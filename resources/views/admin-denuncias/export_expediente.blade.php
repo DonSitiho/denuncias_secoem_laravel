@@ -83,6 +83,9 @@
                         <strong>Recepción:</strong> {{ $denuncia->fecha_recepcion->format('d/m/Y H:i') }} |
                         <strong>Estado:</strong> {{ $denuncia->estado->nombre ?? 'N/D' }}
                     </p>
+                    @if (!empty($hash))
+                        <p><strong></strong> {{ $hash }}</p>
+                    @endif
                 </td>
             </tr>
         </table>
@@ -92,6 +95,9 @@
     {{-- ========================================================================= --}}
     <div class="section-title">DETALLES DE CIRCUNSTANCIAS Y MOTIVO</div>
     <div class="details-box">
+        @if($hash)
+        <p style="font-size: 11px; color: #f9f9f9; text-align: right; margin-bottom: 6px;">{{ $hash }}</p>
+        @endif
         <p class="data-row"><strong>Fecha de Hechos:</strong>
             {{ $denuncia->circunstancia->fecha_hechos->format('d/m/Y') ?? 'N/A' }}
             ({{ $denuncia->circunstancia->hora_hechos ?? 'Sin hora' }})</p>

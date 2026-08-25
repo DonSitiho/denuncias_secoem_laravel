@@ -17,6 +17,7 @@
 		"laravel/socialite": "^5.6",
 		"laravel/tinker": "^2.7",
 		"livewire/livewire": "^3.0",
+		"setasign/fpdi-tcpdf": "^2.3",
 		"simplesoftwareio/simple-qrcode": "^4.2",
 		"spatie/laravel-permission": "^6.7",
 		"yajra/laravel-datatables": "^11.0"

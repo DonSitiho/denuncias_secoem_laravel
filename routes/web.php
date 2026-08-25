@@ -220,7 +220,9 @@ Route::middleware(['auth'])->prefix('oic')->name('oic.')->group(function () {
 // Grupo de rutas para el Administrador de Denuncias
 Route::middleware(['auth'])->prefix('admin/denuncias')->name('admin.denuncias.')->group(function () {
 
-    Route::get('/interquejas', [InterquejasController::class, 'index'])->name('interquejas');
+    Route::get('/interquejas', [InterquejasController::class, 'index'])
+        ->name('interquejas')
+        ->middleware('can:admin-denuncia-ver');
 
     // 1. Dashboard de Recepción (Listado)
     Route::get('/', [AdminDenunciasController::class, 'index'])
@@ -249,7 +251,9 @@ Route::middleware(['auth'])->prefix('admin/denuncias')->name('admin.denuncias.')
 
     // 1. Dashboard de Recepción (Listado)
 
-    Route::get('/interqueja/{id_denuncia}', [InterquejasController::class, 'show'])->name('interqueja');
+    Route::get('/interqueja/{id_denuncia}', [InterquejasController::class, 'show'])
+        ->name('interqueja')
+        ->middleware('can:admin-denuncia-ver');
 
 });
 
@@ -261,11 +265,16 @@ Route::middleware(['auth'])->prefix('buzon-naranja/denuncias')->name('buzon-nara
 
     //Route::get('/interquejas', [InterquejasController::class, 'getAllInterquejas'])->name('interquejas'); 
 
-    Route::get('/', [BuzonNaranjaDenunciasController::class, 'getDenunciasNuevas'])->name('index')->middleware('can:bn-denuncia-ver');
+    Route::get('/', [BuzonNaranjaDenunciasController::class, 'getDenunciasNuevas'])
+        ->name('index')
+        ->middleware('can:bn-denuncia-ver');
 
 
-    Route::get('/historial', [BuzonNaranjaDenunciasController::class, 'getDenunciasHistorial'])->name('historial')->middleware('can:bn-denuncia-ver');
-    Route::get('/denuncia-historial/{id_denuncia}', [BuzonNaranjaDenunciasController::class, 'verDetallesDenunciaHistorial'])->name('ver-denuncia-historial')->middleware('can:bn-denuncia-detalles');
+    Route::get('/historial', [BuzonNaranjaDenunciasController::class, 'getDenunciasHistorial'])
+        ->name('historial')
+        ->middleware('can:bn-denuncia-ver');
+    
+        Route::get('/denuncia-historial/{id_denuncia}', [BuzonNaranjaDenunciasController::class, 'verDetallesDenunciaHistorial'])->name('ver-denuncia-historial')->middleware('can:bn-denuncia-detalles');
 
     Route::get('/{id_denuncia}', [BuzonNaranjaDenunciasController::class, 'verDetallesDenuncias'])->name('show')->middleware('can:bn-denuncia-detalles');
     Route::post('/{id_denuncia}/turnar', [BuzonNaranjaDenunciasController::class, 'turnarDenuncia'])->name('turnar')->middleware('can:bn-denuncia-turnar');
