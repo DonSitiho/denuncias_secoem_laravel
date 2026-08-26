@@ -44,6 +44,7 @@ class UsersSeeder extends Seeder
         //$denunciasUser->assignRole('Admin Denuncias ST');
         
         // 3. Usuario UAOIC
+        /*
         $uaoicUser = User::create([
             'name'              => 'Usuario UAOIC',
             'email'             => 'uaoic' . $domain,
@@ -51,6 +52,7 @@ class UsersSeeder extends Seeder
             'email_verified_at' => now(),
             'id_area'           => 2, // Asume la existencia de un área con ID 3
         ]);
+        */
         //$oicUser->assignRole('Usuario UAOIC');
         
         // 4. Usuarios OIC

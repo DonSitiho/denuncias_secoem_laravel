@@ -24,7 +24,8 @@ class RolesPermissionsSeeder extends Seeder
             'oic-denuncia-turnar',
             'oic-denuncia-solventar-info',
             'oic-denuncia-crear',
-            'oic-denuncia-tramite', 
+            'oic-denuncia-tramite',
+            'oic-denuncia-etiquetar',
             
             // PERMISOS ADMIN GENERAL (Gestión de Catálogos/Usuarios Internos)
             'admin-areas-crud',
@@ -46,16 +47,20 @@ class RolesPermissionsSeeder extends Seeder
             'system-areas-usuarios',
             
             // PERMISOS UAOIC (Operacion y Asignacion a OICS)
+            /*
             'uaoic-denuncia-ver',
             'uaoic-denuncia-turnar',
             'uaoic-denuncia-descargar',
             'uaoic-denuncia-detalles',
-
+            */
             // PERMISOS BUZON NARANJA (Operacion y Asignacion)
             'bn-denuncia-ver',
             'bn-denuncia-turnar',
             'bn-denuncia-descargar',
             'bn-denuncia-detalles',
+
+            'st-denuncia-capturar',
+            'st-denuncia-folio',
             
         ];
 
@@ -82,17 +87,19 @@ class RolesPermissionsSeeder extends Seeder
                 'bn-denuncia-ver',
                 'bn-denuncia-turnar',
                 'bn-denuncia-detalles',
+                'st-denuncia-capturar',
+                'st-denuncia-folio',
             ],
             
+            /*
             'Usuario UAOIC' => [
                 'uaoic-denuncia-ver',
                 'uaoic-denuncia-turnar',
                 'uaoic-denuncia-descargar',
                 'uaoic-denuncia-detalles',
                 'system-areas-usuarios',
-
             ],
-
+            */
             'Usuario OIC' => [
                 'oic-denuncia-ver',
                 'oic-denuncia-detalles',
@@ -100,6 +107,7 @@ class RolesPermissionsSeeder extends Seeder
                 'oic-denuncia-turnar',
                 'oic-denuncia-solventar-info',
                 'oic-denuncia-tramite',
+                'oic-denuncia-etiquetar',
                 'system-areas-usuarios',
             ],
 
@@ -115,6 +123,9 @@ class RolesPermissionsSeeder extends Seeder
                 'oic-denuncia-ver',
                 'oic-denuncia-detalles',
                 'oic-denuncia-crear',
+                'oic-denuncia-descargar',
+                'oic-denuncia-solventar-info',
+                'oic-denuncia-tramite',
             ],
 
             
@@ -139,11 +150,11 @@ class RolesPermissionsSeeder extends Seeder
         // NOTA: Si ya lo hiciste en UsersSeeder.php, puedes borrar esta sección
         User::find(1)?->assignRole('Administrador');
         User::find(2)?->assignRole('Admin Denuncias ST');
-        User::find(3)?->assignRole('Usuario UAOIC');
+        //User::find(3)?->assignRole('Usuario UAOIC');
+        User::find(3)?->assignRole('Usuario OIC');
         User::find(4)?->assignRole('Usuario OIC');
-        User::find(5)?->assignRole('Usuario OIC');
-        User::find(6)?->assignRole('Usuario BN');
-        User::find(7)?->assignRole('Capturista');
+        User::find(5)?->assignRole('Usuario BN');
+        User::find(6)?->assignRole('Capturista');
 
         // ... y así sucesivamente para el resto de los usuarios de prueba.
     }

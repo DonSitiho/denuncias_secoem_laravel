@@ -39,6 +39,7 @@ class Denuncia extends Model
         'id_denunciante',
         'tipo_denuncia',
         'tipo_denunciante',
+        'etiquetas',
     ];
 
     protected $casts = [
@@ -47,7 +48,8 @@ class Denuncia extends Model
         'dinero_solicitado' => 'decimal:2',
         'fecha_cierre' => 'datetime',
         'tipo_denuncia' => 'integer',
-        'tipo_denunciante' => 'integer'
+        'tipo_denunciante' => 'integer',
+        'etiquetas' => 'array'
     ];
 
     // Relación 1:1 con los metadatos de seguimiento (doc_denuncias)

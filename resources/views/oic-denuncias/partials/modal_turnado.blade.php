@@ -1,6 +1,7 @@
 {{-- 
     MODAL DE TURNO DE DENUNCIA OIC
 --}}
+
 <div class="modal fade" tabindex="-1" id="modal_turno">
     <div class="modal-dialog">
         <div class="modal-content">

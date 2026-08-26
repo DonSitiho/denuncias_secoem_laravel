@@ -58,7 +58,7 @@
                     @can('oic-denuncia-turnar')
                         {{-- El modal debe estar incluido como partial --}}
                         @include('oic-denuncias.partials.modal_turnado', ['denuncia' => $denuncia])
-                        <button type="button" class="btn btn-sm btn-light-success" data-bs-toggle="modal"
+                        <button type="button" class="btn btn-sm btn-light-success m-2" data-bs-toggle="modal"
                             data-bs-target="#modal_turno">
                             <i class="fas fa-arrow-right-rotate me-1"></i>Turnar
                         </button>
@@ -74,9 +74,19 @@
                     @can('oic-denuncia-solventar-info')
                         {{-- El modal debe estar incluido como partial --}}
                         @include('oic-denuncias.partials.modal_solicitar_info', ['denuncia' => $denuncia])
-                        <button type="button" class="btn btn-sm btn-light-primary" data-bs-toggle="modal"
+                        <button type="button" class="btn btn-sm btn-light-primary me-2" data-bs-toggle="modal"
                             data-bs-target="#modal_solicitar_info">
                             <i class="fas fa-plus me-1"></i> Solventar Info
+                        </button>
+                    @endcan
+                @endif
+
+                @if ($denuncia->id_estado == 2 || $denuncia->id_estado == 3)
+                    @can('oic-denuncia-etiquetar')
+                        @include('oic-denuncias.partials.modal_agregar_etiqueta', ['denuncia' => $denuncia])
+                        <button type="button" class="btn btn-sm btn-light-primary" data-bs-toggle="modal"
+                            data-bs-target="#modal_etiquetas">
+                            <i class="fas fa-bookmark me-1"></i> Etiquetar
                         </button>
                     @endcan
                 @endif

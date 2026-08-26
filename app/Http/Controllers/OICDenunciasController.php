@@ -81,6 +81,12 @@ class OICDenunciasController extends Controller
 
         $tipoCampos = SolventarInfo::TIPOCAMPO;
 
+        $tipoEtiquetas = [
+            1 => 'Peculado',
+            2 => 'Acoso',
+            3 => 'Abuso Funciones',
+        ];
+
         /**
          * Muestra la vista detallada de una denuncia específica para su revisión administrativa.
          * Carga las relaciones directas que contienen la información de captura del ciudadano.
@@ -88,9 +94,9 @@ class OICDenunciasController extends Controller
          */
 
         if ($denuncia->tipo_denuncia == 1) {
-            return view('oic-denuncias.detalles-denuncia', compact('denuncia', 'tipoCampos', 'areaResponsable', 'usuariosOIC'));
+            return view('oic-denuncias.detalles-denuncia', compact('denuncia', 'tipoCampos', 'areaResponsable', 'usuariosOIC', 'tipoEtiquetas'));
         } else if ($denuncia->tipo_denuncia == 2) {
-            return view('oic-denuncias.buzon-naranja.detalles', compact('denuncia', 'tipoCampos', 'areaResponsable', 'usuariosOIC'));
+            return view('oic-denuncias.buzon-naranja.detalles', compact('denuncia', 'tipoCampos', 'areaResponsable', 'usuariosOIC', 'tipoEtiquetas'));
         }
     }
 
@@ -128,7 +134,6 @@ class OICDenunciasController extends Controller
 
             DB::commit();
 
-            //return redirect()->route('buzon-naranja.denuncias.show', $id_denuncia)->with('success', 'Denuncia turnada exitosamente al área responsable.');
             return redirect()->route('oic.ver-denuncia', $id_denuncia)->with('success', 'Denuncia turnada exitosamente al OIC responsable.');
         } catch (\Exception $e) {
             DB::rollBack();
@@ -213,6 +218,31 @@ class OICDenunciasController extends Controller
             DB::rollBack();
             Log::error("Error al solicitar mas informacion de la denuncia: " . $e->getMessage());
             return redirect()->back()->with('error', 'Ocurrió un error al solicitar información adicional. Inténtelo nuevamente.');
+        }
+    }
+
+    public function etiquetarDenuncia(Request $request, $id_denuncia)
+    {
+
+        $request->validate([
+            'etiquetas' => 'required|array',
+            'etiquetas.*' => 'string',
+        ]);
+
+        try {
+            DB::beginTransaction();
+            $denuncia = Denuncia::findOrFail($id_denuncia);
+            
+            $denuncia->etiquetas = $request->etiquetas;
+
+            $denuncia->save();
+            DB::commit();
+
+            return redirect()->route('oic.ver-denuncia', $id_denuncia)->with('success', 'Denuncia etiquetada exitosamente.');
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return redirect()->back()->with('error', 'Fallo al realizar el etiquetado. Intente de nuevo.');
         }
     }
 

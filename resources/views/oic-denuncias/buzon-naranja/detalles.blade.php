@@ -78,9 +78,21 @@
                             @include('oic-denuncias.partials.modal_solicitar_info', [
                                 'denuncia' => $denuncia,
                             ])
-                            <button type="button" class="btn btn-sm btn-light-primary" data-bs-toggle="modal"
+                            <button type="button" class="btn btn-sm btn-light-primary me-2" data-bs-toggle="modal"
                                 data-bs-target="#modal_solicitar_info">
                                 <i class="fas fa-plus me-1"></i> Solventar Info
+                            </button>
+                        @endcan
+                    @endif
+
+                    @if ($denuncia->id_estado == 2 || $denuncia->id_estado == 3)
+                        @can('oic-denuncia-etiquetar')
+                            @include('oic-denuncias.partials.modal_agregar_etiqueta', [
+                                'denuncia' => $denuncia,
+                            ])
+                            <button type="button" class="btn btn-sm btn-light-primary" data-bs-toggle="modal"
+                                data-bs-target="#modal_etiquetas">
+                                <i class="fas fa-bookmark me-1"></i> Etiquetar
                             </button>
                         @endcan
                     @endif
@@ -313,90 +325,98 @@
                     {{-- ========================================================================= --}}
                     <div class="tab-pane fade" id="tab_solventar_info" role="tabpanel">
                         <div class="row g-5">
-                            {{-- Columna 1: Informacion Solicitada por el Responsable--}}
+                            {{-- Columna 1: Informacion Solicitada por el Responsable --}}
                             @foreach ($denuncia->solventarInfo as $info)
-                            <div class="col-md-6">
-                                <div class="card card-dashed shadow-sm">
-                                    @if(!$info->info_solicitada == null)
-                                    <div class="card-header bg-outline bg-light-success">
-                                    @else
-                                    <div class="card-header bg-light-warning">
-                                    @endif
+                                <div class="col-md-6">
+                                    <div class="card card-dashed shadow-sm">
+                                        @if (!$info->info_solicitada == null)
+                                            <div class="card-header bg-outline bg-light-success">
+                                            @else
+                                                <div class="card-header bg-light-warning">
+                                        @endif
                                         <h4 class="card-title">{{ __('Informacion Solicitada Responsable') }}</h4>
                                         {{-- Switch Livewire para activar o desactivar unas solventacion --}}
                                         @livewire('oic-denuncias.solventar-info-status-switch', ['infoId' => $info->id, 'activa' => $info->is_active], key('solventar-' . $info->id))
                                     </div>
                                     <div class="card-body">
                                         <div class="fs-6 py-2">
-                                            <strong>{{ __('Fecha de Solicitud:') }}</strong> 
-                                            <span class="ms-2">{{ $info->fecha_solicitud_info->format('d/m/Y') ?? 'N/A' }} 
-                                                <small class="text-muted">({{ $info->fecha_solicitud_info->format('H:i') ?? 'Sin hora' }})</small>
+                                            <strong>{{ __('Fecha de Solicitud:') }}</strong>
+                                            <span
+                                                class="ms-2">{{ $info->fecha_solicitud_info->format('d/m/Y') ?? 'N/A' }}
+                                                <small
+                                                    class="text-muted">({{ $info->fecha_solicitud_info->format('H:i') ?? 'Sin hora' }})</small>
                                             </span>
                                         </div>
                                         <div class="fs-6 py-2">
                                             <strong>{{ __('Observacion:') }}</strong>
-                                            <span class="ms-2">{{ $info->observacion_responsable
-                                                ?? 'No Especificado' }}</span>
+                                            <span
+                                                class="ms-2">{{ $info->observacion_responsable ?? 'No Especificado' }}</span>
                                         </div>
                                         <div class="fs-6 py-2">
                                             <strong>{{ __('Tipo de Campo:') }}</strong>
                                             <span class="ms-2">{{ $info->tipo_campo ?? 'N/A' }}</span>
                                         </div>
                                     </div>
-                                    
-                                </div>
-                            </div>
 
-                            {{-- Columna 1: Informacion anexada por el Denunciante --}}
-                            <div class="col-md-6">
-                                <div class="card card-dashed shadow-sm">
-                                    @if(!$info->info_solicitada == null)
+                                </div>
+                        </div>
+
+                        {{-- Columna 1: Informacion anexada por el Denunciante --}}
+                        <div class="col-md-6">
+                            <div class="card card-dashed shadow-sm">
+                                @if (!$info->info_solicitada == null)
                                     <div class="card-header bg-light-success">
                                     @else
-                                    <div class="card-header bg-light-danger">
-                                    @endif
-                                        <h4 class="card-title">{{ __('Informacion Anexada Denunciante') }}</h4>
-                                    </div>
-                                    <div class="card-body">
-                                        @if(!$info->is_active == 1)
-                                        <div class="fs-6 py-2">
-                                            <strong>{{ __('Solventacion de informacion ha sido desactivada') }}</strong>
-                                        </div>
-                                        @else
-                                        <div class="fs-6 py-2">
-                                            <strong>{{ __('Informacion Solicitada:') }}</strong>
-                                            @if($info->tipo_campo === 'archivo')
-                                                <br>
-                                                <div class="d-flex align-items-center bg-light-info rounded p-5 mb-3">
-                                                    <span class="svg-icon svg-icon-2hx svg-icon-info me-5">
-                                                        <i class="fas fa-file-{{ $info->info_solicitada->categoria == 'imagen' ? 'image' : ($info->info_solicitada->categoria == 'documento' ? 'alt' : 'video') }} fs-1 text-info"></i>
-                                                    </span>
-                                                    <div class="flex-grow-1">
-                                                        <a href="#" class="fw-bold text-gray-800 text-hover-primary fs-6">{{$info->info_solicitada->nombre }}</a>
-                                                        <span class="text-muted fw-semibold d-block">Tipo: {{ strtoupper($info->info_solicitada->categoria)}}</span>
-                                                    </div>
-                                                </div>
-                                            @else
-                                            <span class="ms-2">{{ $info->info_solicitada ?? 'No Especificado' }}</span>
-                                            @endif
-                                        </div>
-                                        <div class="fs-6 py-2">
-                                            <strong>{{ __('Fecha de Respuesta:') }}</strong>
-                                            <span class="ms-2">{{ $info->fecha_respuesta_info?->format('d/m/Y') ?? 'N/A' }}
-                                                <small class="text-muted">({{ $info->fecha_respuesta_info?->format('H:i') ?? 'Sin hora' }})</small>
-                                            </span>
-                                        </div>
-                                        @endif
-                                        
-                                    </div>
-                                </div>
+                                        <div class="card-header bg-light-danger">
+                                @endif
+                                <h4 class="card-title">{{ __('Informacion Anexada Denunciante') }}</h4>
                             </div>
-                            @endforeach
+                            <div class="card-body">
+                                @if (!$info->is_active == 1)
+                                    <div class="fs-6 py-2">
+                                        <strong>{{ __('Solventacion de informacion ha sido desactivada') }}</strong>
+                                    </div>
+                                @else
+                                    <div class="fs-6 py-2">
+                                        <strong>{{ __('Informacion Solicitada:') }}</strong>
+                                        @if ($info->tipo_campo === 'archivo')
+                                            <br>
+                                            <div class="d-flex align-items-center bg-light-info rounded p-5 mb-3">
+                                                <span class="svg-icon svg-icon-2hx svg-icon-info me-5">
+                                                    <i
+                                                        class="fas fa-file-{{ $info->info_solicitada->categoria == 'imagen' ? 'image' : ($info->info_solicitada->categoria == 'documento' ? 'alt' : 'video') }} fs-1 text-info"></i>
+                                                </span>
+                                                <div class="flex-grow-1">
+                                                    <a href="#"
+                                                        class="fw-bold text-gray-800 text-hover-primary fs-6">{{ $info->info_solicitada->nombre }}</a>
+                                                    <span class="text-muted fw-semibold d-block">Tipo:
+                                                        {{ strtoupper($info->info_solicitada->categoria) }}</span>
+                                                </div>
+                                            </div>
+                                        @else
+                                            <span
+                                                class="ms-2">{{ $info->info_solicitada ?? 'No Especificado' }}</span>
+                                        @endif
+                                    </div>
+                                    <div class="fs-6 py-2">
+                                        <strong>{{ __('Fecha de Respuesta:') }}</strong>
+                                        <span
+                                            class="ms-2">{{ $info->fecha_respuesta_info?->format('d/m/Y') ?? 'N/A' }}
+                                            <small
+                                                class="text-muted">({{ $info->fecha_respuesta_info?->format('H:i') ?? 'Sin hora' }})</small>
+                                        </span>
+                                    </div>
+                                @endif
+
+                            </div>
                         </div>
                     </div>
+                    @endforeach
                 </div>
             </div>
         </div>
+    </div>
+    </div>
     </div>
 
     @push('scripts')

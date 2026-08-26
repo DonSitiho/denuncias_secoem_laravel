@@ -106,6 +106,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 });
 
 // Grupo de rutas para el Usuario OIC
+/*
 Route::middleware(['auth'])->prefix('uaoic')->name('uaoic.')->group(function () {
 
     //Ruta del Dashboard UAOIC de Denuncias
@@ -148,7 +149,7 @@ Route::middleware(['auth'])->prefix('uaoic')->name('uaoic.')->group(function () 
         ->middleware('can:uaoic-denuncia-descargar');
 
 });
-
+*/
 
 Route::middleware(['auth'])->prefix('secretaria-tecnica')->name('st.')->group(function () {
 
@@ -204,6 +205,9 @@ Route::middleware(['auth'])->prefix('oic')->name('oic.')->group(function () {
     Route::post('/{id_denuncia}/solicitar-informacion', [OICDenunciasController::class, 'solvetarInformacionDenuncia'])
         ->name('solicitar-informacion')
         ->middleware('can:oic-denuncia-solventar-info');
+    
+    Route::post('/{id_denuncia}/etiquetar', [OICDenunciasController:: class, 'etiquetarDenuncia'])
+        ->name('etiquetar');
 
     Route::get('/{id_denuncia}/exportar', [ExportController::class, 'exportarExpediente'])
         ->name('exportar.expediente')

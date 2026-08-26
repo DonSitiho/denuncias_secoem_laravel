@@ -25,6 +25,9 @@ class MisDenunciasTable extends Component
     public int $id_denuncia;
     public int $status;
 
+    public $mostrarModal = false;
+
+
 
     protected $denunciaRepository;
 
@@ -74,6 +77,12 @@ class MisDenunciasTable extends Component
         } catch (\Exception $e){
             $this->dispatch('danger', 'Ocurrió un error al enviar la denuncia a trámite');
         }
+    }
+
+    public function abrirModal($id){
+
+        $this->id_denuncia = $id;
+        $this->mostrarModal = true;
 
     }
 }
