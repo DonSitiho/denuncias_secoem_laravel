@@ -424,7 +424,7 @@
     </div>
 
 
-    @push('script')
+    @push('scripts')
         <script>
             // 1. Mapa de todos los usuarios OIC para la lógica inversa (Usuario -> Área)
             // Se usa keyBy('id') para que el acceso sea rápido por ID de usuario.
