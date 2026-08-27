@@ -112,6 +112,26 @@ class DenunciasRepository {
         return Denuncia::denunciasArea()->orderBy('folio_seguimiento', 'desc')->get();
     }
 
+    public function totalDenunciasAreaBn()
+    {
+        return Denuncia::denunciasByTipo(2)->count();
+    }
+
+    public function getDenunciasAreaBn()
+    {
+        return Denuncia::denunciasByTipo(2)->orderBy('folio_seguimiento')->get();
+    }
+
+    public function totalDenunciasRecibidasBn()
+    {    
+        return Denuncia::where('id_estado', 1)->denunciasByTipo(2)->count(); 
+    }
+
+    public function getDenunciasRecibidasBn()
+    {
+        return Denuncia::where('id_estado', 1)->denunciasByTipo(2)->orderBy('folio_seguimiento', 'desc')->get(); 
+    }
+
     public function totalDenunciasTurnadasResponsable(){
 
         return Denuncia::denunciasEstatus(2)->count();
@@ -155,7 +175,14 @@ class DenunciasRepository {
     public function getDenunciasAnonimas(){
 
         return Denuncia::denunciasAnonimas(1)->orderBy('folio_seguimiento', 'desc')->get();
+    }
 
+    public function totalDenunciasAnonimasBn(){
+        return Denuncia::where('es_anonima', 1)->denunciasByTipo(2)->count();
+    }
+
+    public function getDenunciasAnonimasBn(){
+        return Denuncia::where('es_anonima', 1)->denunciasByTipo(2)->orderBy('folio_seguimiento', 'desc')->get();
     }
 
     public function totalDenunciasNoAnonimas(){
@@ -166,7 +193,14 @@ class DenunciasRepository {
     public function getDenunciasNoAnonimas(){
 
         return Denuncia::denunciasAnonimas(0)->orderBy('folio_seguimiento', 'desc')->get();
+    }
 
+    public function totalDenunciasNoAnonimasBn(){
+        return Denuncia::where('es_anonima', 0)->denunciasByTipo(2)->count();
+    }
+
+    public function getDenunciasNoAnonimasBn(){
+        return Denuncia::where('es_anonima', 0)->denunciasByTipo(2)->orderBy('folio_seguimiento', 'desc')->get();
     }
 
     public function totalDenuncias(){
@@ -193,7 +227,7 @@ class DenunciasRepository {
             return $denuncia;
         } catch (\Exception $e){
             DB::rollBack();
-            Log::error("Error al cambiar el estatus de la denuncia: " . $e->getMessage());
+            //Log::error("Error al cambiar el estatus de la denuncia: " . $e->getMessage());
         }
     }
 }

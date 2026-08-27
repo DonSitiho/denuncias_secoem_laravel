@@ -5,7 +5,7 @@
         <!--begin::Title-->
         <h3 class="card-title align-items-start flex-column">
             <span class="card-label fw-bold text-gray-800">Denunicas</span>
-            <span class="text-gray-500 mt-1 fw-semibold fs-6">Total de denuncias por mes</span>
+            <span class="text-gray-500 mt-1 fw-semibold fs-6">Total de denuncias recibidas por mes</span>
         </h3>
         <!--end::Title-->
     </div>
@@ -99,7 +99,7 @@
     function loadChartData() {
         
         $.ajax({
-            url: '{{ route("uaoic.dashboard.data") }}',
+            url: '{{ route("buzon-naranja.denuncias.dashboard.data") }}',
             method: 'GET',
             dataType: 'json',
             success: function(data) {

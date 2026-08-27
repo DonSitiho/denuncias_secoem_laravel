@@ -89,7 +89,7 @@
                             <!--end::Col-->
 
                             <!--begin::Col-->
-                            <div class="col-6" data-bs-toggle="modal" data-bs-target="#kt_modal_view_denuncias_tramite">
+                            <div class="col-6" data-bs-toggle="modal" data-bs-target="#kt_modal_view_denuncias_recibidas">
                                 <!--begin::Items-->
                                 <div class="bg-gray-100 bg-opacity-70 rounded-2 px-6 py-5">
                                     <!--begin::Stats-->
@@ -98,14 +98,14 @@
                                         <span class="text-gray-700 fw-bolder d-block fs-2qx lh-1 ls-n1 mb-1">
                                             <font dir="auto" style="vertical-align: inherit;">
                                                 <font dir="auto" style="vertical-align: inherit;">{{
-                                                    $totalDenunciasEnTramite }}</font>
+                                                    $totalDenunciasRecibidas }}</font>
                                             </font>
                                         </span>
                                         <!--end::Number-->
                                         <!--begin::Desc-->
                                         <span class="text-gray-500 fw-semibold fs-6">
                                             <font dir="auto" style="vertical-align: inherit;">
-                                                <font dir="auto" style="vertical-align: inherit;">En tramite</font>
+                                                <font dir="auto" style="vertical-align: inherit;">Recibidas</font>
                                             </font>
                                         </span>
                                         <!--end::Desc-->
@@ -145,61 +145,6 @@
                             </div>
                             <!--end::Col-->
 
-                            <!--begin::Col-->
-                            <div class="col-6" data-bs-toggle="modal" data-bs-target="#kt_modal_view_denuncias_terminadas">
-                                <!--begin::Items-->
-                                <div class="bg-gray-100 bg-opacity-70 rounded-2 px-6 py-5">
-                                    <!--begin::Stats-->
-                                    <div class="m-0">
-                                        <!--begin::Number-->
-                                        <span class="text-gray-700 fw-bolder d-block fs-2qx lh-1 ls-n1 mb-1">
-                                            <font dir="auto" style="vertical-align: inherit;">
-                                                <font dir="auto" style="vertical-align: inherit;">{{
-                                                    $totalDTR }}</font>
-                                            </font>
-                                        </span>
-                                        <!--end::Number-->
-                                        <!--begin::Desc-->
-                                        <span class="text-gray-500 fw-semibold fs-6">
-                                            <font dir="auto" style="vertical-align: inherit;">
-                                                <font dir="auto" style="vertical-align: inherit;">Terminadas</font>
-                                            </font>
-                                        </span>
-                                        <!--end::Desc-->
-                                    </div>
-                                    <!--end::Stats-->
-                                </div>
-                                <!--end::Items-->
-                            </div>
-                            <!--end::Col-->
-
-                            <!--begin::Col-->
-                            <div class="col-6" data-bs-toggle="modal" data-bs-target="#kt_modal_view_denuncias">
-                                <!--begin::Items-->
-                                <div class="bg-gray-100 bg-opacity-70 rounded-2 px-6 py-5">
-                                    <!--begin::Stats-->
-                                    <div class="m-0">
-                                        <!--begin::Number-->
-                                        <span class="text-gray-700 fw-bolder d-block fs-2qx lh-1 ls-n1 mb-1">
-                                            <font dir="auto" style="vertical-align: inherit;">
-                                                <font dir="auto" style="vertical-align: inherit;">{{
-                                                    $totalDenunciasTurnadaResponsable }}</font>
-                                            </font>
-                                        </span>
-                                        <!--end::Number-->
-                                        <!--begin::Desc-->
-                                        <span class="text-gray-500 fw-semibold fs-6">
-                                            <font dir="auto" style="vertical-align: inherit;">
-                                                <font dir="auto" style="vertical-align: inherit;">Turnadas</font>
-                                            </font>
-                                        </span>
-                                        <!--end::Desc-->
-                                    </div>
-                                    <!--end::Stats-->
-                                </div>
-                                <!--end::Items-->
-                            </div>
-                            <!--end::Col-->
 
                         </div>
                         <!--end::Row-->
@@ -214,12 +159,12 @@
         {{-- Contenedor de las gráficas estáticas --}}
         <!--begin::Col-->
         <div class="col-xl-8">
-            @include('partials/widgets/uaoic_denuncias/_widget-18')
+            @include('partials/widgets/buzon-naranja/_widget-18')
         </div>
         <!--end::Col-->
 
     </div>
     <!--end::Row--> 
 
-    @include('pages.dashboards.partials.modal_denuncias_dashboard')
+    @include('pages.dashboards.partials.modal_denuncias_bn_dashboard')
 </x-default-layout>

@@ -204,4 +204,40 @@ class DashboardMetricsService
             'periodo' => $year,
         ];
     }
+
+     public function getMonthDenunciasBnData(int $year): array
+    {
+
+        $denuncias = Denuncia::whereYear('fecha_recepcion', $year)
+            ->where('tipo_denuncia', 2)
+            ->selectRaw('MONTH(fecha_recepcion) as date')
+            ->selectRaw('COUNT(id_denuncia) AS count')
+            ->groupBy('date')
+            ->orderBy('date', 'asc')
+            ->get();
+        
+        // Mapear los resultados y rellenar los meses sin denuncias
+        $dataMap = $denuncias->pluck('count', 'date')->toArray();
+
+        $labels = [];
+        $series = [];
+        $total = 0;
+
+        // Recorrer los 12 meses del año
+        for ($m = 1; $m <= 12; $m++) {
+            $monthLabel = ucfirst(Carbon::createFromDate($year, $m, 1)->locale('es')->translatedFormat('F'));
+            $count = $dataMap[$m] ?? 0;
+
+            $labels[] = $monthLabel; // Ej: Ene, Feb, Mar...
+            $series[] = $count;
+            $total += $count;
+        }
+
+        return [
+            'labels' => $labels,
+            'series' => $series,
+            'total' => $total,
+            'periodo' => $year,
+        ];
+    }
 }

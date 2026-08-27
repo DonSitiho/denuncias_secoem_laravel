@@ -70,7 +70,7 @@
                     
                     @can('st-denuncia-folio')
                         @include('admin-denuncias.partials.modal_agregar_folio', ['denuncia' => $denuncia]) 
-                        <button type="button" class="btn btn-sm btn-light-success" data-bs-toggle="modal" data-bs-target="#modal_folio">
+                        <button type="button" class="btn btn-sm btn-light-primary" data-bs-toggle="modal" data-bs-target="#modal_folio">
                             <i class="fas fa-bookmark me-1"></i> Agregar Folio
                         </button>
                     @endcan
@@ -249,6 +249,7 @@
                             </div>
                         </div>
                     </div>
+                    
                 </div>
             </div>
         </div>

@@ -45,21 +45,16 @@ class DashboardController extends Controller
                         // Vista: Dashboard Operativo de Recepción
                         return $this->indexAdminDenuncias();
                         
-                    case 3: // Usuario UAOIC (Unidad de Apoyo del Órgano Interno de Control)
-                        // Vista: Dashboard de Casos Asignados
-                        return $this->indexUAOIC();
-
-                    case 4:// Usuario OIC (Órgano Interno de Control)
+                    case 3: // Usuario OIC (Órgano Interno de Control)
                         // Vista: Dashboard de Casos Asignados
                         return $this->indexIOC();
-
-                    case 6: // Capturista
+                    case 4: //Usuario BN (unidad de apoyo de organos internos de control)
+                        // Vista: Dashboard de Captura y Listado Básico (Placeholder)
+                        return $this->indexBuzonNaranja();
+                    case 5:// Capturista
                         // Vista: Dashboard de Captura y Listado Básico (Placeholder)
                         return $this->indexCapturista();
-                    
-                    case 5: //Usuario UAOIC (unidad de apoyo de organos internos de control)
-                        // Vista: Dashboard de Captura y Listado Básico (Placeholder)
-                        return $this->indexUAOIC();
+
                 }
             }
         }
@@ -121,29 +116,21 @@ class DashboardController extends Controller
     /**
      * Muestra el dashboard del Usuario de la Unidad de Apoyo a los  Órganos Internos de Control (UAOIC - ID 5).
      */
-    public function indexUAOIC () {
+    public function indexBuzonNaranja() {
         
-        $totalDenunciasArea = $this->denunciasRepo->totalDenunciasArea();
-        $denunciasArea = $this->denunciasRepo->getDenunciasArea();
+        $totalDenunciasArea = $this->denunciasRepo->totalDenunciasAreaBn();
+        $denunciasArea = $this->denunciasRepo->getDenunciasAreaBn();
 
-        $totalDenunciasTurnadaResponsable = $this->denunciasRepo->totalDenunciasTurnadasResponsable();
-        $denunciasTurnadas = $this->denunciasRepo->getDenunciasTurnadas();
+        $totalDenunciasRecibidas = $this->denunciasRepo->totalDenunciasRecibidasBn();
+        $denunciasTurnadas = $this->denunciasRepo->getDenunciasRecibidasBn();
         
-        $totalDTR = $this->denunciasRepo->totalDenunciasTerminadasResponsable();
-        $denunciasTerminadas = $this->denunciasRepo->getDenunciasTerminadas();
+        $totalDenunciasAnonimas = $this->denunciasRepo->totalDenunciasAnonimasBn();
+        $denunciasAnonimas = $this->denunciasRepo->getDenunciasAnonimasBn();
 
-        $totalDenunciasAnonimas = $this->denunciasRepo->totalDenunciasAnonimas();
-        $denunciasAnonimas = $this->denunciasRepo->getDenunciasAnonimas();
-
-        $totalDenunciasNoAnonimas = $this->denunciasRepo->totalDenunciasNoAnonimas(); 
-        $denunciasNoAnonimas = $this->denunciasRepo->getDenunciasNoAnonimas();
-
-        $totalDenunciasEnTramite = $this->denunciasRepo->totalDenunciasEnTramite();
-        $denunciasTramite = $this->denunciasRepo->getDenunciasEnTramite();
+        $totalDenunciasNoAnonimas = $this->denunciasRepo->totalDenunciasNoAnonimasBn(); 
+        $denunciasNoAnonimas = $this->denunciasRepo->getDenunciasNoAnonimasBn();
         
-        //return json_encode($denunciasArea);
-
-        return view('pages/dashboards.index_uaoic_denuncias', compact('totalDenunciasArea', 'denunciasArea', 'totalDenunciasTurnadaResponsable', 'denunciasTurnadas', 'totalDTR', 'denunciasTerminadas', 'totalDenunciasAnonimas', 'denunciasAnonimas', 'totalDenunciasNoAnonimas', 'denunciasNoAnonimas', 'totalDenunciasEnTramite', 'denunciasTramite'));
+        return view('pages/dashboards.index_bn_denuncias', compact('totalDenunciasArea', 'denunciasArea', 'totalDenunciasRecibidas', 'denunciasTurnadas', 'totalDenunciasAnonimas', 'denunciasAnonimas', 'totalDenunciasNoAnonimas', 'denunciasNoAnonimas'));
     }
 
     /**
@@ -181,11 +168,6 @@ class DashboardController extends Controller
         return view('pages/dashboards.indexOIC', compact('totalDenunciasArea', 'denunciasArea', 'totalDenunciasTurnadaResponsable', 'denunciasTurnadas', 'totalDTR', 'denunciasTerminadas', 'totalDenunciasAnonimas', 'denunciasAnonimas', 'totalDenunciasNoAnonimas', 'denunciasNoAnonimas', 'totalDenunciasEnTramite', 'denunciasTramite'));
     }
 
-
-    public function indexBuzonNaranja()
-    {
-        
-    }
     
     /**
      * Muestra el dashboard del Administrador de Denuncias (ID 2) con métricas operativas.
@@ -280,13 +262,12 @@ class DashboardController extends Controller
 
     }
 
-    public function getDashboardUaoicData () {
+    public function getDashboardBnData() {
         // 1. Obtener el año actual y el usuario logueado
         $year = Carbon::now()->year;
-        $user = Auth::user();
 
         // 2. Llamar al servicio de métricas para obtener los datos agrupados
-        $data = $this->metricsService->getMonthDenunciasData($year, $user->id, $user->id_area);
+        $data = $this->metricsService->getMonthDenunciasBnData($year);
 
         // 3. Devolver los datos en formato JSON para el frontend
         // Esto será consumido por el script del widget para actualizar el gráfico ApexCharts

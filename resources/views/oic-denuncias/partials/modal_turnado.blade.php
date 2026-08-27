@@ -1,12 +1,11 @@
 {{-- 
     MODAL DE TURNO DE DENUNCIA OIC
 --}}
-
-<div class="modal fade" tabindex="-1" id="modal_turno">
+<div class="modal fade" tabindex="-1" id="modal_turnado">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">{{ __('Turnar Denuncia al OIC Responsable') }}</h5>
+                <h5 class="modal-title">{{ __('Turnar Denuncia a una Área Responsable') }}</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             
@@ -28,7 +27,7 @@
                             id="id_area_responsable" 
                             class="form-select form-select-solid" 
                             data-control="select2" 
-                            data-dropdown-parent="#modal_turno"
+                            data-dropdown-parent="#modal_turnado"
                             required
                         >
                         <option value="">{{ __('Seleccionar Área responsable...') }}</option>                            
@@ -60,7 +59,7 @@
                                 id="id_responsable" 
                                 class="form-select form-select-solid"
                                 data-control="select2" 
-                                data-dropdown-parent="#modal_turno"
+                                data-dropdown-parent="#modal_turnado"
                             >
                                 <option value="">{{ __('No asignar a usuario específico (Solo al Área)...') }}</option>
                                 {{-- 

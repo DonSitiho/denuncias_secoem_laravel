@@ -253,4 +253,6 @@ class Denuncia extends Model
     {
         return $query->where('tipo_denunciante', $tipo);
     }
-}
+
+    
+}   

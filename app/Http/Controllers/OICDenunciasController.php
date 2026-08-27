@@ -92,6 +92,7 @@ class OICDenunciasController extends Controller
          * Carga las relaciones directas que contienen la información de captura del ciudadano.
          * * El acceso a esta función está previamente protegido por el middleware 'can:oic-denuncia-detalles'.
          */
+        
 
         if ($denuncia->tipo_denuncia == 1) {
             return view('oic-denuncias.detalles-denuncia', compact('denuncia', 'tipoCampos', 'areaResponsable', 'usuariosOIC', 'tipoEtiquetas'));

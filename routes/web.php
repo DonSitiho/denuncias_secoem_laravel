@@ -147,7 +147,7 @@ Route::middleware(['auth'])->prefix('uaoic')->name('uaoic.')->group(function () 
     Route::get('/{id_denuncia}/exportar', [ExportController::class, 'exportarExpediente'])
         ->name('exportar.expediente')
         ->middleware('can:uaoic-denuncia-descargar');
-
+    
 });
 */
 
@@ -164,7 +164,6 @@ Route::middleware(['auth'])->prefix('secretaria-tecnica')->name('st.')->group(fu
     Route::patch('/{id_denuncia}/agregar-folio', [STDenunciasController::class, 'agregarFolioCED'])
         ->name('agregar-folio')
         ->middleware('can:St-denuncia-folio');
-        
 });
 
 
@@ -187,7 +186,7 @@ Route::middleware(['auth'])->prefix('oic')->name('oic.')->group(function () {
     Route::get('/mis-denuncias', [OICDenunciasController::class, 'getMisDenuncias'])
         ->name('mis-denuncias')
         ->middleware('can:oic-denuncia-ver');
-    
+
     Route::get('/mis-denuncias-buzon-naranja', [OICDenunciasController::class, 'getMisDenunciasBN'])
         ->name('mis-denuncias-bn')
         ->middleware('can:oic-denuncia-ver');
@@ -205,8 +204,8 @@ Route::middleware(['auth'])->prefix('oic')->name('oic.')->group(function () {
     Route::post('/{id_denuncia}/solicitar-informacion', [OICDenunciasController::class, 'solvetarInformacionDenuncia'])
         ->name('solicitar-informacion')
         ->middleware('can:oic-denuncia-solventar-info');
-    
-    Route::post('/{id_denuncia}/etiquetar', [OICDenunciasController:: class, 'etiquetarDenuncia'])
+
+    Route::post('/{id_denuncia}/etiquetar', [OICDenunciasController::class, 'etiquetarDenuncia'])
         ->name('etiquetar');
 
     Route::get('/{id_denuncia}/exportar', [ExportController::class, 'exportarExpediente'])
@@ -258,7 +257,6 @@ Route::middleware(['auth'])->prefix('admin/denuncias')->name('admin.denuncias.')
     Route::get('/interqueja/{id_denuncia}', [InterquejasController::class, 'show'])
         ->name('interqueja')
         ->middleware('can:admin-denuncia-ver');
-
 });
 
 
@@ -268,6 +266,13 @@ Route::middleware(['auth'])->prefix('admin/denuncias')->name('admin.denuncias.')
 Route::middleware(['auth'])->prefix('buzon-naranja/denuncias')->name('buzon-naranja.denuncias.')->group(function () {
 
     //Route::get('/interquejas', [InterquejasController::class, 'getAllInterquejas'])->name('interquejas'); 
+    Route::middleware(['can:bn-denuncia-ver'])->name('dashboard.')->group(function () {
+
+         // 1. Ruta principal: bn.dashboard.index
+        Route::get('/', [DashboardController::class, 'index'])->name('name');
+        Route::get('/data', [DashboardController::class, 'getDashboardBnData'])->name('data');
+
+    });
 
     Route::get('/', [BuzonNaranjaDenunciasController::class, 'getDenunciasNuevas'])
         ->name('index')
@@ -277,8 +282,8 @@ Route::middleware(['auth'])->prefix('buzon-naranja/denuncias')->name('buzon-nara
     Route::get('/historial', [BuzonNaranjaDenunciasController::class, 'getDenunciasHistorial'])
         ->name('historial')
         ->middleware('can:bn-denuncia-ver');
-    
-        Route::get('/denuncia-historial/{id_denuncia}', [BuzonNaranjaDenunciasController::class, 'verDetallesDenunciaHistorial'])->name('ver-denuncia-historial')->middleware('can:bn-denuncia-detalles');
+
+    Route::get('/denuncia-historial/{id_denuncia}', [BuzonNaranjaDenunciasController::class, 'verDetallesDenunciaHistorial'])->name('ver-denuncia-historial')->middleware('can:bn-denuncia-detalles');
 
     Route::get('/{id_denuncia}', [BuzonNaranjaDenunciasController::class, 'verDetallesDenuncias'])->name('show')->middleware('can:bn-denuncia-detalles');
     Route::post('/{id_denuncia}/turnar', [BuzonNaranjaDenunciasController::class, 'turnarDenuncia'])->name('turnar')->middleware('can:bn-denuncia-turnar');
