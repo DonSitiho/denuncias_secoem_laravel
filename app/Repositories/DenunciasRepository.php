@@ -40,12 +40,21 @@ class DenunciasRepository {
 
         // Consulta base con las relaciones necesarias
         $denuncia = $this->denunciasBaseQuery($search)
-            ->denunciasAreaResponsable($user->id_area, $user->id)
-            ->denunciasByTipo(1)
-            ->orderBy($sortBy, $sortAsc ? 'asc' : 'desc')
-            ->paginate(10);
+            ->denunciasByTipo(1);
 
-        return $denuncia;
+            if ($user->hasRole('Administrador')){
+                // Admin: todas las denuncias turnadas a un OIC
+                $denuncia->whereHas('areaResponsable', function ($q) {
+                    $q->where('id_area_padre', 2);
+                });
+            } else {
+                $denuncia->denunciasAreaResponsable($user->id_area, $user->id);
+            }
+
+            return $denuncia->orderBy($sortBy, $sortAsc ? 'asc' : 'desc')
+            ->paginate(10);
+        
+        //return $denuncia;
     }
 
 
@@ -54,12 +63,19 @@ class DenunciasRepository {
         $user = Auth::user();
 
         $denuncia = $this->denunciasBaseQuery($search)
-            ->denunciasAreaResponsable($user->id_area, $user->id)
-            ->denunciasByTipo(2)
-            ->orderBy($sortBy, $sortAsc ? 'asc' : 'desc')
-            ->paginate(10);
+            ->denunciasByTipo(2);
+            if ($user->hasRole('Administrador')){
+                // Admin: todas las denuncias turnadas a un OIC
+                $denuncia->whereHas('areaResponsable', function ($q) {
+                    $q->where('id_area_padre', 2);
+                });
+            } else {
+                $denuncia->denunciasAreaResponsable($user->id_area, $user->id);
+            }
 
-        return $denuncia;
+            return $denuncia->orderBy($sortBy, $sortAsc ? 'asc' : 'desc')
+            ->paginate(10);
+        
     }
     
 

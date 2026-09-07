@@ -89,6 +89,7 @@ class RolesPermissionsSeeder extends Seeder
                 'bn-denuncia-detalles',
                 'st-denuncia-capturar',
                 'st-denuncia-folio',
+                'system-areas-usuarios',
             ],
             
             /*

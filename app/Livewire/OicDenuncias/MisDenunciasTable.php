@@ -27,11 +27,10 @@ class MisDenunciasTable extends Component
 
     public $mostrarModal = false;
 
-
-
     protected $denunciaRepository;
 
-    public function boot(DenunciasRepository $denunciaRepository){
+    public function boot(DenunciasRepository $denunciaRepository)
+    {
         $this->denunciaRepository = $denunciaRepository;
     }
 
@@ -45,8 +44,6 @@ class MisDenunciasTable extends Component
     {
 
         $denuncias = $this->denunciaRepository->denunciasPorResponsable($this->search, $this->sortBy, $this->sortAsc);
-
-        //return json_encode($denuncias);
 
         return view('livewire.oic-denuncias.mis-denuncias-table', ['denuncias' => $denuncias]);
     }

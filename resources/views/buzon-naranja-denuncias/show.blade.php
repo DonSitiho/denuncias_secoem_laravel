@@ -56,7 +56,7 @@
 
                     @if ($denuncia->id_estado == 1)
 
-                        @role('Usuario BN')
+                        @hasanyrole('Usuario BN|Administrador')
                             {{-- 1. Botón/Modal de Turno (Permiso: admin-denuncia-turnar) --}}
                             @can('bn-denuncia-turnar')
                                 {{-- El modal debe estar incluido como partial --}}
@@ -68,9 +68,9 @@
                                     <i class="fas fa-arrow-right-rotate me-1"></i> Turnar a ST
                                 </button>
                             @endcan
-                        @endrole
+                        @endhasanyrole
                     @elseif ($denuncia->id_estado == 2)
-                        @role('Admin Denuncias ST')
+                        @hasanyrole('Admin Denuncias ST|Administrador')
                             {{-- 2. Botón/Modal de Turno (Permiso: admin-denuncia-turnar) --}}
                             @can('bn-denuncia-turnar')
                                 {{-- El modal debe estar incluido como partial --}}
@@ -82,7 +82,7 @@
                                     <i class="fas fa-arrow-right-rotate me-1"></i> Turnar a OIC
                                 </button>
                             @endcan
-                        @endrole
+                        @endhasanyrole
                     
                     @elseif ($denuncia->id_estado == 3)
                         {{-- 2. Botón de Exportación (Permiso: admin-denuncia-descarga) --}}
