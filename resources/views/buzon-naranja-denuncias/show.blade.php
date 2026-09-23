@@ -63,7 +63,7 @@
                                 @include('buzon-naranja-denuncias.partials.modal_turno', [
                                     'denuncia' => $denuncia,
                                 ])
-                                <button type="button" class="btn btn-sm btn-success" data-bs-toggle="modal"
+                                <button type="button" class="btn btn-sm btn-light-success" data-bs-toggle="modal"
                                     data-bs-target="#modal_turno">
                                     <i class="fas fa-arrow-right-rotate me-1"></i> Turnar a ST
                                 </button>
@@ -77,7 +77,7 @@
                                 @include('buzon-naranja-denuncias.partials.modal_turno', [
                                     'denuncia' => $denuncia,
                                 ])
-                                <button type="button" class="btn btn-sm btn-success" data-bs-toggle="modal"
+                                <button type="button" class="btn btn-sm btn-light-success" data-bs-toggle="modal"
                                     data-bs-target="#modal_turno">
                                     <i class="fas fa-arrow-right-rotate me-1"></i> Turnar a OIC
                                 </button>

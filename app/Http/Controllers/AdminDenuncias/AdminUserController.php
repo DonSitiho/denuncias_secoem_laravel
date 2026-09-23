@@ -20,17 +20,17 @@ class AdminUserController extends Controller
     public function index()
     {
         //Usuarios con área asignada pero que no tengan rol de administrador
-        $usuarios = User::with('area')->whereNotNull('id_area')->whereDoesntHave('roles', function($query) {
+        $usuarios = User::with('area')->whereNotNull('id_area')->whereDoesntHave('roles', function ($query) {
             $query->where('name', 'Administrador');
         })->orderBy('name')->paginate(15);
 
         //dd($usuarios);
         $areas = Area::where('is_active', true)->orderBy('nombre_area')->get(); // Carga de todas las áreas activas
-        
+
         // La vista debe ser index.blade.php que incluye el modal
         return view('admin-denuncias.usuarios.index', compact('usuarios', 'areas'));
     }
-    
+
     /**
      * Almacena un nuevo usuario interno, generando el usuario (correo) y contraseña por defecto.
      */
@@ -41,8 +41,8 @@ class AdminUserController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'apellido_paterno' => ['required', 'string', 'max:100'],
             'apellido_materno' => ['nullable', 'string', 'max:100'],
-            'username_part' => ['required', 'string', 'alpha_dash', 'min:3'], 
-            'email' => ['required', 'email', 'max:255', Rule::unique('users', 'email')], 
+            'username_part' => ['required', 'string', 'alpha_dash', 'min:3'],
+            'email' => ['required', 'email', 'max:255', Rule::unique('users', 'email')],
             'id_area' => ['required', 'integer', 'exists:areas,id_area'],
         ], [
             // Mensaje de error personalizado para la unicidad del email
@@ -52,7 +52,7 @@ class AdminUserController extends Controller
 
         // 2. ASIGNACIÓN DE DATOS FINALES
         $emailFinal = $request->input('email');
-        $defaultPassword = $emailFinal; 
+        $defaultPassword = $emailFinal;
         $defaultRole = 'Usuario OIC'; // Rol por defecto
 
         // 3. CREACIÓN DEL USUARIO
@@ -68,9 +68,9 @@ class AdminUserController extends Controller
 
         // 5. RETORNO con mensaje de éxito y la contraseña inicial
         return redirect()->route('admin.usuarios.index')
-                         ->with('success', "Usuario '{$user->email}' creado y asignado. Contraseña inicial: {$defaultPassword}");
+            ->with('success', "Usuario '{$user->email}' creado y asignado. Contraseña inicial: {$defaultPassword}");
     }
-    
+
     public function edit(User $user)
     {
         // Carga las áreas para el select del formulario de edición
@@ -93,25 +93,25 @@ class AdminUserController extends Controller
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => [
-                'required', 
-                'email', 
+                'required',
+                'email',
                 // Asegura que el email sea único, excluyendo al usuario actual.
                 Rule::unique('users', 'email')->ignore($user->id)
-            ], 
+            ],
             'id_area' => ['required', 'integer', 'exists:areas,id_area'],
             'is_active' => ['required', 'boolean'],
             // La contraseña es opcional, solo se valida si se proporciona.
-            'password' => ['nullable', 'string', 'min:8'], 
+            'password' => ['nullable', 'string', 'min:8'],
         ]);
-        
+
         $data = $validated;
-        
+
         // 2. Manejo de la Contraseña
         if (isset($data['password']) && !empty($data['password'])) {
             $data['password'] = Hash::make($data['password']);
         } else {
             // Si la contraseña está vacía, la eliminamos del array de datos para que no se guarde un hash vacío.
-            unset($data['password']); 
+            unset($data['password']);
         }
 
         // 3. Actualización del Usuario
@@ -119,6 +119,6 @@ class AdminUserController extends Controller
 
         // 4. Retorno
         return redirect()->route('admin.usuarios.index')
-                         ->with('success', "El usuario '{$user->email}' ha sido actualizado con éxito.");
+            ->with('success', "El usuario '{$user->email}' ha sido actualizado con éxito.");
     }
 }

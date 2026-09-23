@@ -135,10 +135,10 @@ class OICDenunciasController extends Controller
 
             DB::commit();
 
-            return redirect()->route('oic.ver-denuncia', $id_denuncia)->with('success', 'Denuncia turnada exitosamente al OIC responsable.');
+            return redirect()->route('oic.ver-denuncia', $id_denuncia)->with('success', 'Denuncia turnada exitosamente a la area responsable.');
         } catch (\Exception $e) {
             DB::rollBack();
-            Log::error("Error al turnar la denuncia: " . $e->getMessage());
+            //Log::error("Error al turnar la denuncia: " . $e->getMessage());
             return redirect()->back()->with('error', 'Fallo al realizar el turno. Intente de nuevo.');
         }
     }
@@ -174,7 +174,7 @@ class OICDenunciasController extends Controller
         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
             return redirect()->back()->with('error', 'El archivo solicitado no existe.');
         } catch (\Exception $e) {
-            Log::error("Error al servir archivo encriptado (Admin): " . $e->getMessage());
+            //Log::error("Error al servir archivo encriptado (Admin): " . $e->getMessage());
             return redirect()->back()->with('error', 'Error al acceder o desencriptar el archivo de prueba.');
         }
     }
@@ -217,7 +217,7 @@ class OICDenunciasController extends Controller
                 ->with('success', 'Se solicitó información adicional al denunciante de manera exitosa.');
         } catch (\Exception $e) {
             DB::rollBack();
-            Log::error("Error al solicitar mas informacion de la denuncia: " . $e->getMessage());
+            //Log::error("Error al solicitar mas informacion de la denuncia: " . $e->getMessage());
             return redirect()->back()->with('error', 'Ocurrió un error al solicitar información adicional. Inténtelo nuevamente.');
         }
     }

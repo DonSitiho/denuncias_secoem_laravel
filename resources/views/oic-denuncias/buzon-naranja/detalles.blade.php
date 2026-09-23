@@ -59,12 +59,13 @@
                         @can('oic-denuncia-turnar')
                             {{-- El modal debe estar incluido como partial --}}
                             @include('oic-denuncias.partials.modal_turnado', ['denuncia' => $denuncia])
-                            <button type="button" class="btn btn-sm btn-light-success" data-bs-toggle="modal"
-                                data-bs-target="#modal_turno">
+                            <button type="button" class="btn btn-sm btn-light-success m-2" data-bs-toggle="modal"
+                                data-bs-target="#modal_turnado">
                                 <i class="fas fa-arrow-right-rotate me-1"></i> Turnar
                             </button>
                         @endcan
                     @elseif ($denuncia->id_estado == 3)
+
                         {{-- 2. Botón de Exportación (Permiso: oic-denuncia-descargar) --}}
                         @can('oic-denuncia-descargar')
                             <a href="{{ route('oic.exportar.expediente', $denuncia->id_denuncia) }}"
